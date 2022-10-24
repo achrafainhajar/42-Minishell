@@ -191,11 +191,12 @@ t_parse	*lst_add_back_command(t_parse *lst, t_parse *new);
 void	wrong_cmd(char *cmd);
 void	wrong_cmd_helper(char *error, int w);
 void	c_signal(void);
-void	open_redir(t_parse *head, int exec);
+void open_redir(t_parse *cmd,int *fd);
 void	pipe_redir(t_parse *cmd, int in, int index, int *fd);
 int		simple_cmd(t_parse *cmd);
 int		is_piped(void);
 void	read_heredocs(t_parse *command);
 int		only_enter(void);
 int		ft_is_space(void);
+void ft_cd(t_parse *cmd,t_env **env);
 #endif

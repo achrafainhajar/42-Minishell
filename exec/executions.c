@@ -112,7 +112,7 @@ void	last_cmd(t_parse *cmd,int fds[2],int fd[2])
         	if(g_vars.pid == 0)
 			{
 					close(fd[0]);
-					dup2(fds[1], 1);
+					open_redir(cmd,fds);
 				    execution(cmd);
 			}
 			else
@@ -127,27 +127,36 @@ void minishell(t_parse *cmd)
 	int fds[2];
 	fds[1] = dup(1);
 	fds[0] = dup(0);
-    if(cmd && cmd->cmd)
+	if(builtins_cases(cmd) && !cmd->next->cmd)
+	{
+		execute_builtins(cmd,&g_vars.my_env);
+		cmd = cmd->next;
+	}
+	else if(cmd && cmd->cmd)
     {
-        while(cmd->next->next && cmd)
-        {
-        	pipe(fd);
-        	g_vars.pid = fork();
-        	if(g_vars.pid == 0)
-			{
+		{
+        	while(cmd->next->next && cmd)
+        	{
+        		pipe(fd);
+        		g_vars.pid = fork();
+        		if(g_vars.pid == 0)
+				{
 					close(fd[0]);
-					dup2(fd[1], 1);
-				    execution(cmd);
-			}
-			else
-			{
-				close(fd[1]);
-				dup2(fd[0], 0);
-			}
-        	cmd = cmd->next;
-        }
-    }
-	last_cmd(cmd,fds,fd);
+					open_redir(cmd,fd);
+					execution(cmd);
+					exit(0);
+				}
+				else
+				{
+					close(fd[1]);
+					dup2(fd[0], 0);
+				}
+        		cmd = cmd->next;
+        	}
+    	}
+	}
+	if(cmd->cmd)
+		last_cmd(cmd,fds,fd);
 	dup2(fds[1], 1);
 	dup2(fds[0], 0);
     while(wait(NULL) > 0);

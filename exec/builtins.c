@@ -21,5 +21,7 @@ void execute_builtins(t_parse *cmd,t_env **env)
 		ft_export(cmd,env);
 	else if (!strcmp(cmd->cmd, "unset"))
 		ft_unset(cmd,env);
-	(void)env;
+	else if (!strcmp(cmd->cmd, "cd"))
+		ft_cd(cmd,env);
+	cmd->argv--;
 }
