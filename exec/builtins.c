@@ -11,12 +11,13 @@ int	builtins_cases(t_parse *cmd)
 void execute_builtins(t_parse *cmd,t_env **env)
 {
     cmd->argv++;
+	g_vars.exit_status = 0; 
     if (!strcmp(cmd->cmd, "echo"))
 		ft_echo(cmd);
     else if (!strcmp(cmd->cmd, "pwd"))
 		ft_pwd();
 	else if (!strcmp(cmd->cmd, "env"))
-		ft_env((*env));
+		ft_env((*env),cmd);
 	else if (!strcmp(cmd->cmd, "export"))
 		ft_export(cmd,env);
 	else if (!strcmp(cmd->cmd, "unset"))

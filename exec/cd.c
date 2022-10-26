@@ -25,23 +25,49 @@ void new_paths(t_env **env)
         head = head->next;
     }
 }
-void ft_cd(t_parse *cmd,t_env **env)
+void ft_home(t_env **env)
 {
-    t_env *head;
-    head = (*env);
-    if(!cmd->argv[0])
+    char *home;
+
+    home = my_getenv((*env), "HOME");
+    if(!home)
     {
-        while(head)
-        {
-            if(!strcmp(head->key,"HOME"))
-            {
-                chdir(head->val);
-                break;
-            }
-            head=head->next;
-        }
+        ft_putstr_fd("cd: HOME not set\n", 2);
+		g_vars.exit_status = 1;
+    }
+    else if(!chdir(home))
+    {
         new_paths(env);
     }
+    else
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		g_vars.exit_status = 1;
+	}
+    new_paths(env);
+}
+void ft_minus(t_env **env)
+{
+    if(!chdir(my_getenv(g_vars.my_env, "OLDPWD")))
+    {
+        new_paths(env);
+    }
+}
+void ft_cd(t_parse *cmd,t_env **env)
+{
+    if(!cmd->argv[0] || cmd->argv[0][0] == '\0' || 
+        !strcmp(cmd->argv[0],"~"))
+        ft_home(env);
     else if(!chdir(cmd->argv[0]))
         new_paths(env);
+    else if (!strcmp(cmd->argv[0], "-"))
+		ft_minus(env);
+    else
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(cmd->argv[0], 2);
+		ft_putstr_fd(" No such file or directory", 2);
+		ft_putchar_fd('\n', 2);
+		g_vars.exit_status = 1;
+	}
 }

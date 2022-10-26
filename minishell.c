@@ -45,10 +45,12 @@ int	main(int ac, char *av[], char **env)
 	(void)ac;
 	(void)av;
 	g_vars.index = 0;
+	g_vars.exit_status = 0;
 	init_env(env);
 	while (1)
 	{
-		g_vars.line = readline("mino-1.0$ ");
+		c_signal();
+			g_vars.line = readline("mino-1.0$ ");
 		if (!g_vars.line)
 			exit_shell();
 		if (only_enter())

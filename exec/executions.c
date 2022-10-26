@@ -103,7 +103,7 @@ void execution(t_parse *cmd)
 }
 void	last_cmd(t_parse *cmd,int fds[2],int fd[2])
 {
-	if(cmd && cmd->cmd)
+	if(cmd)
     {
         if(cmd->next && cmd)
         {
@@ -111,12 +111,15 @@ void	last_cmd(t_parse *cmd,int fds[2],int fd[2])
         	g_vars.pid = fork();
         	if(g_vars.pid == 0)
 			{
-					close(fd[0]);
-					open_redir(cmd,fds);
-				    execution(cmd);
+				close(fd[0]);
+				open_redir(cmd,fds,fd);
+				execution(cmd);
+				exit(g_vars.exit_status);
 			}
 			else
+			{
 				close(fd[1]);
+			}
         	cmd = cmd->next;
 		}
     }
@@ -127,37 +130,39 @@ void minishell(t_parse *cmd)
 	int fds[2];
 	fds[1] = dup(1);
 	fds[0] = dup(0);
-	if(builtins_cases(cmd) && !cmd->next->cmd)
+	ft_here_doc(cmd);
+	if(cmd->cmd && builtins_cases(cmd) && !cmd->next->cmd)
 	{
 		execute_builtins(cmd,&g_vars.my_env);
 		cmd = cmd->next;
 	}
-	else if(cmd && cmd->cmd)
-    {
-		{
-        	while(cmd->next->next && cmd)
-        	{
-        		pipe(fd);
-        		g_vars.pid = fork();
-        		if(g_vars.pid == 0)
+	else
+    	{
+    	    while(cmd->next->next && cmd)
+    	    {
+    	    	pipe(fd);
+    	    	g_vars.pid = fork();
+    	    	if(g_vars.pid == 0)
 				{
 					close(fd[0]);
-					open_redir(cmd,fd);
+					open_redir(cmd,fds,fd);
 					execution(cmd);
-					exit(0);
+					exit(g_vars.exit_status);
 				}
 				else
 				{
+
 					close(fd[1]);
 					dup2(fd[0], 0);
 				}
-        		cmd = cmd->next;
-        	}
-    	}
-	}
-	if(cmd->cmd)
-		last_cmd(cmd,fds,fd);
+    	    	cmd = cmd->next;
+    	    }
+			last_cmd(cmd,fds,fd);
+		}
 	dup2(fds[1], 1);
 	dup2(fds[0], 0);
-    while(wait(NULL) > 0);
+	int i;
+	i = 0;
+    while(wait(&i) > 0)
+		g_vars.exit_status = WEXITSTATUS(i);
 }

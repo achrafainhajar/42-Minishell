@@ -116,12 +116,16 @@ void value_modif(char *s,t_env **env)
 void modif_export(t_parse *cmd,t_env **env)
 {
     int j = 0;
+    g_vars.exit_status = 0;
     while(cmd->argv[j])
     {
-        if(ft_exist(cmd->argv[j],*env))
-            fill_export(cmd->argv[j],env);
-        else
-            value_modif(cmd->argv[j],env);
+        if(ft_check(cmd->argv[j]))
+        {
+            if(ft_exist(cmd->argv[j],*env))
+                fill_export(cmd->argv[j],env);
+            else
+                value_modif(cmd->argv[j],env);
+        }
         j++;
     }
 }
