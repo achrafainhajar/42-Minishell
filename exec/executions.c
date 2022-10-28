@@ -116,10 +116,7 @@ void	last_cmd(t_parse *cmd,int fds[2],int fd[2])
 				execution(cmd);
 				exit(g_vars.exit_status);
 			}
-			else
-			{
-				close(fd[1]);
-			}
+			close(fd[1]);
         	cmd = cmd->next;
 		}
     }
@@ -151,9 +148,9 @@ void minishell(t_parse *cmd)
 				}
 				else
 				{
-
 					close(fd[1]);
 					dup2(fd[0], 0);
+					close(fd[0]);
 				}
     	    	cmd = cmd->next;
     	    }

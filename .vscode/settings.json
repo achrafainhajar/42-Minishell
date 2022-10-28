@@ -3,6 +3,7 @@
     "files.associations": {
         "curses.h": "c",
         "term.h": "c",
-        "curl.h": "c"
+        "curl.h": "c",
+        "minishell.h": "c"
     }
 }

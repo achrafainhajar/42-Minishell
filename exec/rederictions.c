@@ -59,5 +59,5 @@ void open_redir(t_parse *cmd,int *fds,int *fd)
     else if(cmd->next->cmd)
         dup2(fd[1], 1);
     else
-         dup2(fds[1], 1);
+        dup2(fds[1], 1);
 }

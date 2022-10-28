@@ -18,6 +18,6 @@ void ft_env(t_env *env,t_parse *cmd)
     else
     {
         ft_putstr_fd("Too many arguments\n",2);
-        g_vars.exit_status = 1;
+        g_vars.exit_status = 127;
     }
 }

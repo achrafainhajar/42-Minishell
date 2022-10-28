@@ -33,9 +33,13 @@ int check_n(char *str)
 	int i;
 
 	i = 0;
+	if(str == NULL)
+		return(0);
 	if(str[i] != '-')
 		return(0);
 	i++;
+	if(str[i] != 'n')
+		return (0);
 	while(str[i])
 	{
 		if(str[i] != 'n')
@@ -49,6 +53,12 @@ void n_print(t_parse *cmd)
 	int i;
 
 	i = 1;
+	while(cmd->argv[i])
+	{
+		if(check_n(cmd->argv[i]) != 1)
+			break;
+		i++;
+	}
 	while(cmd->argv[i])
 	{
 		ft_putstr(cmd->argv[i]);

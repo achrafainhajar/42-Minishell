@@ -7,11 +7,14 @@ int ft_isalphanum(char *str)
     {
         if((str[i] >= 'a' && str[i] <= 'z')
             || (str[i] >= 'A' && str[i] <= 'Z')
-            || (str[i] >= '0' && str[i] <= '9'))
+            || (str[i] >= '0' && str[i] <= '9')
+            || str[i] == '_')
             i++;
         else
             return(1);
     }
+    if (str[0] == '\0')
+        return (1);
     return(0);
 }
 int ft_check(char *str)

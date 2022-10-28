@@ -45,6 +45,19 @@ void ft_print_export(t_env *env)
     }
 }
 
+int	str_is_alnum(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 char *get_range(char *str,char c)
 {
@@ -113,18 +126,47 @@ void value_modif(char *s,t_env **env)
     (*env)->val =  ft_strdup(1 + strchr(s,'='));
     (*env) = head;
 }
+
+int ft_check_export(char *str)
+{
+    if(str[0] <= '9' && str[0] >= '0')
+    {
+        ft_putstr_fd("minishell: export: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": first numeric char not allowed\n", 2);
+        g_vars.exit_status = 1;
+		return (0);
+    }
+    else if(!str_is_alnum(str) && str[0] != '_')
+    {
+        ft_putstr_fd("minishell: export: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": Special char not allowed\n", 2);
+        g_vars.exit_status = 1;
+        return(0);
+    }
+    return(1);
+}
+
 void modif_export(t_parse *cmd,t_env **env)
 {
     int j = 0;
     g_vars.exit_status = 0;
-    while(cmd->argv[j])
+    while(cmd->argv[j]) ///  a=saas  =csacs _csa=casc _casc=  
     {
-        if(ft_check(cmd->argv[j]))
+        if (cmd->argv[j][0] != '=' && ft_check(ft_split(cmd->argv[j], '=')[0]))
         {
             if(ft_exist(cmd->argv[j],*env))
                 fill_export(cmd->argv[j],env);
-            else
+            else if (strchr(cmd->argv[j],'='))
                 value_modif(cmd->argv[j],env);
+        }
+        else if (cmd->argv[j][0] == '=')
+        {
+            ft_putstr_fd("minishell: export: ", 2);
+            ft_putstr_fd(cmd->argv[j], 2);
+            ft_putstr_fd(": Special char not allowed\n", 2);
+            g_vars.exit_status = 1;
         }
         j++;
     }
