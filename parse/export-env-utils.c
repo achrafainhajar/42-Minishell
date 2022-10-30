@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env-utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:16 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/29 18:50:57 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ void	init_env(char **env)
 		tmp = ft_split(env[i], '=');
 		key = tmp[0];
 		val = tmp[1];
-		lst_add_backenv(&g_vars.my_env, lst_new(key, '=',
+		lst_add_backenv(&g_shell.ev, lst_new(key, '=',
 				val));
 		i++;
 	}
-	lst_add_backenv(&g_vars.my_env, lst_new("0", '=', "minishell"));
+	lst_add_backenv(&g_shell.ev, lst_new("0", '=', "minishell"));
 }
 
 char	*my_getenv(t_env *env, char *key)

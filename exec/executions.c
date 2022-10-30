@@ -96,11 +96,12 @@ void execution(t_parse *cmd)
 {
 	if(builtins_cases(cmd))
 	{
-		execute_builtins(cmd,&g_vars.my_env);
+		execute_builtins(cmd,&g_shell.ev);
 	}
 	else
-		normal_cmd(cmd,env_to_tab(&g_vars.my_env));
+		normal_cmd(cmd,env_to_tab(&g_shell.ev));
 }
+
 void	last_cmd(t_parse *cmd,int fds[2],int fd[2])
 {
 	if(cmd)
@@ -108,19 +109,20 @@ void	last_cmd(t_parse *cmd,int fds[2],int fd[2])
         if(cmd->next && cmd)
         {
         	pipe(fd);
-        	g_vars.pid = fork();
-        	if(g_vars.pid == 0)
+        	g_shell.pid = fork();
+        	if(g_shell.pid == 0)
 			{
 				close(fd[0]);
 				open_redir(cmd,fds,fd);
 				execution(cmd);
-				exit(g_vars.exit_status);
+				exit(g_shell.ret);
 			}
 			close(fd[1]);
         	cmd = cmd->next;
 		}
     }
 }
+
 void minishell(t_parse *cmd)
 {
     int fd[2];
@@ -128,38 +130,38 @@ void minishell(t_parse *cmd)
 	fds[1] = dup(1);
 	fds[0] = dup(0);
 	ft_here_doc(cmd);
-	if(cmd->cmd && builtins_cases(cmd) && !cmd->next->cmd)
+	if(cmd && cmd->cmd && builtins_cases(cmd) && !cmd->next->cmd)
 	{
-		execute_builtins(cmd,&g_vars.my_env);
+		open_redir(cmd,fds,fd);
+		execute_builtins(cmd,&g_shell.ev);
+		dup2(fds[1], 1);
+		dup2(fds[0], 0);
+		return ;
+	}
+	while(cmd && cmd->next && cmd->next->next)
+	{
+		pipe(fd);
+		g_shell.pid = fork();
+		if(g_shell.pid == 0)
+		{
+			close(fd[0]);
+			open_redir(cmd,fds,fd);
+			execution(cmd);
+			exit(g_shell.ret);
+		}
+		else
+		{
+			close(fd[1]);
+			dup2(fd[0], 0);
+			close(fd[0]);
+		}
 		cmd = cmd->next;
 	}
-	else
-    	{
-    	    while(cmd->next->next && cmd)
-    	    {
-    	    	pipe(fd);
-    	    	g_vars.pid = fork();
-    	    	if(g_vars.pid == 0)
-				{
-					close(fd[0]);
-					open_redir(cmd,fds,fd);
-					execution(cmd);
-					exit(g_vars.exit_status);
-				}
-				else
-				{
-					close(fd[1]);
-					dup2(fd[0], 0);
-					close(fd[0]);
-				}
-    	    	cmd = cmd->next;
-    	    }
-			last_cmd(cmd,fds,fd);
-		}
+	last_cmd(cmd,fds,fd);
 	dup2(fds[1], 1);
 	dup2(fds[0], 0);
 	int i;
 	i = 0;
     while(wait(&i) > 0)
-		g_vars.exit_status = WEXITSTATUS(i);
+		g_shell.ret = WEXITSTATUS(i);
 }

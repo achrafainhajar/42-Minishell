@@ -30,20 +30,20 @@ void ft_home(void)
 {
     char *home;
 
-    home = my_getenv(g_vars.my_env, "HOME");
+    home = my_getenv(g_shell.ev, "HOME");
     if(!home)
     {
         ft_putstr_fd("cd: HOME not set\n", 2);
-		g_vars.exit_status = 1;
+		g_shell.ret = 1;
     }
     else if(!chdir(home))
     {
-        new_paths(&g_vars.my_env);
+        new_paths(&g_shell.ev);
     }
 }
 void ft_minus(t_env **env)
 {
-    if(!chdir(my_getenv(g_vars.my_env, "OLDPWD")))
+    if(!chdir(my_getenv(g_shell.ev, "OLDPWD")))
     {
         new_paths(env);
         ft_putstr_fd(my_getenv(*env, "PWD"), 1);
@@ -55,14 +55,14 @@ void ft_minus(t_env **env)
 		ft_putstr_fd(my_getenv(*env, "OLDPWD"), 2);
         ft_putstr_fd(" No such file or directory", 2);
 		ft_putchar_fd('\n', 2);
-		g_vars.exit_status = 1;
+		g_shell.ret = 1;
     }
 }
 void    cd_tilde(char *path)
 {
     char    *dir;
     ft_home();
-    if (g_vars.exit_status != 1 && ft_strcmp(path, "~") != 0)
+    if (g_shell.ret != 1 && ft_strcmp(path, "~") != 0)
     {
         dir = strchr(path, '/');
         if (dir)
@@ -74,10 +74,10 @@ void    cd_tilde(char *path)
 		        ft_putstr_fd(path, 2);
 		        ft_putstr_fd(" No such file or directory", 2);
 		        ft_putchar_fd('\n', 2);
-                g_vars.exit_status = 1;
+                g_shell.ret = 1;
             }
             else
-                new_paths(&g_vars.my_env);
+                new_paths(&g_shell.ev);
         }
         else
         {
@@ -85,7 +85,7 @@ void    cd_tilde(char *path)
             ft_putstr_fd(path, 2);
             ft_putstr_fd(" No such file or directory", 2);
             ft_putchar_fd('\n', 2);
-            g_vars.exit_status = 1;
+            g_shell.ret = 1;
         }
     }
 }
@@ -96,7 +96,7 @@ void ft_cd(t_parse *cmd,t_env **env)
     {
         ft_putstr_fd("minishell: cd: too many arguments", 2);
 		ft_putchar_fd('\n', 2);
-		g_vars.exit_status = 1;
+		g_shell.ret = 1;
     }
     else if(!cmd->argv[0])
         ft_home();
@@ -117,6 +117,6 @@ void ft_cd(t_parse *cmd,t_env **env)
 		ft_putstr_fd(cmd->argv[0], 2);
 		ft_putstr_fd(" No such file or directory", 2);
 		ft_putchar_fd('\n', 2);
-		g_vars.exit_status = 1;
+		g_shell.ret = 1;
 	}
 }

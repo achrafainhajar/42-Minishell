@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:34 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/29 19:11:14 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,9 @@ void	parse_commands(t_token **token, t_parse *command)
 	{
 		value = jme3arg(token, 1, 1);
 		if (!command->cmd)
-		{
 			command->cmd = value;
-		}
 		else
-		{
 			command->argv = (char **)realloc_array(command->argv, value);
-		}
 	}
 	else if ((*token)->e_type == GREAT || (*token)->e_type == LESS
 		|| (*token)->e_type == LESSANDLESS || (*token)->e_type == GREATANDGREAT)
@@ -98,10 +94,12 @@ void	create_commands(t_token *token, t_parse **command)
 		parse_commands(&token, head);
 		if (token->e_type == PIPE || token->e_type == END)
 		{
-			if (token->next && token->e_type == PIPE
-				&& token->next->e_type == END)
+			if (token->next && (token->next->e_type == END || token->next->e_type == PIPE))
 			{
-				errors(3);
+				if (token->next->e_type == END)
+					errors(3);
+				else if (token->next->e_type == PIPE)
+					errors(258);
 				return ;
 			}
 			head = add_command(head);

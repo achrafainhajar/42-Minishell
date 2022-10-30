@@ -8,7 +8,7 @@ void input_red(t_redir *red)
         ft_putstr_fd("minishell: no such file or directory: ", 2);
 	    ft_putstr_fd(red->file, 2);
 	    ft_putchar_fd('\n', 2);
-        g_vars.exit_status = 1;
+        g_shell.ret = 1;
 	}
     else
     {
@@ -42,9 +42,7 @@ void open_redir(t_parse *cmd,int *fds,int *fd)
                 if(cmd->redir->e_type == LESS)
                     input_red(cmd->redir);
                 else
-                {
                      dup2(cmd->redir->fdin, 0);
-                }
             }
             else if(cmd->redir->e_type == GREATANDGREAT || cmd->redir->e_type == GREAT)
             {

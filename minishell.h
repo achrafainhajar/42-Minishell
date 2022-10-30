@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/08 23:34:07 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/29 19:19:09 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,19 @@ typedef struct s_env
 	struct s_env	*next;
 }		t_env;
 
-typedef struct s_minishell
+typedef struct s_shell
 {
-	char	*line;
-	int		exit_status;
-	int		exit_sig;
-	int		g_err;
+	void	*address[1000000];
+	int		i;
+	int		ret;
 	pid_t	pid;
-	void	*alloc[1000000];
-	int		index;
-	t_env	*my_env;
-}		t_minishell;
+	int		here_sig;
+	int		err;
+	char	*line;
+	t_env	*ev;
+}		t_shell;
 
-t_minishell	g_vars;
+t_shell	g_shell;
 
 t_lexer	*ft_init_lexer(char *str, char c);
 void minishell(t_parse *cmd);
@@ -187,7 +187,7 @@ void	check_numb(char *str);
 int		my_exit(t_parse *cmd);
 void ft_echo(t_parse *cmd);
 char	*if_only_dollar(t_lexer *lexer);
-void ft_unset(t_parse *cmd,t_env **env);
+void ft_unset(t_parse *cmd);
 t_parse	*lst_add_back_command(t_parse *lst, t_parse *new);
 void	wrong_cmd(char *cmd);
 void	wrong_cmd_helper(char *error, int w);
@@ -200,6 +200,6 @@ void	read_heredocs(t_parse *command);
 int		only_enter(void);
 int		ft_is_space(void);
 void ft_cd(t_parse *cmd,t_env **env);
-int ft_check(char *str);
+int ft_check(char *str, int a);
 void ft_here_doc(t_parse *cmd);
 #endif

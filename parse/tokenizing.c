@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 17:26:06 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:34 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/29 18:55:39 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int	ft_is_space(void)
 	int	i;
 
 	i = 0;
-	while (g_vars.line[i])
+	while (g_shell.line[i])
 	{
-		if (g_vars.line[i] != ' ')
+		if (g_shell.line[i] != ' ')
 			return (0);
 		i++;
 	}
@@ -60,8 +60,8 @@ void	*f_malloc(size_t size)
 	tmp = malloc(size);
 	if (!tmp)
 		return (NULL);
-	g_vars.alloc[g_vars.index] = tmp;
-	g_vars.index++;
+	g_shell.address[g_shell.i] = tmp;
+	g_shell.i++;
 	return (tmp);
 }
 

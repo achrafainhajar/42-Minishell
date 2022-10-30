@@ -68,62 +68,76 @@ char *get_range(char *str,char c)
         i++;
     s = malloc(sizeof(char) * i + 1);
     i = 0;
-    while(str[i] != c && str[i])
+    if (c != '+')
     {
-        s[i] = str[i];
-        i++;
+        while(str[i] != c && str[i])
+        {
+            s[i] = str[i];
+            i++;
+        }
+    }
+    else
+    {
+        while((str[i] != c || str[i + 1] != '=') && str[i])
+        {
+            s[i] = str[i];
+            i++;
+        }
     }
     s[i] = '\0';
     return(s);
 
 }
 
-void fill_export(char *str,t_env **env)
+void fill_export(char *key, char *val,t_env **env, int flag)
 {
     t_env *new;
-    char *s;
+
     new = malloc(sizeof(t_env));
-    s = get_range(str,'=');
-            new->sep = 0;
-            new->val = NULL;
-        new->key = ft_strdup(s);
-        if(strchr(str,'='))
-        {
-            new->sep = '=';
-            if(strchr(str,'=') + 1)
-                new->val = ft_strdup(strchr(str,'=') + 1);
-        }
-        lst_add_backenv(env,new);
+    new->sep = 0;
+    new->val = NULL;
+    new->key = ft_strdup(key);
+    if(flag)
+    {
+        new->sep = '=';
+        if (val)
+            new->val = ft_strdup(val);
+        else
+            new->val = ft_strdup("");
+    }
+    lst_add_backenv(env,new);
 }
 
-int ft_exist(char *str,t_env *env)
+char *ft_exist(char *str,t_env *env)
 {
-    char *s;
-
-    s = get_range(str,'=');
     while(env)
     {
-        if(ft_strcmp(s,env->key) == 0)
-            return(0);
+        if(ft_strcmp(str,env->key) == 0)
+            return(env->key);
         env=env->next;
     }
-    return(1);
+    return(NULL);
 }
-void value_modif(char *s,t_env **env)
+void value_modif(char *key, char *val, t_env **env, int not_plus)
 {
-    char *str;
-    str = get_range(s,'=');
+    // char *str;
     t_env *head;
+    
     head = (*env);
     while((*env))
     {
-        if(ft_strcmp(str,(*env)->key) == 0)
+        if(ft_strcmp(key,(*env)->key) == 0)
             break;
         (*env)=(*env)->next;
     }
     if((*env)->sep == 0)
         (*env)->sep = '=';
-    (*env)->val =  ft_strdup(1 + strchr(s,'='));
+    if (not_plus && val)
+        (*env)->val =  ft_strdup(val);
+    else if (val)
+        (*env)->val =  ft_strjoin((*env)->val, val, 0);
+    else
+        (*env)->val = ft_strdup("");
     (*env) = head;
 }
 
@@ -134,7 +148,7 @@ int ft_check_export(char *str)
         ft_putstr_fd("minishell: export: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": first numeric char not allowed\n", 2);
-        g_vars.exit_status = 1;
+        g_shell.ret = 1;
 		return (0);
     }
     else if(!str_is_alnum(str) && str[0] != '_')
@@ -142,7 +156,7 @@ int ft_check_export(char *str)
         ft_putstr_fd("minishell: export: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": Special char not allowed\n", 2);
-        g_vars.exit_status = 1;
+        g_shell.ret = 1;
         return(0);
     }
     return(1);
@@ -151,29 +165,48 @@ int ft_check_export(char *str)
 void modif_export(t_parse *cmd,t_env **env)
 {
     int j = 0;
-    g_vars.exit_status = 0;
+
+    g_shell.ret = 0;
+    if (strcmp(cmd->argv[0], "--") == 0)
+        j++;
     while(cmd->argv[j]) ///  a=saas  =csacs _csa=casc _casc=  
     {
-        if (cmd->argv[j][0] != '=' && ft_check(ft_split(cmd->argv[j], '=')[0]))
+        if (cmd->argv[j][0] != '=' && cmd->argv[j][0] != '+')
         {
-            if(ft_exist(cmd->argv[j],*env))
-                fill_export(cmd->argv[j],env);
-            else if (strchr(cmd->argv[j],'='))
-                value_modif(cmd->argv[j],env);
+            if (strchr(cmd->argv[j], '='))
+            {
+                if (*(strchr(cmd->argv[j], '=') - 1) != '+')
+                {
+                    if (ft_exist(get_range(cmd->argv[j],'='),*env))
+                    {
+                        if (ft_check(ft_split(cmd->argv[j], '=')[0], 1))
+                            value_modif(ft_split(cmd->argv[j], '=')[0], strchr(cmd->argv[j], '=') + 1, env, 1);
+                    }
+                    else if (ft_check(ft_split(cmd->argv[j], '=')[0], 1))
+                        fill_export(ft_split(cmd->argv[j], '=')[0], strchr(cmd->argv[j], '=') + 1, env, 1);
+                }
+                else
+                {
+                    if (ft_exist(get_range(cmd->argv[j],'+'),*env))
+                    {
+                        if (ft_check(get_range(cmd->argv[j],'+'), 1))
+                            value_modif(get_range(cmd->argv[j],'+'), strchr(cmd->argv[j], '=') + 1, env, 0);
+                    }
+                    else if (ft_check(get_range(cmd->argv[j],'+'), 1))
+                        fill_export(get_range(cmd->argv[j],'+'), strchr(cmd->argv[j], '=') + 1, env, 1);
+                }
+            }
+            else if (ft_check(cmd->argv[j], 1) && !ft_exist(cmd->argv[j], *env) )
+                fill_export(cmd->argv[j], NULL,env, 0);
         }
-        else if (cmd->argv[j][0] == '=')
-        {
-            ft_putstr_fd("minishell: export: ", 2);
-            ft_putstr_fd(cmd->argv[j], 2);
-            ft_putstr_fd(": Special char not allowed\n", 2);
-            g_vars.exit_status = 1;
-        }
+        else
+            ft_check(cmd->argv[j], 1);
         j++;
     }
 }
 void ft_export(t_parse *cmd,t_env **env)
 {
-    if(cmd->argv[0] == 0)
+    if(cmd->argv[0] == 0 || (!strcmp(cmd->argv[0], "--") && !cmd->argv[1]))
         ft_print_export(*env);
     else
         modif_export(cmd,env);

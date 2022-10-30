@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:24:32 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:34 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/29 18:53:38 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,21 +105,21 @@ void	errors(int exitt)
 	{
 		ft_putstr_fd("Minishell : unclosed quote!", 2);
 		ft_putchar_fd('\n', 2);
-		g_vars.g_err = 1;
-		g_vars.exit_status = 2;
+		g_shell.err = 1;
+		g_shell.ret = 2;
 	}
 	else if (exitt == 258)
 	{
 		ft_putstr_fd("Minishell : syntax error near unexpected token", 2);
 		ft_putchar_fd('\n', 2);
-		g_vars.g_err = 1;
-		g_vars.exit_status = 258;
+		g_shell.err = 1;
+		g_shell.ret = 258;
 	}
 	else if (exitt == 3)
 	{
 		ft_putstr_fd("Minishell : pipe open!", 2);
 		ft_putchar_fd('\n', 2);
-		g_vars.g_err = 1;
-		g_vars.exit_status = 2;
+		g_shell.err = 1;
+		g_shell.ret = 2;
 	}
 }

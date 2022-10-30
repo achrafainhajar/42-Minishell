@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_funct1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 02:57:47 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:34 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/29 18:48:52 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	only_enter(void)
 {
-	if (g_vars.line[0] == '\0' || ft_is_space())
+	if (g_shell.line[0] == '\0' || ft_is_space())
 	{
-		free(g_vars.line);
+		free(g_shell.line);
 		return (1);
 	}
 	return (0);

@@ -2,13 +2,13 @@
 
 void	sig_helper(void)
 {
-	if (!g_vars.line)
+	if (!g_shell.line)
 	{
 		ft_putchar_fd('\n', 0);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_vars.exit_status = 1;
+		g_shell.ret = 1;
 	}
 	else
 		ft_putchar_fd('\n', 0);
@@ -18,19 +18,19 @@ void	sig_child(int sig)
 {
 	if (sig == SIGINT)
 	{
-		if (g_vars.exit_sig == 27)
+		if (g_shell.here_sig == 27)
 		{
-			g_vars.exit_sig = -27;
+			g_shell.here_sig = -27;
 			ft_putchar_fd('\n', 0);
 			close(rl_instream->_fileno);
-			g_vars.exit_status = 1;
+			g_shell.ret = 1;
 		}
 		else
 			sig_helper();
 	}
 	else if (sig == SIGQUIT)
 	{
-		if (!g_vars.line)
+		if (!g_shell.line)
 		{
 			ft_putchar_fd('\r', STDERR_FILENO);
 			rl_on_new_line();
@@ -41,17 +41,17 @@ void	sig_child(int sig)
 
 void	sig_handler(int sig)
 {
-	if (!kill(g_vars.pid, sig))
+	if (!kill(g_shell.pid, sig))
 	{
 		if (sig == SIGQUIT)
 		{
 			ft_putstr_fd("Quit: 3\n", 1);
-			g_vars.exit_status = 131;
+			g_shell.ret = 131;
 		}
 		else if (sig == SIGINT)
 		{
 			ft_putstr_fd("\n", 1);
-			g_vars.exit_status = 130;
+			g_shell.ret = 130;
 		}
 	}
 	else
@@ -60,7 +60,7 @@ void	sig_handler(int sig)
 
 void	ctrls(int sig)
 {
-	if (g_vars.pid != 0)
+	if (g_shell.pid != 0)
 		sig_handler(sig);
 	else
 		sig_child(sig);
@@ -68,9 +68,9 @@ void	ctrls(int sig)
 
 void	c_signal(void)
 {
-    g_vars.line = NULL;
-	g_vars.exit_sig = 0;
-	g_vars.g_err = 0;
+    g_shell.line = NULL;
+	g_shell.here_sig = 0;
+	g_shell.err = 0;
 	signal(SIGINT, ctrls);
 	signal(SIGQUIT, ctrls);
 }

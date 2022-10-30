@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 00:11:14 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:34 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/29 18:52:23 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*dollar_qu(t_token **b, int exec, char *str)
 {
 	(void)exec;
 	if ((*b)->val[1] == '?')
-		str = ft_strjoin(str, ft_itoa(g_vars.exit_status), 2);
+		str = ft_strjoin(str, ft_itoa(g_shell.ret), 2);
 	else if ((*b)->val[1] == ' ')
 		str = ft_strjoin(str, ft_strdup("$"), 2);
 	else if ((*b)->val[1] == '$')

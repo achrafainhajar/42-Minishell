@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/10 01:31:13 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/10/29 19:38:58 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	exit_shell(void)
 {
 	printf("exit\n");
-	exit(g_vars.exit_status);
+	exit(g_shell.ret);
 }
 
 t_token	*create_tokens(t_token *tokens)
@@ -23,16 +23,16 @@ t_token	*create_tokens(t_token *tokens)
 	t_lexer	*lexer;
 
 	lexer = NULL;
-	lexer = ft_init_lexer(g_vars.line, g_vars.line[0]);
+	lexer = ft_init_lexer(g_shell.line, g_shell.line[0]);
 	tokens = send_lexer_to_tokenize(lexer);
 	return (tokens);
 }
 
 void	init_gs_and_c_signal(void)
 {
-	g_vars.line = NULL;
-	g_vars.exit_sig = 0;
-	g_vars.g_err = 0;
+	g_shell.line = NULL;
+	g_shell.here_sig = 0;
+	g_shell.err = 0;
 }
 
 int	main(int ac, char *av[], char **env)
@@ -44,22 +44,22 @@ int	main(int ac, char *av[], char **env)
 	tokens = NULL;
 	(void)ac;
 	(void)av;
-	g_vars.index = 0;
-	g_vars.exit_status = 0;
+	g_shell.i = 0;
+	g_shell.ret = 0;
 	init_env(env);
 	while (1)
 	{
 		c_signal();
-			g_vars.line = readline("mino-1.0$ ");
-		if (!g_vars.line)
+		g_shell.line = readline("mino-1.0$ ");
+		if (!g_shell.line)
 			exit_shell();
 		if (only_enter())
 			continue ;
 		commands = init_command();
 		tokens = create_tokens(tokens);
 		create_commands(tokens, &commands);
-		add_history(g_vars.line);
+		add_history(g_shell.line);
 		minishell(commands);
-		free(g_vars.line);
+		free(g_shell.line);
 	}
 }
