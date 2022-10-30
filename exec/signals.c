@@ -60,6 +60,10 @@ void	sig_handler(int sig)
 
 void	ctrls(int sig)
 {
+	if (sig == SIGCONT)
+		g_shell.mik = 1;
+	if (g_shell.mik && sig == SIGINT)
+		return ;
 	if (g_shell.pid != 0)
 		sig_handler(sig);
 	else
@@ -73,4 +77,5 @@ void	c_signal(void)
 	g_shell.err = 0;
 	signal(SIGINT, ctrls);
 	signal(SIGQUIT, ctrls);
+	signal(SIGCONT, ctrls);
 }

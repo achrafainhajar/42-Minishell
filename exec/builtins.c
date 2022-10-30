@@ -24,5 +24,7 @@ void execute_builtins(t_parse *cmd,t_env **env)
 		ft_unset(cmd);
 	else if (!strcmp(cmd->cmd, "cd"))
 		ft_cd(cmd,env);
+	else if (!strcmp(cmd->cmd, "exit"))
+		ft_exit(cmd);
 	cmd->argv--;
 }

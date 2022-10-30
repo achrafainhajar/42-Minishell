@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/29 19:19:09 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/10/30 17:57:08 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_shell
 	pid_t	pid;
 	int		here_sig;
 	int		err;
+	int		mik;
 	char	*line;
 	t_env	*ev;
 }		t_shell;
@@ -184,7 +185,7 @@ int		cd(t_parse *head, t_env *my_env);
 void	lst_add_backenv(t_env **lst, t_env *new);
 void ft_export(t_parse *cmd,t_env **t_env);
 void	check_numb(char *str);
-int		my_exit(t_parse *cmd);
+void	ft_exit(t_parse *cmd);
 void ft_echo(t_parse *cmd);
 char	*if_only_dollar(t_lexer *lexer);
 void ft_unset(t_parse *cmd);

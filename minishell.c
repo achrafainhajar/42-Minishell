@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/29 19:38:58 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/10/30 21:43:08 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	init_gs_and_c_signal(void)
 	g_shell.line = NULL;
 	g_shell.here_sig = 0;
 	g_shell.err = 0;
+	g_shell.mik = 0;
 }
 
 int	main(int ac, char *av[], char **env)
@@ -47,9 +48,10 @@ int	main(int ac, char *av[], char **env)
 	g_shell.i = 0;
 	g_shell.ret = 0;
 	init_env(env);
+	c_signal();
 	while (1)
 	{
-		c_signal();
+		g_shell.pid = 0;
 		g_shell.line = readline("mino-1.0$ ");
 		if (!g_shell.line)
 			exit_shell();

@@ -14,7 +14,7 @@ char	*ft_strjoine(char *s1, char  *s2)
 
 	if (!s1 || !s2)
 		return (0);
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 2);
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -43,12 +43,20 @@ void	execute(char	**path, char		**cmdargs,char *cmd, char	**envp)
 	i = 0;
 	while (path[i])
 	{
-		tmp = ft_strjoine(path[i], cmd);
+		if (cmd[0] != '.')
+		{
+			tmp = ft_strjoine(path[i], cmd);
+		}
+		else
+		{
+			if (strcmp(cmd, "./minishell") == 0)
+				kill(g_shell.pid, SIGCONT);
+			tmp = cmd;
+		}
 		if (access(tmp, F_OK) == 0)
 		{
 			execve(tmp, cmdargs, envp);
 		}
-		free (tmp);
 		i++;
 	}
 	wrong_cmd(cmdargs[0]);
