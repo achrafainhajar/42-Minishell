@@ -1,8 +1,8 @@
 
-# CPPFLAGS = -I/Users/fstitou/.brew/opt/readline/inlclude
-# LDFLAGS = -L/Users/fstitou/.brew/opt/readline/lib
-CPPFLAGS = -I/goinfre/fstitou/homebrew/opt/readline/include
-LDFLAGS = -L/goinfre/fstitou/homebrew/opt/readline/lib
+CPPFLAGS = -I/Users/hlachkar/.brew/opt/readline/include/
+LDFLAGS = -L/Users/hlachkar/.brew/opt/readline/lib/
+# CPPFLAGS = -I/goinfre/hlachkar/homebrew/opt/readline/include
+# LDFLAGS = -L/goinfre/hlachkar/homebrew/opt/readline/lib
 
 NAME = minishell
 NAME_BONUS = 
@@ -22,7 +22,7 @@ all : $(NAME)
 
 $(NAME):
 	
-	@gcc  $(CFLAGS) -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline  -o $(NAME) $(SANITIZE)
+	@cc  $(CFLAGS) -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline  -o $(NAME) $(SANITIZE)
 	@echo "Mino 👍👍👍"
 
 $(NAME_BONUS) : 

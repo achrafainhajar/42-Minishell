@@ -99,6 +99,7 @@ typedef struct s_shell
 
 t_shell	g_shell;
 
+void	ctrls(int sig);
 t_lexer	*ft_init_lexer(char *str, char c);
 void minishell(t_parse *cmd);
 char	**env_to_tab(t_env **env);

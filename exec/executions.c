@@ -49,8 +49,6 @@ void	execute(char	**path, char		**cmdargs,char *cmd, char	**envp)
 		}
 		else
 		{
-			if (strcmp(cmd, "./minishell") == 0)
-				kill(g_shell.pid, SIGCONT);
 			tmp = cmd;
 		}
 		if (access(tmp, F_OK) == 0)
@@ -102,11 +100,11 @@ void	normal_cmd(t_parse *cmd,char **env)
 
 void execution(t_parse *cmd)
 {
-	if(builtins_cases(cmd))
+	if(builtins_cases(cmd) && g_shell.ret == 0)
 	{
 		execute_builtins(cmd,&g_shell.ev);
 	}
-	else
+	else if (g_shell.ret == 0)
 		normal_cmd(cmd,env_to_tab(&g_shell.ev));
 }
 
@@ -117,7 +115,12 @@ void	last_cmd(t_parse *cmd,int fds[2],int fd[2])
         if(cmd->next && cmd)
         {
         	pipe(fd);
-        	g_shell.pid = fork();
+			if (strcmp(cmd->cmd, "./minishell") == 0)
+			{
+				signal(SIGINT, SIG_IGN);
+				signal(SIGQUIT, SIG_IGN);
+			}
+			g_shell.pid = fork();
         	if(g_shell.pid == 0)
 			{
 				close(fd[0]);
@@ -138,7 +141,8 @@ void minishell(t_parse *cmd)
 	fds[1] = dup(1);
 	fds[0] = dup(0);
 	ft_here_doc(cmd);
-	if(cmd && cmd->cmd && builtins_cases(cmd) && !cmd->next->cmd)
+
+	if(g_shell.ret == 0 && cmd && cmd->cmd && builtins_cases(cmd) && !cmd->next->cmd)
 	{
 		open_redir(cmd,fds,fd);
 		execute_builtins(cmd,&g_shell.ev);
@@ -146,7 +150,7 @@ void minishell(t_parse *cmd)
 		dup2(fds[0], 0);
 		return ;
 	}
-	while(cmd && cmd->next && cmd->next->next)
+	while(g_shell.ret == 0 && cmd && cmd->next && cmd->next->next)
 	{
 		pipe(fd);
 		g_shell.pid = fork();
@@ -165,11 +169,15 @@ void minishell(t_parse *cmd)
 		}
 		cmd = cmd->next;
 	}
-	last_cmd(cmd,fds,fd);
+	if (g_shell.ret == 0)
+	{
+		last_cmd(cmd,fds,fd);
+	}
+	
 	dup2(fds[1], 1);
 	dup2(fds[0], 0);
 	int i;
 	i = 0;
     while(wait(&i) > 0)
-		g_shell.ret = WEXITSTATUS(i);
+		;
 }

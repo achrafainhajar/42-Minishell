@@ -4,6 +4,7 @@
         "curses.h": "c",
         "term.h": "c",
         "curl.h": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "_pthread_types.h": "c"
     }
 }

@@ -22,6 +22,7 @@ void output_red1(t_redir *red)
     int output;
     output = open(red->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
     dup2(output,1);
+    g_shell.ret = 0;
 }
 void output_red2(t_redir *red)
 {
@@ -29,6 +30,7 @@ void output_red2(t_redir *red)
 
     output = open(red->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
     dup2(output,1);
+    g_shell.ret = 0;
 }
 void open_redir(t_parse *cmd,int *fds,int *fd)
 {
@@ -52,6 +54,8 @@ void open_redir(t_parse *cmd,int *fds,int *fd)
                     output_red2(cmd->redir);
             }
             cmd->redir = cmd->redir->next;
+            if (g_shell.ret != 0)
+                break;
         }
     }
     else if(cmd->next->cmd)

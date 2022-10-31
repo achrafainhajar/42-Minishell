@@ -4,9 +4,9 @@ void	sig_helper(void)
 {
 	if (!g_shell.line)
 	{
-		ft_putchar_fd('\n', 0);
+		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		rl_replace_line("", 1);
 		rl_redisplay();
 		g_shell.ret = 1;
 	}
@@ -22,7 +22,7 @@ void	sig_child(int sig)
 		{
 			g_shell.here_sig = -27;
 			ft_putchar_fd('\n', 0);
-			close(rl_instream->_fileno);
+			close(rl_instream->_file);
 			g_shell.ret = 1;
 		}
 		else
@@ -45,7 +45,7 @@ void	sig_handler(int sig)
 	{
 		if (sig == SIGQUIT)
 		{
-			ft_putstr_fd("Quit: 3\n", 1);
+			ft_putstr_fd("Quit: \n", 1);
 			g_shell.ret = 131;
 		}
 		else if (sig == SIGINT)
@@ -60,11 +60,9 @@ void	sig_handler(int sig)
 
 void	ctrls(int sig)
 {
-	if (sig == SIGCONT)
-		g_shell.mik = 1;
-	if (g_shell.mik && sig == SIGINT)
-		return ;
-	if (g_shell.pid != 0)
+	if (sig == SIGCHLD && strcmp(g_shell.line, "./minishell") == 0)
+		c_signal();
+	else if (g_shell.pid != 0)
 		sig_handler(sig);
 	else
 		sig_child(sig);
@@ -72,10 +70,7 @@ void	ctrls(int sig)
 
 void	c_signal(void)
 {
-    g_shell.line = NULL;
-	g_shell.here_sig = 0;
-	g_shell.err = 0;
+	signal(SIGCHLD, ctrls);
 	signal(SIGINT, ctrls);
 	signal(SIGQUIT, ctrls);
-	signal(SIGCONT, ctrls);
 }

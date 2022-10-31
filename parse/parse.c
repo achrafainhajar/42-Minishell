@@ -50,14 +50,19 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 		|| (*token)->next->e_type == GREATANDGREAT)
 	{
 		errors(258);
+		(*token) = (*token)->next;
 	}
-	type = (*token)->e_type;
-	(*token) = (*token)->next;
-	value = jme3arg(token, exec, 1);
-	if (!command->redir)
-		command->redir = init_redir(value, type);
 	else
-		command->redir = add_redir(command->redir, value, type);
+	{
+		type = (*token)->e_type;
+		(*token) = (*token)->next;
+		value = jme3arg(token, exec, 1);
+		if (!command->redir)
+			command->redir = init_redir(value, type);
+		else
+			command->redir = add_redir(command->redir, value, type);
+	}
+	
 }
 
 void	parse_commands(t_token **token, t_parse *command)

@@ -52,6 +52,7 @@ int	main(int ac, char *av[], char **env)
 	while (1)
 	{
 		g_shell.pid = 0;
+		g_shell.line = NULL;
 		g_shell.line = readline("mino-1.0$ ");
 		if (!g_shell.line)
 			exit_shell();

@@ -11,7 +11,6 @@ int	builtins_cases(t_parse *cmd)
 void execute_builtins(t_parse *cmd,t_env **env)
 {
     cmd->argv++;
-	g_shell.ret = 0; 
     if (!strcmp(cmd->cmd, "echo"))
 		ft_echo(cmd);
     else if (!strcmp(cmd->cmd, "pwd"))
