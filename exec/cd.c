@@ -39,6 +39,7 @@ void ft_home(void)
     else if(!chdir(home))
     {
         new_paths(&g_shell.ev);
+        g_shell.ret = 0;
     }
 }
 void ft_minus(t_env **env)
@@ -48,6 +49,7 @@ void ft_minus(t_env **env)
         new_paths(env);
         ft_putstr_fd(my_getenv(*env, "PWD"), 1);
         ft_putchar_fd('\n', 1);
+        g_shell.ret = 0;
     }
     else
     {
@@ -77,7 +79,10 @@ void    cd_tilde(char *path)
                 g_shell.ret = 1;
             }
             else
+            {
                 new_paths(&g_shell.ev);
+                g_shell.ret = 0;
+            }
         }
         else
         {

@@ -14,6 +14,7 @@ void ft_env(t_env *env,t_parse *cmd)
             }
             env = env->next;
         }
+        g_shell.ret = 0;
     }
     else
     {

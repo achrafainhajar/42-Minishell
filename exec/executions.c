@@ -4,7 +4,8 @@ void	wrong_cmd(char *cmd)
 	write(2, "mino: ", 7);
 	write(2, cmd, ft_strlen(cmd));
 	write(2, ": command not found\n", 20);
-	exit(127);
+	g_shell.ret = 127;
+	exit(g_shell.ret);
 }
 char	*ft_strjoine(char *s1, char  *s2)
 {
@@ -175,6 +176,6 @@ void minishell(t_parse *cmd)
 	dup2(fds[0], 0);
 	int i;
 	i = 0;
-    while(wait(&i) > 0)
-		;
+    while(waitpid(-1,&i,0) > 0);
+	g_shell.ret = WEXITSTATUS(i);
 }

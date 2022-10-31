@@ -26,6 +26,7 @@ void simple_print(t_parse *cmd)
 		if (cmd->argv[i])
 			write(1, " ", 1);
     }
+	g_shell.ret = 0;
     ft_putstr("\n");
 }
 int check_n(char *str)
@@ -66,6 +67,7 @@ void n_print(t_parse *cmd)
 		if (cmd->argv[i])
 			write(1, " ", 1);
 	}
+	g_shell.ret = 0;
 }
 void ft_echo(t_parse *cmd)
 {
