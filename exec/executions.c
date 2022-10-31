@@ -42,6 +42,7 @@ void	execute(char	**path, char		**cmdargs,char *cmd, char	**envp)
 	char	*tmp;
 
 	i = 0;
+	execve(tmp, cmdargs, envp);
 	while (path[i])
 	{
 		if (cmd[0] != '.')
@@ -58,6 +59,7 @@ void	execute(char	**path, char		**cmdargs,char *cmd, char	**envp)
 		}
 		i++;
 	}
+	execve(cmd, cmdargs, envp);
 	wrong_cmd(cmdargs[0]);
 }
 
@@ -95,7 +97,7 @@ void	normal_cmd(t_parse *cmd,char **env)
 		}
 		i++;
 	}
-	path = ft_split(env[i], ':'); 
+	path = ft_split(env[i], ':');
 	execute(path,cmd->argv,cmd->cmd,env);
 }
 
