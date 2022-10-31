@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/30 21:43:08 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/10/31 11:51:01 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ int	main(int ac, char *av[], char **env)
 	g_shell.i = 0;
 	g_shell.ret = 0;
 	init_env(env);
-	c_signal();
 	while (1)
 	{
-		g_shell.pid = 0;
+		init_gs_and_c_signal();
+		c_signal();
 		g_shell.line = NULL;
+		g_shell.err = 0;
 		g_shell.line = readline("mino-1.0$ ");
 		if (!g_shell.line)
 			exit_shell();

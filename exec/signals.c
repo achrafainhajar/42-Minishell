@@ -6,7 +6,6 @@ void	sig_helper(void)
 	{
 		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
-		rl_replace_line("", 1);
 		rl_redisplay();
 		g_shell.ret = 1;
 	}
@@ -62,7 +61,7 @@ void	ctrls(int sig)
 {
 	if (sig == SIGCHLD && strcmp(g_shell.line, "./minishell") == 0)
 		c_signal();
-	else if (g_shell.pid != 0)
+	if (g_shell.pid != 0)
 		sig_handler(sig);
 	else
 		sig_child(sig);
