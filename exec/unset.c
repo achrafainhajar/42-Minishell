@@ -48,17 +48,26 @@ void ft_unset_utils(char *str,t_env **env)
     t_env *head;
     t_env *tmp;
 
-    head = (*env);
-    while(head)
+    if(strcmp((*env)->key,str) == 0)
     {
-        if(strcmp(head->key,str) == 0)
+        tmp = (*env);
+        (*env) = (*env)->next;
+        free(tmp);
+    }
+    else
+    {
+        head = (*env);
+        while(head)
         {
-            tmp->next = head->next;
-            free(head);
-            break;
+            if(strcmp(head->key,str) == 0)
+            {
+                tmp->next = head->next;
+                free(head);
+                break;
+            }
+            tmp = head;
+            head = head->next;
         }
-        tmp = head;
-        head = head->next;
     }
 }
 void ft_unset(t_parse *cmd)
