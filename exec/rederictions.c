@@ -73,7 +73,6 @@ void output_red2(t_redir *red)
 }
 void open_redir(t_parse *cmd,int *fds,int *fd)
 {
-
     if(cmd->redir)
     {
         while(cmd->redir && !g_shell.err)
@@ -82,8 +81,8 @@ void open_redir(t_parse *cmd,int *fds,int *fd)
             {
                 if(cmd->redir->e_type == LESS)
                     input_red(cmd->redir);
-                else
-                     dup2(cmd->redir->fdin, 0);
+                else if (cmd->redir->e_type == LESSANDLESS)
+                    dup2(cmd->redir->fdin, 0);
             }
             else if(cmd->redir->e_type == GREATANDGREAT || cmd->redir->e_type == GREAT)
             {
@@ -95,8 +94,12 @@ void open_redir(t_parse *cmd,int *fds,int *fd)
             cmd->redir = cmd->redir->next;
         }
     }
-    else if(cmd->next->cmd)
+    else if(cmd->next->cmd || cmd->next->redir)
+    {
         dup2(fd[1], 1);
+    }
     else
+    {
         dup2(fds[1], 1);
+    }
 }

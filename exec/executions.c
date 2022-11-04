@@ -3,7 +3,10 @@ void	wrong_cmd(char *cmd)
 {
 	write(2, "mino: ", 7);
 	write(2, cmd, ft_strlen(cmd));
-	write(2, ": command not found\n", 20);
+	if (cmd[0] == '.' || cmd[0] == '/')
+		write(2, ": No such file or directory\n", 29);
+	else
+		write(2, ": command not found\n", 20);
 	g_shell.ret = 127;
 	exit(g_shell.ret);
 }
@@ -42,25 +45,22 @@ void	execute(char	**path, char		**cmdargs,char *cmd, char	**envp)
 	char	*tmp;
 
 	i = 0;
-	execve(tmp, cmdargs, envp);
-	while (path[i])
+	if (cmd && cmdargs && envp)
+		execve(cmd, cmdargs, envp);
+	while (path && path[i])
 	{
 		if (cmd[0] != '.')
-		{
 			tmp = ft_strjoine(path[i], cmd);
-		}
 		else
-		{
 			tmp = cmd;
-		}
 		if (access(tmp, F_OK) == 0)
 		{
-			execve(tmp, cmdargs, envp);
+			if (execve(tmp, cmdargs, envp) == -1)
+				wrong_cmd(cmd);
 		}
 		i++;
 	}
-	execve(cmd, cmdargs, envp);
-	wrong_cmd(cmdargs[0]);
+	wrong_cmd(cmd);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -103,38 +103,12 @@ void	normal_cmd(t_parse *cmd,char **env)
 
 void execution(t_parse *cmd)
 {
-	if(builtins_cases(cmd))
+	if(cmd->cmd && builtins_cases(cmd))
 	{
 		execute_builtins(cmd,&g_shell.ev);
 	}
-	else
+	else if (cmd->cmd)
 		normal_cmd(cmd,env_to_tab(&g_shell.ev));
-}
-
-void	last_cmd(t_parse *cmd,int fds[2],int fd[2])
-{
-	if(cmd)
-    {
-        if(cmd->next && cmd)
-        {
-			/*pipe(fd);
-			if (strcmp(cmd->cmd, "./minishell") == 0)
-			{
-				signal(SIGINT, SIG_IGN);
-				signal(SIGQUIT, SIG_IGN);
-			}*/
-			g_shell.pid = fork();
-        	if(g_shell.pid == 0)
-			{
-				close(fd[0]);
-				open_redir(cmd,fds,fd);
-				execution(cmd);
-				exit(g_shell.ret);
-			}
-			close(fd[1]);
-        	cmd = cmd->next;
-		}
-    }
 }
 
 void minishell(t_parse *cmd)
@@ -143,9 +117,10 @@ void minishell(t_parse *cmd)
 	int fds[2];
 	fds[1] = dup(1);
 	fds[0] = dup(0);
-	ft_here_doc(cmd);
-
-	if(cmd && cmd->cmd && builtins_cases(cmd) && !cmd->next->cmd)
+	ft_here_doc(cmd);  // check it later with a command that doesn't exist + output redirection
+	if (g_shell.err != 0)
+		return;
+	if(cmd && cmd->cmd && builtins_cases(cmd) && (cmd->next && !cmd->next->cmd))
 	{
 		open_redir(cmd,fds,fd);
 		if(!g_shell.err)
@@ -154,30 +129,41 @@ void minishell(t_parse *cmd)
 		dup2(fds[0], 0);
 		return ;
 	}
-	while(cmd && cmd->next && cmd->next)
+	while(cmd)
 	{
-		pipe(fd);
-		g_shell.pid = fork();
-		if(g_shell.pid == 0)
+		if (cmd->cmd || cmd->redir)
 		{
-			close(fd[0]);
-			open_redir(cmd,fds,fd);
-			if(!g_shell.err)
+			pipe(fd);
+			if (cmd->cmd && strcmp(cmd->cmd, "./minishell") == 0)
+			{
+				signal(SIGINT, SIG_IGN);
+				signal(SIGQUIT, SIG_IGN);
+			}
+			g_shell.pid = fork();
+			if(g_shell.pid == 0)
+			{
+				close(fd[0]);
+				open_redir(cmd,fds,fd);
 				execution(cmd);
-			exit(g_shell.ret);
-		}
-		else
-		{
-			close(fd[1]);
-			dup2(fd[0], 0);
-			close(fd[0]);
+				exit(g_shell.ret);
+			}
+			else
+			{
+				close(fd[1]);
+				dup2(fd[0], 0);
+				close(fd[0]);
+			}
 		}
 		cmd = cmd->next;
 	}
-	dup2(fds[1], 1);
-	dup2(fds[0], 0);
+
 	int i;
 	i = 0;
-    while(waitpid(-1,&i,0) > 0);
-	g_shell.ret = WEXITSTATUS(i);
+	waitpid(g_shell.pid, &i, 0);
+    while(wait(NULL) > 0){
+		if (WIFEXITED(i))
+			g_shell.ret = WEXITSTATUS(i);
+	}
+	dup2(fds[1], 1);
+	dup2(fds[0], 0);
 }

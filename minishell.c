@@ -28,7 +28,7 @@ t_token	*create_tokens(t_token *tokens)
 	return (tokens);
 }
 
-void	init_gs_and_c_signal(void)
+void	init_gs(void)
 {
 	g_shell.line = NULL;
 	g_shell.here_sig = 0;
@@ -48,12 +48,10 @@ int	main(int ac, char *av[], char **env)
 	g_shell.i = 0;
 	g_shell.ret = 0;
 	init_env(env);
+	c_signal();
 	while (1)
 	{
-		init_gs_and_c_signal();
-		c_signal();
-		g_shell.line = NULL;
-		g_shell.err = 0;
+		init_gs();
 		g_shell.line = readline("mino-1.0$ ");
 		if (!g_shell.line)
 			exit_shell();
@@ -64,6 +62,6 @@ int	main(int ac, char *av[], char **env)
 		create_commands(tokens, &commands);
 		add_history(g_shell.line);
 		minishell(commands);
-		free(g_shell.line);
+		// free(g_shell.line);
 	}
 }

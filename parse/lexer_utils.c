@@ -21,6 +21,11 @@ void	tokenize_squote(t_token **tmp, t_lexer *lexer)
 
 	size = 0;
 	token = NULL;
+	if (g_shell.err == 1)
+	{
+		advance_lexer(lexer);
+		return ;
+	}
 	advance_lexer(lexer);
 	type = SQUOTE;
 	if (ft_int_strchr(&(lexer->str[lexer->i]), '\'') >= 0)
@@ -28,6 +33,8 @@ void	tokenize_squote(t_token **tmp, t_lexer *lexer)
 	else
 		errors(2);
 	val = ft_strsub(lexer, size);
+	if (g_shell.err == 1)
+		return ;
 	advance_lexer(lexer);
 	token = init_token(val, type);
 	if (lexer->c != '|' && lexer->c != '>' && lexer->c != '<'
@@ -46,12 +53,19 @@ void	tokenize_dquote(t_token **tmp, t_lexer *lexer)
 	size = 0;
 	token = NULL;
 	type = DQUOTE;
+	if (g_shell.err == 1)
+	{
+		advance_lexer(lexer);
+		return ;
+	}
 	advance_lexer(lexer);
 	if (ft_int_strchr(&(lexer->str[lexer->i]), 34) >= 0)
 		size = ft_int_strchr(&(lexer->str[lexer->i]), 34);
 	else
 		errors(2);
 	val = ft_strsub(lexer, size);
+	if (g_shell.err == 1)
+		return ;
 	advance_lexer(lexer);
 	token = init_token(val, type);
 	if (lexer->c != '>' && lexer->c != '<' && lexer->c != '|'

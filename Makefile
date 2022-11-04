@@ -8,7 +8,7 @@ NAME = minishell
 NAME_BONUS = 
 
 CFLAGS = -Wall -Wextra -Werror
-SANITIZE =
+SANITIZE = -fsanitize=address
 		
 SRC = *.c parse/*.c  exec/*.c
 SRC_BONUS = 

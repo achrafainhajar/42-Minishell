@@ -49,7 +49,8 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 		|| (*token)->next->e_type == LESSANDLESS
 		|| (*token)->next->e_type == GREATANDGREAT)
 	{
-		errors(258);
+		if (g_shell.err == 0)
+			errors(258);
 		(*token) = (*token)->next;
 	}
 	else
@@ -86,6 +87,8 @@ void	parse_commands(t_token **token, t_parse *command)
 			parse_helper(token, command, value, 0);
 		else
 			parse_helper(token, command, value, 1);
+		if (g_shell.err != 0)
+			command->error = 1;
 	}
 }
 
@@ -94,6 +97,11 @@ void	create_commands(t_token *token, t_parse **command)
 	t_parse	*head;
 
 	head = *command;
+	if (token->e_type == PIPE)
+	{
+		errors(258);
+		return ;
+	}
 	while (token)
 	{
 		parse_commands(&token, head);

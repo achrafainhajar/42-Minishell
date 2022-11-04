@@ -6,6 +6,7 @@ void	sig_helper(void)
 	{
 		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 		g_shell.ret = 1;
 	}
@@ -23,6 +24,7 @@ void	sig_child(int sig)
 			ft_putchar_fd('\n', 0);
 			close(rl_instream->_file);
 			g_shell.ret = 1;
+			g_shell.err = 1;
 		}
 		else
 			sig_helper();
@@ -59,7 +61,7 @@ void	sig_handler(int sig)
 
 void	ctrls(int sig)
 {
-	if (sig == SIGCHLD && strcmp(g_shell.line, "./minishell") == 0)
+	if (g_shell.line && sig == SIGCHLD && strcmp(g_shell.line, "./minishell") == 0)
 		c_signal();
 	if (g_shell.pid != 0)
 		sig_handler(sig);

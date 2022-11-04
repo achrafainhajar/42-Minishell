@@ -73,6 +73,7 @@ typedef struct s_parse
 	char			*cmd;
 	char			**argv;
 	t_redir			*redir;
+	int				error;
 	struct s_parse	*next;
 }		t_parse;
 
