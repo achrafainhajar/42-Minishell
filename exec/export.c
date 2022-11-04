@@ -9,7 +9,7 @@ char	*ft_strncpy(char *dest, char *src, unsigned int n)
 		dest[i] = src[i];
 		++i;
 	}
-	while (i < n)
+	while (i <= n)
 	{
 		dest[i] = '\0';
 		i++;
@@ -165,6 +165,7 @@ int ft_check_export(char *str)
 void modif_export(t_parse *cmd,t_env **env)
 {
     int j = 0;
+    char *tmp;
 
     g_shell.ret = 0;
     if (strcmp(cmd->argv[0], "--") == 0)
@@ -177,23 +178,27 @@ void modif_export(t_parse *cmd,t_env **env)
             {
                 if (*(strchr(cmd->argv[j], '=') - 1) != '+')
                 {
-                    if (ft_exist(get_range(cmd->argv[j],'='),*env))
+                    tmp = get_range(cmd->argv[j], '=');
+                    if (ft_exist(tmp,*env))
                     {
                         if (ft_check(ft_split(cmd->argv[j], '=')[0], 1))
                             value_modif(ft_split(cmd->argv[j], '=')[0], strchr(cmd->argv[j], '=') + 1, env, 1);
                     }
                     else if (ft_check(ft_split(cmd->argv[j], '=')[0], 1))
                         fill_export(ft_split(cmd->argv[j], '=')[0], strchr(cmd->argv[j], '=') + 1, env, 1);
+                    free(tmp);
                 }
                 else
                 {
-                    if (ft_exist(get_range(cmd->argv[j],'+'),*env))
+                    tmp = get_range(cmd->argv[j],'+');
+                    if (ft_exist(tmp,*env))
                     {
-                        if (ft_check(get_range(cmd->argv[j],'+'), 1))
-                            value_modif(get_range(cmd->argv[j],'+'), strchr(cmd->argv[j], '=') + 1, env, 0);
+                        if (ft_check(tmp, 1))
+                            value_modif(tmp, strchr(cmd->argv[j], '=') + 1, env, 0);
                     }
-                    else if (ft_check(get_range(cmd->argv[j],'+'), 1))
-                        fill_export(get_range(cmd->argv[j],'+'), strchr(cmd->argv[j], '=') + 1, env, 1);
+                    else if (ft_check(tmp, 1))
+                        fill_export(tmp, strchr(cmd->argv[j], '=') + 1, env, 1);
+                    free(tmp);
                 }
             }
             else if (ft_check(cmd->argv[j], 1) && !ft_exist(cmd->argv[j], *env) )

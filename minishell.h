@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/30 17:57:08 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:04:03 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ int		simple_cmd(t_parse *cmd);
 int		is_piped(void);
 void	read_heredocs(t_parse *command);
 int		only_enter(void);
+char	*ft_strndup(char *s1, size_t n);
 int		ft_is_space(void);
 void ft_cd(t_parse *cmd,t_env **env);
 int ft_check(char *str, int a);

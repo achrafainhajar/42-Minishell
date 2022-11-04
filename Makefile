@@ -20,25 +20,16 @@ OBJ_BONUS =
 
 all : $(NAME)
 
-$(NAME):
-	
-	@cc  $(CFLAGS) -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline  -o $(NAME) $(SANITIZE)
+$(NAME): $(SRC)
+	@cc  $(CFLAGS) -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline -o $(NAME) $(SANITIZE)
 	@echo "Mino 👍👍👍"
 
-$(NAME_BONUS) : 
-	@gcc $(CFLAGS) -g $(SRC_BONUS) -o $(NAME_BONUS)
-	@echo "🎁🎁🎁"
-
-bonus: $(NAME_BONUS)
-
 clean :
- 
-	@rm -f $(OBJ) $(OBJ_BONUS)
+	@rm -f $(OBJ)
 	@echo "🚮🚮🚮"
 
 fclean : clean
-	@rm -f $(NAME) $(NAME_BONUS)
+	@rm -f $(NAME)
 	@echo "🗑️ 🗑️ 🗑️"
 
 re : fclean all
-	@rm -r *.dSYM

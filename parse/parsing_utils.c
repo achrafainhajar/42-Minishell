@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:24:32 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/29 18:53:38 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:01:04 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	ft_int_strchr(const char *s, int c)
 			return (i);
 		i++;
 	}
+	if (!s[i])
+		return i;
 	if ((char)c == '\0')
 		return (i);
 	return (-1);
