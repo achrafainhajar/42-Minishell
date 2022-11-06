@@ -21,7 +21,7 @@ OBJ_BONUS =
 all : $(NAME)
 
 $(NAME): $(SRC)
-	@cc  $(CFLAGS) -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline -o $(NAME) $(SANITIZE)
+	@cc  $(CFLAGS) -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline -o $(NAME) 
 	@echo "Mino 👍👍👍"
 
 clean :

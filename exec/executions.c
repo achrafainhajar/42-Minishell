@@ -159,7 +159,8 @@ void minishell(t_parse *cmd)
 			{
 				close(fd[0]);
 				open_redir(cmd, fds, fd);
-				execution(cmd);
+				if (!g_shell.err)
+					execution(cmd);
 				exit(g_shell.ret);
 			}
 			else
