@@ -49,10 +49,10 @@ void ft_here_doc(t_parse *cmd)
 
     fd = dup(0);
     g_shell.here_sig = 27;
-    while(cmd && cmd->error != 1)
+    while(cmd)
     {
         red = cmd->redir;
-        while(red && cmd->error != 1)
+        while(red && red->error != 1)
         {
             if(red->e_type == LESSANDLESS)
             {

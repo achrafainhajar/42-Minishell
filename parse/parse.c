@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/06 13:27:19 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/06 16:54:45 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_parse	*init_command(void)
 	command->argv = (char **)realloc_array(NULL, ft_strdup(""));
 	command->redir = NULL;
 	command->next = NULL;
-	command->error = 0;
 	return (command);
 }
 
@@ -129,8 +128,6 @@ void	create_commands(t_token *token, t_parse **command)
 			}
 			head = add_command(head);
 			head = head->next;
-			if (g_shell.err != 0)
-				head->error = 1;
 			token = token->next;
 		}
 	}

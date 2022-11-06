@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/04 17:04:03 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/06 16:45:54 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_redir
 {
 	char			*file;
 	int				e_type;
+	int				error;
 	int				fdout;
 	int				fdin;
 	struct s_redir	*next;
@@ -73,7 +74,6 @@ typedef struct s_parse
 	char			*cmd;
 	char			**argv;
 	t_redir			*redir;
-	int				error;
 	struct s_parse	*next;
 }		t_parse;
 

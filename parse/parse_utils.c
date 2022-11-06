@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:34 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/11/06 16:55:28 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ t_redir	*init_redir(char *val, int type)
 	redir->file = ft_strdup(val);
 	redir->next = NULL;
 	redir->e_type = type;
+	if (g_shell.err != 0)
+		redir->error = 1;
+	else
+		redir->error = 0;
 	return (redir);
 }
 
