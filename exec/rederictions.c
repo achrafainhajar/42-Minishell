@@ -74,6 +74,10 @@ void output_red2(t_redir *red)
 void open_redir(t_parse *cmd,int *fds,int *fd)
 {
     (void)fds;
+    if(cmd->next->cmd || cmd->next->redir)
+    {
+        dup2(fd[1], 1);
+    }
     if(cmd->redir)
     {
         while(cmd->redir && !g_shell.err)
@@ -94,9 +98,5 @@ void open_redir(t_parse *cmd,int *fds,int *fd)
             }
             cmd->redir = cmd->redir->next;
         }
-    }
-    if(cmd->next->cmd || cmd->next->redir)
-    {
-        dup2(fd[1], 1);
     }
 }
