@@ -6,7 +6,7 @@ void	sig_helper(void)
 	{
 		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		//rl_replace_line("", 0);
 		rl_redisplay();
 		g_shell.ret = 1;
 	}
@@ -22,7 +22,7 @@ void	sig_child(int sig)
 		{
 			g_shell.here_sig = -27;
 			ft_putchar_fd('\n', 0);
-			close(rl_instream->_fileno);
+			close(rl_instream->_file);
 			g_shell.ret = 1;
 			g_shell.err = 1;
 		}
