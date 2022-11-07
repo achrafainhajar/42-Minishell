@@ -1,14 +1,17 @@
-#include "../minishell.h"
+# include "../minishell.h"
+
 void wrong_cmd(char *cmd)
 {
 	write(2, "mino: ", 7);
 	write(2, cmd, ft_strlen(cmd));
-	if ((cmd[0] == '.' || cmd[0] == '/') && access(cmd, F_OK) == -1)
-		write(2, ": No such file or directory\n", 29);
-	else if ((cmd[0] == '.' || cmd[0] == '/') && access(cmd, X_OK) == -1)
+	if (strchr(cmd,'/') && access(cmd, F_OK) == -1)
 	{
-		ft_putstr_fd(": permission denied\n", 2);
-		exit (126);
+		write(2, ": No such file or directory\n", 29);
+	}
+	else if (strchr(cmd,'/') && access(cmd, F_OK) == 0)
+	{
+		write(2, ": is a directory\n", 18);
+		exit(126);
 	}
 	else
 		write(2, ": command not found\n", 20);
@@ -155,6 +158,8 @@ void minishell(t_parse *cmd)
 				signal(SIGQUIT, SIG_IGN);
 			}
 			g_shell.pid = fork();
+			if(g_shell.pid == -1)
+				break;
 			if (g_shell.pid == 0)
 			{
 				close(fd[0]);
@@ -175,8 +180,7 @@ void minishell(t_parse *cmd)
 	int i;
 	i = 0;
 	waitpid(g_shell.pid, &i, 0);
-	while(wait(NULL) > 0)
-		;
+	while(wait(NULL) > 0);
 	if (WIFEXITED(i))
 		g_shell.ret = WEXITSTATUS(i);
 	dup2(fds[1], 1);
