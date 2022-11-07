@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/06 16:55:28 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:02:16 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,18 @@ t_redir	*add_redir(t_redir *redir, char *val, int type)
 	new = init_redir(val, type);
 	redir = lst_add_back_redir(redir, new);
 	return (redir);
+}
+
+char	*my_getenv_key(t_env **env, char *key)
+{
+	t_env	*tmp;
+
+	tmp = (*env);
+	while (tmp)
+	{
+		if (strcmp(tmp->key, key) == 0)
+			return (tmp->key);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }

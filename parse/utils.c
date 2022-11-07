@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 02:04:55 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:34 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/11/07 16:38:02 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,40 +77,4 @@ void	ft_putstr_fd(char *s, int fd)
 		ft_putchar_fd(*s, fd);
 		s++;
 	}
-}
-
-int	count_env(t_env **env)
-{
-	t_env	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = *env;
-	while (tmp)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	return (i);
-}
-
-char	**env_to_tab(t_env **env)
-{
-	int		i;
-	int		len;
-	char	**tab;
-	t_env	*tmp;
-
-	i = 0;
-	len = count_env(env);
-	tmp = (*env);
-	tab = (char **)f_malloc(sizeof(char *) * (len + 1));
-	while (tmp)
-	{
-		tab[i] = join_3_str(tmp->key, "=", tmp->val);
-		i++;
-		tmp = tmp->next;
-	}
-	tab[i] = NULL;
-	return (tab);
 }

@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 01:39:50 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/07 12:05:17 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:54:45 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 void	checkin_dollar(t_token **b, char **str, int ch_d)
 {
 	if (((*b)->next->e_type == DQUOTE || (*b)->next->e_type == SQUOTE)
-		&& (*b)->val[1] != '?' && (*b)->val[1] != '$' && ft_isalnum((*b)->next->val[0]))
-	{
-		printf("waaaaaaaa\n");
+		&& (*b)->val[1] != '?' && (*b)->val[1] != '$'
+		&& ft_isalnum((*b)->next->val[0]))
 		(*b) = (*b)->next;
-	}
 	else
 	{
 		if ((*b)->val[1] || (ch_d == 2 && !ft_isalnum((*b)->next->val[0])))

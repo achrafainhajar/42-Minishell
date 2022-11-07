@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/10/29 18:50:57 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:01:14 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*ft_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 	return (dest);
 }
+
 t_env	*lst_new(char *key, char sep, char *val)
 {
 	t_env	*new;
@@ -84,20 +85,6 @@ char	*my_getenv(t_env *env, char *key)
 	{
 		if (strcmp(tmp->key, key) == 0)
 			return (tmp->val);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-char	*my_getenv_key(t_env **env, char *key)
-{
-	t_env	*tmp;
-
-	tmp = (*env);
-	while (tmp)
-	{
-		if (strcmp(tmp->key, key) == 0)
-			return (tmp->key);
 		tmp = tmp->next;
 	}
 	return (NULL);

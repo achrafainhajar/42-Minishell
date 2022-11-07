@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/06 16:45:54 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:36:45 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ typedef struct s_shell
 
 t_shell	g_shell;
 
+int		syntax_error(t_token *token);
+void	split_expansion(char *value, t_parse *command);
 void	ctrls(int sig);
 t_lexer	*ft_init_lexer(char *str, char c);
 void minishell(t_parse *cmd);

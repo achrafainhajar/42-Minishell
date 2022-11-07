@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/07 12:00:48 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:42:56 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_parse	*lst_add_back_command(t_parse *lst, t_parse *new)
 void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 {
 	int	exec;
+	int	type2;
 
 	exec = type;
 	if ((*token)->next->e_type == END || (*token)->next->e_type == PIPE
@@ -55,23 +56,29 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 	}
 	else
 	{
+		
 		type = (*token)->e_type;
 		(*token) = (*token)->next;
+		type2 = (*token)->e_type;
 		value = jme3arg(token, exec, 1);
-		if (!command->redir)
-			command->redir = init_redir(value, type);
+		if (type2 == DOLLAR)
+			split_expansion(value, command);
+		if (value[0] == '\0' || ft_strchr(value, ' '))
+			errors(258);
 		else
-			command->redir = add_redir(command->redir, value, type);
+		{
+			if (!command->redir)
+				command->redir = init_redir(value, type);
+			else
+				command->redir = add_redir(command->redir, value, type);
+		}
 	}
-	
 }
 
 void	parse_commands(t_token **token, t_parse *command)
 {
 	char	*value;
-	char	**split;
 	t_token	*tmp;
-	int 	i;
 
 	value = NULL;
 	if ((*token)->e_type == WORD || (*token)->e_type == DQUOTE
@@ -80,14 +87,7 @@ void	parse_commands(t_token **token, t_parse *command)
 		tmp = *token;
 		value = jme3arg(token, 1, 2);
 		if (tmp->e_type == DOLLAR)
-		{
-			i = 0;
-			split = ft_split(value, ' ');
-			if (!command->cmd)
-				command->cmd = split[i++];
-			while (split && split[i])
-				command->argv = (char **)realloc_array(command->argv, split[i++]);
-		}
+			split_expansion(value, command);
 		else if (!command->cmd)
 			command->cmd = value;
 		else
@@ -118,14 +118,8 @@ void	create_commands(t_token *token, t_parse **command)
 		parse_commands(&token, head);
 		if (token->e_type == PIPE || token->e_type == END)
 		{
-			if (token->next && (token->next->e_type == END || token->next->e_type == PIPE))
-			{
-				if (token->next->e_type == END)
-					errors(3);
-				else if (token->next->e_type == PIPE)
-					errors(258);
+			if (syntax_error(token))
 				return ;
-			}
 			head = add_command(head);
 			head = head->next;
 			token = token->next;

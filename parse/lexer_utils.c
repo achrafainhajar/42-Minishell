@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:34:27 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:34 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/11/07 15:59:09 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	tokenize_squote(t_token **tmp, t_lexer *lexer)
 {
 	t_token	*token;
-	int		type;
 	int		size;
 	char	*val;
 
@@ -27,7 +26,6 @@ void	tokenize_squote(t_token **tmp, t_lexer *lexer)
 		return ;
 	}
 	advance_lexer(lexer);
-	type = SQUOTE;
 	if (ft_int_strchr(&(lexer->str[lexer->i]), '\'') >= 0)
 		size = ft_int_strchr(&(lexer->str[lexer->i]), '\'');
 	else
@@ -36,7 +34,7 @@ void	tokenize_squote(t_token **tmp, t_lexer *lexer)
 	if (g_shell.err == 1)
 		return ;
 	advance_lexer(lexer);
-	token = init_token(val, type);
+	token = init_token(val, SQUOTE);
 	if (lexer->c != '|' && lexer->c != '>' && lexer->c != '<'
 		&& lexer->c != ' ' && lexer->c != '\0')
 		token->flag = 1;
@@ -46,13 +44,11 @@ void	tokenize_squote(t_token **tmp, t_lexer *lexer)
 void	tokenize_dquote(t_token **tmp, t_lexer *lexer)
 {
 	t_token	*token;
-	int		type;
 	int		size;
 	char	*val;
 
 	size = 0;
 	token = NULL;
-	type = DQUOTE;
 	if (g_shell.err == 1)
 	{
 		advance_lexer(lexer);
@@ -67,7 +63,7 @@ void	tokenize_dquote(t_token **tmp, t_lexer *lexer)
 	if (g_shell.err == 1)
 		return ;
 	advance_lexer(lexer);
-	token = init_token(val, type);
+	token = init_token(val, DQUOTE);
 	if (lexer->c != '>' && lexer->c != '<' && lexer->c != '|'
 		&& lexer->c != ' ' && lexer->c != '\0')
 		token->flag = 1;
@@ -77,11 +73,9 @@ void	tokenize_dquote(t_token **tmp, t_lexer *lexer)
 void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 {
 	t_token	*token;
-	int		type;
 	char	*val;
 
 	token = NULL;
-	type = DOLLAR;
 	val = if_only_dollar(lexer);
 	if (lexer->c == '0' || !ft_isdigit(lexer->c))
 	{
@@ -93,7 +87,7 @@ void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
 		else if (ft_is_ex_token(lexer->c))
 			val = ft_strjoin(val, " ", 0);
-		token = init_token(val, type);
+		token = init_token(val, DOLLAR);
 		if (lexer->c != '>' && lexer->c != '<' && lexer->c != '|'
 			&& val[1] != ' ' && lexer->c != ' ' && lexer->c != '\0')
 			token->flag = 1;
@@ -106,19 +100,17 @@ void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 void	tokenize_word(t_token **tmp, t_lexer *lexer)
 {
 	t_token	*token;
-	int		type;
 	int		size;
 	char	*val;
 
 	size = 0;
 	token = NULL;
-	type = WORD;
 	if (token_index(&(lexer->str[lexer->i])))
 		size = token_index(&(lexer->str[lexer->i]));
 	else
 		size = ft_int_strchr(&(lexer->str[lexer->i]), '\0');
 	val = ft_strsub(lexer, size);
-	token = init_token(val, type);
+	token = init_token(val, WORD);
 	if (lexer->c != '>' && lexer->c != '<' && lexer->c != '|'
 		&& lexer->c != ' ' && lexer->c != '\0')
 		token->flag = 1;

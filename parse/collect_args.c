@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 00:11:14 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/07 12:23:55 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/07 16:28:26 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ char	*jme3arg(t_token **b, int exec, int ch_d)
 		if ((*b)->e_type == DOLLAR && exec)
 			checkin_dollar(b, &str, ch_d);
 		if ((*b)->e_type == DQUOTE)
-		{
 			str = ft_strjoin(str, expand_dollar((*b)->val, exec), 2);
-		}
-		else if ((*b)->e_type != END && (*b)->next->e_type != DQUOTE && (*b)->next->e_type != SQUOTE && ((*b)->e_type != DOLLAR || !exec))
+		else if ((*b)->e_type != END
+			// && (*b)->next->e_type != DQUOTE
+			// && (*b)->next->e_type != SQUOTE
+			&& ((*b)->e_type != DOLLAR || !exec))
 			str = ft_strjoin(str, (*b)->val, 0);
 		if ((*b)->flag == 1)
 			(*b) = (*b)->next;

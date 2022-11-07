@@ -5,6 +5,8 @@ void wrong_cmd(char *cmd)
 	write(2, cmd, ft_strlen(cmd));
 	if ((cmd[0] == '.' || cmd[0] == '/') && access(cmd, F_OK) == -1)
 		write(2, ": No such file or directory\n", 29);
+	else if (opendir(cmd) != NULL)
+		ft_putstr_fd(": is a directory\n", 2);
 	else if ((cmd[0] == '.' || cmd[0] == '/') && access(cmd, X_OK) == -1)
 	{
 		ft_putstr_fd(": permission denied\n", 2);
