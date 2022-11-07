@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/06 16:54:45 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/07 12:00:48 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	parse_commands(t_token **token, t_parse *command)
 		|| (*token)->e_type == SQUOTE || (*token)->e_type == DOLLAR)
 	{
 		tmp = *token;
-		value = jme3arg(token, 1, 1);
+		value = jme3arg(token, 1, 2);
 		if (tmp->e_type == DOLLAR)
 		{
 			i = 0;
