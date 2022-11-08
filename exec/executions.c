@@ -4,19 +4,17 @@ void wrong_cmd(char *cmd)
 {
 	write(2, "mino: ", 7);
 	write(2, cmd, ft_strlen(cmd));
-	if (strchr(cmd,'/') && access(cmd, F_OK) == -1)
-	{
-		write(2, ": No such file or directory\n", 29);
-	}
-	else if (opendir(cmd) != NULL)
+	if (opendir(cmd) != NULL)
 		ft_putstr_fd(": is a directory\n", 2);
-	else if ((cmd[0] == '.' || cmd[0] == '/') && access(cmd, X_OK) == -1)
+	else if (ft_strchr(cmd, '/') && access(cmd, F_OK) == -1)
+		ft_putstr_fd(": No such file or directory\n", 2);
+	else if (ft_strchr(cmd, '/') && access(cmd, X_OK) == -1)
 	{
-		write(2, ": is a directory\n", 18);
+		ft_putstr_fd(": permission denied\n", 2);
 		exit(126);
 	}
 	else
-		write(2, ": command not found\n", 20);
+		ft_putstr_fd(": command not found\n", 2);
 	exit(127);
 }
 char *ft_strjoine(char *s1, char *s2)
@@ -161,7 +159,7 @@ void minishell(t_parse *cmd)
 			}
 			g_shell.pid = fork();
 			if(g_shell.pid == -1)
-				break;
+				ft_putstr_fd("fork failed sir t9awed\n", 2);
 			if (g_shell.pid == 0)
 			{
 				close(fd[0]);
@@ -170,7 +168,7 @@ void minishell(t_parse *cmd)
 					execution(cmd);
 				exit(g_shell.ret);
 			}
-			else
+			else if (g_shell.pid != -1)
 			{
 				close(fd[1]);
 				dup2(fd[0], 0);

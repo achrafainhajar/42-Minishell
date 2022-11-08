@@ -20,7 +20,7 @@ void	checkin_dollar(t_token **b, char **str, int ch_d)
 		(*b) = (*b)->next;
 	else
 	{
-		if ((*b)->val[1] || (ch_d == 2 && !ft_isalnum((*b)->next->val[0])))
+		if ((*b)->val[1] || (ch_d == 2 && !ft_isalnum((*b)->next->val[0]) && (*b)->next->val[0] != '_' ))
 		{
 			*str = ft_strjoin(*str, dollar_q_d(b), 2);
 		}

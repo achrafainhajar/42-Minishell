@@ -48,7 +48,7 @@ int	token_index(char *str)
 		j = 0;
 		while (tokens[j])
 		{
-			if (str[i] == tokens[j] || str[i] == ' ')
+			if (str[i] == tokens[j] || !ft_is_space(str[i]))
 				return (i);
 			j++;
 		}
@@ -66,7 +66,7 @@ int	is_token(char c)
 	j = 0;
 	while (tokens[j])
 	{
-		if (c == tokens[j] || c == ' ')
+		if (c == tokens[j] || !ft_is_space(c))
 			return (1);
 		j++;
 	}

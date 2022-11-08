@@ -14,7 +14,7 @@
 
 int	only_enter(void)
 {
-	if (g_shell.line[0] == '\0' || ft_is_space())
+	if (g_shell.line[0] == '\0' || ft_is_space2())
 	{
 		free(g_shell.line);
 		return (1);

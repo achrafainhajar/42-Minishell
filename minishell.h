@@ -100,6 +100,8 @@ typedef struct s_shell
 
 t_shell	g_shell;
 
+char	**ft_split2(char const *s);
+int		ft_is_space(char c);
 int		syntax_error(t_token *token);
 void	split_expansion(char *value, t_parse *command);
 void	ctrls(int sig);
@@ -131,7 +133,6 @@ int		ft_strnstr(const char *str, const char *to_find, size_t len);
 char	*ft_strcharjoin(char *s1, char c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 void	ft_putnbr_fd(int n, int fd);
-int		ft_is_space(void);
 char	*ft_itoa(int n);
 void here_doc(t_redir *head,int *fd);
 int		ft_isspace(int c);
@@ -204,7 +205,7 @@ int		is_piped(void);
 void	read_heredocs(t_parse *command);
 int		only_enter(void);
 char	*ft_strndup(char *s1, size_t n);
-int		ft_is_space(void);
+int		ft_is_space2(void);
 void ft_cd(t_parse *cmd,t_env **env);
 int ft_check(char *str, int a);
 void ft_here_doc(t_parse *cmd);

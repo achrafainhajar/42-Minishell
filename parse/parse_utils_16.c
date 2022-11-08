@@ -33,7 +33,7 @@ void	split_expansion(char *value, t_parse *command)
 
 	i = 0;
 	split = NULL;
-	split = ft_split(value, ' ');
+	split = ft_split2(value);
 	if (!command->cmd)
 		command->cmd = split[i++];
 	while (split && split[i])

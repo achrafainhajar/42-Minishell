@@ -39,14 +39,14 @@ t_token	*lst_add_back(t_token *lst, t_token *new)
 	return (lst);
 }
 
-int	ft_is_space(void)
+int	ft_is_space2(void)
 {
 	int	i;
 
 	i = 0;
 	while (g_shell.line[i])
 	{
-		if (g_shell.line[i] != ' ')
+		if (ft_is_space(g_shell.line[i]))
 			return (0);
 		i++;
 	}

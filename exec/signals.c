@@ -39,7 +39,7 @@ void	sig_child(int sig)
 		}
 	}
 }
-
+	
 void	sig_handler(int sig)
 {
 	if (!kill(g_shell.pid, sig))

@@ -12,6 +12,13 @@
 
 #include "../minishell.h"
 
+int	ft_is_space(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r')
+		return (0);
+	return (1);
+}
+
 void	tokenize_squote(t_token **tmp, t_lexer *lexer)
 {
 	t_token	*token;
@@ -36,7 +43,7 @@ void	tokenize_squote(t_token **tmp, t_lexer *lexer)
 	advance_lexer(lexer);
 	token = init_token(val, SQUOTE);
 	if (lexer->c != '|' && lexer->c != '>' && lexer->c != '<'
-		&& lexer->c != ' ' && lexer->c != '\0')
+		&& ft_is_space(lexer->c) && lexer->c != '\0')
 		token->flag = 1;
 	*tmp = lst_add_back(*tmp, token);
 }
@@ -65,7 +72,7 @@ void	tokenize_dquote(t_token **tmp, t_lexer *lexer)
 	advance_lexer(lexer);
 	token = init_token(val, DQUOTE);
 	if (lexer->c != '>' && lexer->c != '<' && lexer->c != '|'
-		&& lexer->c != ' ' && lexer->c != '\0')
+		&& ft_is_space(lexer->c) && lexer->c != '\0')
 		token->flag = 1;
 	*tmp = lst_add_back(*tmp, token);
 }
@@ -89,7 +96,7 @@ void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 			val = ft_strjoin(val, " ", 0);
 		token = init_token(val, DOLLAR);
 		if (lexer->c != '>' && lexer->c != '<' && lexer->c != '|'
-			&& val[1] != ' ' && lexer->c != ' ' && lexer->c != '\0')
+			&& ft_is_space(val[1]) && ft_is_space(lexer->c) && lexer->c != '\0')
 			token->flag = 1;
 		*tmp = lst_add_back(*tmp, token);
 	}
@@ -112,7 +119,7 @@ void	tokenize_word(t_token **tmp, t_lexer *lexer)
 	val = ft_strsub(lexer, size);
 	token = init_token(val, WORD);
 	if (lexer->c != '>' && lexer->c != '<' && lexer->c != '|'
-		&& lexer->c != ' ' && lexer->c != '\0')
+		&& ft_is_space(lexer->c) && lexer->c != '\0')
 		token->flag = 1;
 	*tmp = lst_add_back(*tmp, token);
 }

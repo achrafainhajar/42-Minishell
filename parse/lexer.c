@@ -40,7 +40,7 @@ t_token	*send_lexer_to_tokenize(t_lexer *lexer)
 	tmp = NULL;
 	while (lexer->c)
 	{
-		if (lexer->c == ' ' || lexer->c == '\t')
+		if (!ft_is_space(lexer->c))
 			advance_lexer(lexer);
 		else if (lexer->c == '\'')
 			tokenize_squote(&tmp, lexer);
@@ -74,7 +74,7 @@ void	dollar(t_lexer *lexer, t_token **tmp, t_token **token)
 	{
 		if (lexer->c == '$')
 			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
-		else if (lexer->c == ' ')
+		else if (!ft_is_space(lexer->c))
 			val = ft_strjoin(val, " ", 0);
 		else if (lexer->c == '?')
 		{
