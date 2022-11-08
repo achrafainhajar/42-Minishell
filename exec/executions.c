@@ -49,7 +49,7 @@ char *ft_strjoine(char *s1, char *s2)
 
 void execute(char *path, char **cmdargs, char *cmd, char **envp)
 {
-	if (cmd && cmdargs && envp && (cmd[0] == '.' || cmd[0] == '/'))
+	if (cmd && cmdargs && envp && ft_strchr(cmd, '/'))
 		execve(cmd, cmdargs, envp);
 	if (access(path, F_OK) == 0)
 	{
@@ -141,7 +141,7 @@ void minishell(t_parse *cmd)
 	if (cmd && cmd->cmd && builtins_cases(cmd) && (cmd->next && !cmd->next->cmd))
 	{
 		open_redir(cmd, fds, fd);
-		if (!g_shell.err)
+		if (!g_shell.err && !cmd->error)
 			execute_builtins(cmd, &g_shell.ev);
 		dup2(fds[1], 1);
 		dup2(fds[0], 0);
@@ -164,7 +164,7 @@ void minishell(t_parse *cmd)
 			{
 				close(fd[0]);
 				open_redir(cmd, fds, fd);
-				if (!g_shell.err)
+				if (!g_shell.err && !cmd->error)
 					execution(cmd);
 				exit(g_shell.ret);
 			}

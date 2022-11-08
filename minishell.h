@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/07 16:36:45 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:42:50 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_parse
 	char			*cmd;
 	char			**argv;
 	t_redir			*redir;
+	int				error;
 	struct s_parse	*next;
 }		t_parse;
 
@@ -115,8 +116,8 @@ t_token	*lst_add_back(t_token *lst, t_token *new);
 t_parse	*init_command(void);
 t_parse	*add_command(t_parse *commad);
 t_parse	*_back_command(t_parse *lst, t_parse *new);
-t_redir	*add_redir(t_redir *redir, char *val, int type);
-t_redir	*init_redir(char *val, int type);
+t_redir	*add_redir(t_redir *redir, char *val, int type, int error);
+t_redir	*init_redir(char *val, int type, int error);
 void	dup_files(int exe, int fin, int fout);
 void	file_error(char *filename);
 void	tokenize_pipe(t_token **tmp, t_lexer *lexer);

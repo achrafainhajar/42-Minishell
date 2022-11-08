@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/07 17:42:56 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:30:09 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_parse	*init_command(void)
 	command->cmd = NULL;
 	command->argv = (char **)realloc_array(NULL, ft_strdup(""));
 	command->redir = NULL;
+	command->error = 0;
 	command->next = NULL;
 	return (command);
 }
@@ -39,10 +40,21 @@ t_parse	*lst_add_back_command(t_parse *lst, t_parse *new)
 	return (lst);
 }
 
+int	check_expantion(t_token *token)
+{
+	while (token && token->e_type != END && token->e_type != PIPE)
+	{
+		if (token->e_type == DOLLAR)
+			return (1);
+		token = token->next;
+	}
+	return (0);
+}
+
 void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 {
 	int	exec;
-	int	type2;
+	t_token	*tmp;
 
 	exec = type;
 	if ((*token)->next->e_type == END || (*token)->next->e_type == PIPE
@@ -59,18 +71,28 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 		
 		type = (*token)->e_type;
 		(*token) = (*token)->next;
-		type2 = (*token)->e_type;
+		tmp = *token;
 		value = jme3arg(token, exec, 1);
-		if (type2 == DOLLAR)
-			split_expansion(value, command);
-		if (value[0] == '\0' || ft_strchr(value, ' '))
-			errors(258);
+		if (check_expantion(tmp) && (!ft_split2(value)[0] || !ft_split2(value)[0][0] || ft_split2(value)[1]))
+		{
+			if (command->error == 0)
+			{
+				ft_putstr_fd("minishell: ambiguis redirection\n", 2);
+				command->error = 1;
+			}
+			if (!command->redir)
+				command->redir = init_redir(value, type, 1);
+			else
+				command->redir = add_redir(command->redir, value, type, 1);
+		}
 		else
 		{
+			if (check_expantion(tmp))
+				value = ft_strdup(ft_split2(value)[0]);
 			if (!command->redir)
-				command->redir = init_redir(value, type);
+				command->redir = init_redir(value, type, 0);
 			else
-				command->redir = add_redir(command->redir, value, type);
+				command->redir = add_redir(command->redir, value, type, 0);
 		}
 	}
 }
@@ -86,8 +108,10 @@ void	parse_commands(t_token **token, t_parse *command)
 	{
 		tmp = *token;
 		value = jme3arg(token, 1, 2);
-		if (tmp->e_type == DOLLAR)
+		if (check_expantion(tmp))
+		{
 			split_expansion(value, command);
+		}
 		else if (!command->cmd)
 			command->cmd = value;
 		else

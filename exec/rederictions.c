@@ -90,7 +90,7 @@ void open_redir(t_parse *cmd,int *fds,int *fd)
     }
     if(cmd->redir)
     {
-        while(cmd->redir && !g_shell.err)
+        while(cmd->redir && !g_shell.err && cmd->redir->error == 0)
         {
             if(cmd->redir->e_type == LESSANDLESS || cmd->redir->e_type == LESS)
             {

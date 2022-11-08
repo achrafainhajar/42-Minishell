@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/07 16:02:16 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:43:18 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_parse	*add_command(t_parse *commad)
 	return (commad);
 }
 
-t_redir	*init_redir(char *val, int type)
+t_redir	*init_redir(char *val, int type, int type2)
 {
 	t_redir	*redir;
 
@@ -34,7 +34,7 @@ t_redir	*init_redir(char *val, int type)
 	if (g_shell.err != 0)
 		redir->error = 1;
 	else
-		redir->error = 0;
+		redir->error = type2;
 	return (redir);
 }
 
@@ -51,11 +51,11 @@ t_redir	*lst_add_back_redir(t_redir *lst, t_redir *new)
 	return (lst);
 }
 
-t_redir	*add_redir(t_redir *redir, char *val, int type)
+t_redir	*add_redir(t_redir *redir, char *val, int type, int type2)
 {
 	t_redir	*new;
 
-	new = init_redir(val, type);
+	new = init_redir(val, type, type2);
 	redir = lst_add_back_redir(redir, new);
 	return (redir);
 }

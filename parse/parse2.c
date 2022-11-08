@@ -20,10 +20,12 @@ static int	ft_words(char const *s)
 	int	i;
 	int	cpt;
 	int	j;
+	// int	k;
 
 	i = 0;
 	cpt = 0;
 	j = 1;
+	// k = 0;
 	while (s[i])
 	{
 		if (!ft_is_space(s[i]))
