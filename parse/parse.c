@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/08 18:30:09 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/08 20:29:06 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_parse	*lst_add_back_command(t_parse *lst, t_parse *new)
 
 int	check_expantion(t_token *token)
 {
-	while (token && token->e_type != END && token->e_type != PIPE)
+	while ((token && token->flag == 1) || token->e_type == DOLLAR)
 	{
 		if (token->e_type == DOLLAR)
 			return (1);
