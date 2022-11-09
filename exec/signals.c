@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/09 23:21:06 by aainhaja          #+#    #+#             */
+/*   Updated: 2022/11/09 23:21:06 by aainhaja         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	sig_helper(void)
@@ -39,7 +51,7 @@ void	sig_child(int sig)
 		}
 	}
 }
-	
+
 void	sig_handler(int sig)
 {
 	if (!kill(g_shell.pid, sig))
@@ -61,7 +73,8 @@ void	sig_handler(int sig)
 
 void	ctrls(int sig)
 {
-	if (g_shell.line && sig == SIGCHLD && strcmp(g_shell.line, "./minishell") == 0)
+	if (g_shell.line && sig == SIGCHLD
+		&& strcmp(g_shell.line, "./minishell") == 0)
 		c_signal();
 	if (g_shell.pid != 0)
 		sig_handler(sig);

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executions.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/09 22:57:18 by aainhaja          #+#    #+#             */
+/*   Updated: 2022/11/09 22:57:18 by aainhaja         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "../minishell.h"
 
-void wrong_cmd(char *cmd)
+void	wrong_cmd(char *cmd)
 {
 	write(2, "mino: ", 7);
 	write(2, cmd, ft_strlen(cmd));
@@ -17,11 +29,12 @@ void wrong_cmd(char *cmd)
 		ft_putstr_fd(": command not found\n", 2);
 	exit(127);
 }
-char *ft_strjoine(char *s1, char *s2)
+
+char	*ft_strjoine(char *s1, char *s2)
 {
-	int i;
-	char *str;
-	int b;
+	int		i;
+	char	*str;
+	int		b;
 
 	if (!s1 || !s2)
 		return (0);
@@ -47,7 +60,7 @@ char *ft_strjoine(char *s1, char *s2)
 	return (str);
 }
 
-void execute(char *path, char **cmdargs, char *cmd, char **envp)
+void	execute(char *path, char **cmdargs, char *cmd, char **envp)
 {
 	if (cmd && cmdargs && envp && ft_strchr(cmd, '/'))
 		execve(cmd, cmdargs, envp);
@@ -59,11 +72,11 @@ void execute(char *path, char **cmdargs, char *cmd, char **envp)
 	wrong_cmd(cmd);
 }
 
-int ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t i;
-	unsigned char *str1;
-	unsigned char *str2;
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
@@ -79,7 +92,7 @@ int ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char	*getPath(char *cmd, char **env)
+char	*getPath(char	*cmd, char	**env)
 {
 	char	*path;
 	char	*dir;
@@ -93,7 +106,8 @@ char	*getPath(char *cmd, char **env)
 	if (!env[i])
 		return (cmd);
 	path = env[i] + 5;
-	while (cmd && cmd[0] != '\0' && cmd[0] != '.' && cmd[0] != '/' && path && ft_int_strchr(path, ':') > -1)
+	while (cmd && cmd[0] != '\0' && cmd[0] != '.' && cmd[0] != '/'
+		&& path && ft_int_strchr(path, ':') > -1)
 	{
 		dir = ft_strndup(path, ft_int_strchr(path, ':'));
 		bin = ft_strjoine(dir, cmd);
@@ -104,16 +118,16 @@ char	*getPath(char *cmd, char **env)
 		if (ft_int_strchr(path, ':') != ft_strlen(path))
 			path += ft_int_strchr(path, ':') + 1;
 		else
-			break;
+			break ;
 	}
 	if (dir && (ft_int_strchr(path, ':') == ft_strlen(path) || !path[0]))
 		wrong_cmd(cmd);
 	return (cmd);
 }
 
-void normal_cmd(t_parse *cmd, char **env)
+void	normal_cmd(t_parse *cmd,	char	**env)
 {
-	char *path;
+	char	*path;
 
 	path = getPath(cmd->cmd, env);
 	execute(path, cmd->argv, cmd->cmd, env);
@@ -177,10 +191,10 @@ void minishell(t_parse *cmd)
 		}
 		cmd = cmd->next;
 	}
-	int i;
+	int	i;
 	i = 0;
 	waitpid(g_shell.pid, &i, 0);
-	while(wait(NULL) > 0);
+	while (wait(NULL) > 0);
 	if (WIFEXITED(i))
 		g_shell.ret = WEXITSTATUS(i);
 	dup2(fds[1], 1);
