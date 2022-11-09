@@ -45,7 +45,9 @@ void output_red1(t_redir *red)
     }
     else
     {
-        if (opendir(red->file) != NULL)
+        if (red->file[0] == '\0')
+            ft_putstr_fd("minishell: No such file or directory: ", 2);
+        else if (opendir(red->file) != NULL)
             ft_putstr_fd("minishell: is a directory: ", 2);
         else
         {
@@ -69,7 +71,9 @@ void output_red2(t_redir *red)
     }
     else
     {
-        if (opendir(red->file) != NULL)
+        if (red->file[0] == '\0')
+            ft_putstr_fd("minishell: No such file or directory: ", 2);
+        else if (opendir(red->file) != NULL)
             ft_putstr_fd("minishell: is a directory: ", 2);
         else
         {

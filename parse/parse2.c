@@ -26,31 +26,39 @@ static int	ft_words(char const *s)
 {
 	int	i;
 	int	cpt;
-	int	j;
-
-	i = 0;
+    int k;
+    
+    
+    k = 0;
+    i = 0;
 	cpt = 0;
-	j = 1;
 	while (s[i])
-	{
-		if (s[i] == '\2')
-		{
-			while (s[i] != '\3')
-			{
-				if (!ft_is_space(s[i]))
-					j = 1;
-				else if (j == 1)
-				{
-					j = 0;
-					cpt++;
-				}
-				i++;
-			}
-			if (s[i] == '\3' && !ft_is_space(s[i - 1]))
-				cpt++;
-		}
-		i++;
-	}
+    {
+        if(s[i++] == '\2')
+            k = 1;
+        while (!ft_is_space3(s[i],k))
+            i++;
+        if (s[i] == '\3')
+        {
+            i++;
+            continue;
+        }
+        while (ft_is_space3(s[i],k) && s[i])
+        {
+            if(s[i] == '\2')
+            {
+                i++;
+                k=1;
+            }
+            if(s[i] == '\3')
+            {
+                i++;
+                k=0;
+            }
+            i++;
+        }
+        cpt++;
+    }
 	return (cpt);
 }
 
@@ -83,19 +91,28 @@ static char    **ft_splitcpy(const char *s, char **str, int wd)
     while (s[i] && wd > cnt)
     {
         j = 0;
+        if(s[i] == '\2')
+        {
+            i++;
+            k = 1;
+        }
         while (!ft_is_space3(s[i],k))
             i++;
-        // if(s[i] == '\3')
-        //     k = 0;
         str[cnt] = f_malloc(sizeof(char) * ft_charcount(s, i,k) + 1);
         if (!str[cnt])
             return (ft_freedom(str));
         while (ft_is_space3(s[i],k) && s[i])
         {
             if(s[i] == '\2')
+            {
+                i++;
                 k=1;
+            }
             if(s[i] == '\3')
+            {
+                i++;
                 k=0;
+            }
             str[cnt][j] = s[i];
             i++;
             j++;

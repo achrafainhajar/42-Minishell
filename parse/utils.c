@@ -18,13 +18,13 @@ char	*ft_strdup(char *s1)
 	int		i;
 
 	i = 0;
-	while (s1[i])
+	while (s1 && s1[i])
 		i++;
 	dup = (char *)f_malloc(i + 1);
 	if (dup == NULL)
 		return (NULL);
 	i = 0;
-	while (s1[i] != '\0')
+	while (s1 && s1[i] != '\0')
 	{
 		dup[i] = s1[i];
 		i++;

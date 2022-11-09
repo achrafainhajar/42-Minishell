@@ -42,13 +42,34 @@ t_parse	*lst_add_back_command(t_parse *lst, t_parse *new)
 
 int	check_expantion(t_token *token)
 {
-	while ((token && token->flag == 1) || token->e_type == DOLLAR)
+	if (token && token->flag != 1 && token->e_type == DOLLAR)
+		return (1);
+	else
 	{
-		if (token->e_type == DOLLAR)
-			return (1);
-		token = token->next;
+		while (token && token->flag == 1)
+		{
+			if (token->e_type == DOLLAR)
+				return (1);
+			token = token->next;
+		}
 	}
 	return (0);
+}
+
+int	check_expantion2(t_token *token)
+{
+	if (token && token->flag != 1 && token->e_type == DOLLAR)
+		return (1);
+	else
+	{
+		while (token && token->flag == 1)
+		{
+			if (token->e_type != DOLLAR)
+				return (0);
+			token = token->next;
+		}
+	}
+	return (1);
 }
 
 void	parse_helper(t_token **token, t_parse *command, char *value, int type)
@@ -72,8 +93,8 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 		type = (*token)->e_type;
 		(*token) = (*token)->next;
 		tmp = *token;
-		value = jme3arg(token, exec, 1);
-		if (check_expantion(tmp) && (!ft_split2(value)[0] || !ft_split2(value)[0][0] || ft_split2(value)[1]))
+		value = jme3arg(token, exec, 1, 1);
+		if (check_expantion2(tmp) && (!ft_split2(value)[0] || !ft_split2(value)[0][0] || ft_split2(value)[1]))
 		{
 			if (command->error == 0)
 			{
@@ -88,7 +109,9 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 		else
 		{
 			if (check_expantion(tmp))
+			{
 				value = ft_strdup(ft_split2(value)[0]);
+			}
 			if (!command->redir)
 				command->redir = init_redir(value, type, 0);
 			else
@@ -107,7 +130,7 @@ void	parse_commands(t_token **token, t_parse *command)
 		|| (*token)->e_type == SQUOTE || (*token)->e_type == DOLLAR)
 	{
 		tmp = *token;
-		value = jme3arg(token, 1, 2);
+		value = jme3arg(token, 1, 2, 1);
 		if (check_expantion(tmp))
 		{
 			split_expansion(value, command);

@@ -150,7 +150,7 @@ char	*ft_strdup(char *s1);
 int		ft_strlen(char *s);
 void	*f_malloc(size_t size);
 char	*ft_strjoin(char *s1, char *s2, int fr);
-char	*jme3arg(t_token **b, int exec, int ch_d);
+char	*jme3arg(t_token **b, int exec, int ch_d, int exp);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 char	*join_3_str(char *s1, char *s2, char *s3);
 void	ft_putchar_fd(char c, int fd);

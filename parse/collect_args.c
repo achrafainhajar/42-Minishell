@@ -48,7 +48,7 @@ char	*check_end(t_token **b, char *str, int exec)
 	return (str);
 }
 
-char	*jme3arg(t_token **b, int exec, int ch_d)
+char	*jme3arg(t_token **b, int exec, int ch_d, int exp)
 {
 	char	*str;
 
@@ -58,8 +58,11 @@ char	*jme3arg(t_token **b, int exec, int ch_d)
 		if ((*b)->e_type == DOLLAR && exec)
 		{
 			checkin_dollar(b, &str, ch_d);
-			(*b)->val = ft_strjoin("\2", (*b)->val, -1);
-			(*b)->val = ft_strjoin((*b)->val, "\3", -1);
+			if (exp)
+			{
+				(*b)->val = ft_strjoin("\2", (*b)->val, -1);
+				(*b)->val = ft_strjoin((*b)->val, "\3", -1);
+			}
 		}
 		if ((*b)->e_type == DQUOTE)
 			str = ft_strjoin(str, expand_dollar((*b)->val, exec), 2);

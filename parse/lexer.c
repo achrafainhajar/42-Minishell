@@ -130,6 +130,6 @@ char	*expand_dollar(char *dq_content, int exec)
 	token = init_token("", END);
 	token->flag = 0;
 	tmp = lst_add_back(tmp, token);
-	result = jme3arg(&tmp, exec, 2);
+	result = jme3arg(&tmp, exec, 2, 0);
 	return (result);
 }
