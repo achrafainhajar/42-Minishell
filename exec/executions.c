@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include"../minishell.h"
 
 void	wrong_cmd(char *cmd)
 {
@@ -92,7 +92,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char	*getPath(char	*cmd, char	**env)
+char	*getpath(char	*cmd, char	**env)
 {
 	char	*path;
 	char	*dir;
@@ -125,15 +125,15 @@ char	*getPath(char	*cmd, char	**env)
 	return (cmd);
 }
 
-void	normal_cmd(t_parse *cmd,	char	**env)
+void	normal_cmd(t_parse	*cmd, char	**env)
 {
 	char	*path;
 
-	path = getPath(cmd->cmd, env);
+	path = getpath(cmd->cmd, env);
 	execute(path, cmd->argv, cmd->cmd, env);
 }
 
-void execution(t_parse *cmd)
+void	execution(t_parse	*cmd)
 {
 	if (cmd->cmd && builtins_cases(cmd))
 	{
@@ -143,24 +143,38 @@ void execution(t_parse *cmd)
 		normal_cmd(cmd, env_to_tab(&g_shell.ev));
 }
 
-void minishell(t_parse *cmd)
+void child_f(t_parse *cmd,int *fd, int *fds)
 {
-	int fd[2];
-	int fds[2];
-	fds[1] = dup(1);
-	fds[0] = dup(0);
-	ft_here_doc(cmd); // check it later with a command that doesn't exist + output redirection
-	if (g_shell.err != 0)
-		return;
-	if (cmd && cmd->cmd && builtins_cases(cmd) && (cmd->next && !cmd->next->cmd))
+	if (g_shell.pid == 0)
 	{
+		close(fd[0]);
 		open_redir(cmd, fds, fd);
 		if (!g_shell.err && !cmd->error)
-			execute_builtins(cmd, &g_shell.ev);
-		dup2(fds[1], 1);
-		dup2(fds[0], 0);
-		return;
+			execution(cmd);
+		exit(g_shell.ret);
 	}
+	else if (g_shell.pid != -1)
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		close(fd[0]);
+	}
+}
+
+void ft_supervisor(int	*fds)
+{
+	int	i;
+
+	i = 0;
+	waitpid(g_shell.pid, &i, 0);
+	while (wait(NULL) > 0);
+	if (WIFEXITED(i))
+		g_shell.ret = WEXITSTATUS(i);
+	dup2(fds[1], 1);
+	dup2(fds[0], 0);
+}
+void child_p(t_parse *cmd,int *fd,int *fds)
+{
 	while (cmd)
 	{
 		if (cmd->cmd || cmd->redir)
@@ -172,31 +186,35 @@ void minishell(t_parse *cmd)
 				signal(SIGQUIT, SIG_IGN);
 			}
 			g_shell.pid = fork();
-			if(g_shell.pid == -1)
-				ft_putstr_fd("fork failed sir t9awed\n", 2);
-			if (g_shell.pid == 0)
-			{
-				close(fd[0]);
-				open_redir(cmd, fds, fd);
-				if (!g_shell.err && !cmd->error)
-					execution(cmd);
-				exit(g_shell.ret);
-			}
-			else if (g_shell.pid != -1)
-			{
-				close(fd[1]);
-				dup2(fd[0], 0);
-				close(fd[0]);
-			}
+			if (g_shell.pid == -1)
+				ft_putstr_fd("fork failed\n", 2);
+			child_f(cmd,fd,fds);
+
 		}
 		cmd = cmd->next;
 	}
-	int	i;
-	i = 0;
-	waitpid(g_shell.pid, &i, 0);
-	while (wait(NULL) > 0);
-	if (WIFEXITED(i))
-		g_shell.ret = WEXITSTATUS(i);
-	dup2(fds[1], 1);
-	dup2(fds[0], 0);
+}
+
+void minishell(t_parse	*cmd)
+{
+	int	fd[2];
+	int	fds[2];
+
+	fds[1] = dup(1);
+	fds[0] = dup(0);
+	ft_here_doc(cmd);
+	if (g_shell.err != 0)
+		return ;
+	if (cmd && cmd->cmd && builtins_cases(cmd)
+		&& (cmd->next && !cmd->next->cmd))
+	{
+		open_redir(cmd, fds, fd);
+		if (!g_shell.err && !cmd->error)
+			execute_builtins(cmd, &g_shell.ev);
+		dup2(fds[1], 1);
+		dup2(fds[0], 0);
+		return ;
+	}
+	child_p(cmd, fd, fds);
+	ft_supervisor(fds);
 }
