@@ -84,22 +84,16 @@ char	*get_range(char *str,	char c)
 	while (str[i] != c && str[i])
 		i++;
 	s = malloc(sizeof(char) * i + 1);
-	i = 0;
+	i = -1;
 	if (c != '+')
 	{
-		while (str[i] != c && str[i])
-		{
+		while (str[++i] != c && str[i])
 			s[i] = str[i];
-			i++;
-		}
 	}
 	else
 	{
-		while ((str[i] != c || str[i + 1] != '=') && str[i])
-		{
+		while ((str[++i] != c || str[i + 1] != '=') && str[i])
 			s[i] = str[i];
-			i++;
-		}
 	}
 	s[i] = '\0';
 	return (s);

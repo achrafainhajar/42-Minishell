@@ -51,11 +51,7 @@ char	*ft_strjoine(char *s1, char *s2)
 	if (*s1)
 		str[i++] = '/';
 	while (s2[b])
-	{
-		str[i] = s2[b];
-		i++;
-		b++;
-	}
+		str[i++] = s2[b++];
 	str[i] = '\0';
 	return (str);
 }
@@ -92,20 +88,28 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
+char	*path_address(char **env)
+{
+	int		i;
+
+	i = 0;
+	while (env[i] && strncmp(env[i], "PATH=", 5))
+		i++;
+	if (!env[i])
+		return (NULL);
+	return (env[i] + 5);
+}
+
 char	*getpath(char	*cmd, char	**env)
 {
 	char	*path;
 	char	*dir;
 	char	*bin;
-	int		i;
 
-	i = 0;
 	dir = NULL;
-	while (env[i] && strncmp(env[i], "PATH=", 5))
-		i++;
-	if (!env[i])
+	path = path_address(env);
+	if (!path)
 		return (cmd);
-	path = env[i] + 5;
 	while (cmd && cmd[0] != '\0' && cmd[0] != '.' && cmd[0] != '/'
 		&& path && ft_int_strchr(path, ':') > -1)
 	{

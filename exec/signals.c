@@ -34,7 +34,7 @@ void	sig_child(int sig)
 		{
 			g_shell.here_sig = -27;
 			ft_putchar_fd('\n', 0);
-			close(rl_instream->_fileno);
+			close(rl_instream->_file);
 			g_shell.ret = 1;
 			g_shell.err = 1;
 		}
