@@ -94,7 +94,7 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 		(*token) = (*token)->next;
 		tmp = *token;
 		value = jme3arg(token, exec, 1, 1);
-		if (check_expantion2(tmp) && (!ft_split2(value)[0] || !ft_split2(value)[0][0] || ft_split2(value)[1]))
+		if (check_expantion(tmp) && (!ft_split2(value)[0] || !ft_split2(value)[0][0] || ft_split2(value)[1]))
 		{
 			if (command->error == 0)
 			{
