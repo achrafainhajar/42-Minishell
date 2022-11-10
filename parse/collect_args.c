@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 00:11:14 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/10 18:43:58 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/10 20:04:01 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*check_end(t_token **b, char *str, int exec)
 char	*jme3arg(t_token **b, int exec, int ch_d, int exp)
 {
 	char	*str;
-	t_token *tmp;
+	t_token	*tmp;
 
 	str = ft_strdup("");
 	if (!exec)
@@ -80,9 +80,7 @@ char	*jme3arg(t_token **b, int exec, int ch_d, int exp)
 		}
 		else if ((*b)->e_type != END
 			&& ((*b)->e_type != DOLLAR || (!exec && (*b)->next->e_type != SQUOTE && (*b)->next->e_type != DQUOTE)))
-			{
-				str = ft_strjoin(str, (*b)->val, 0);
-			}
+			str = ft_strjoin(str, (*b)->val, 0);
 		if ((*b)->flag == 1)
 			(*b) = (*b)->next;
 		else

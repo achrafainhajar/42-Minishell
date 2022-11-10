@@ -34,7 +34,8 @@ char	*ft_strndup(char *s1, size_t n)
 {
 	char	*s2;
 
-	if (!(s2 = (char *)malloc(sizeof(char) * (n + 1))))
+	s2 = (char *)malloc(sizeof(char) * (n + 1));
+	if (!s2)
 		return (NULL);
 	else
 		return (ft_strncpy(s2, s1, n));

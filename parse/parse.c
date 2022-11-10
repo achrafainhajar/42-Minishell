@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/10 19:50:26 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/10 20:10:42 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	check_expantion(t_token *token)
 	{
 		while (token && token->flag == 1)
 		{
-			if (token->e_type == DOLLAR && token->next->e_type != SQUOTE && token->next->e_type != DQUOTE)
+			if (token->e_type == DOLLAR && token->next->e_type
+				!= SQUOTE && token->next->e_type != DQUOTE)
 				return (1);
 			token = token->next;
 		}
@@ -74,8 +75,8 @@ int	check_expantion2(t_token *token)
 
 void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 {
-	int	exec;
-	t_token	*tmp;
+	int			exec;
+	t_token		*tmp;
 	struct stat	buf;
 
 	exec = type;
@@ -94,7 +95,8 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 		(*token) = (*token)->next;
 		tmp = *token;
 		value = jme3arg(token, exec, 1, 1);
-		if (check_expantion(tmp) && (!ft_split2(value)[0] || !ft_split2(value)[0][0] || ft_split2(value)[1]))
+		if (check_expantion(tmp) && (!ft_split2(value)[0]
+			|| !ft_split2(value)[0][0] || ft_split2(value)[1]))
 		{
 			if (command->error == 0)
 			{

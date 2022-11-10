@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:34:27 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/07 15:59:09 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/10 20:08:53 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	tokenize_squote(t_token **tmp, t_lexer *lexer)
 	char	*val;
 
 	size = 0;
-	token = NULL;
 	if (g_shell.err == 1)
 	{
 		advance_lexer(lexer);
 		return ;
 	}
 	advance_lexer(lexer);
-	if (ft_int_strchr(&(lexer->str[lexer->i]), '\'') >= 0 && ft_int_strchr(&(lexer->str[lexer->i]), '\'') != ft_strlen(&(lexer->str[lexer->i])))
+	if (ft_int_strchr(&(lexer->str[lexer->i]), '\'') >= 0 && ft_int_strchr
+		(&(lexer->str[lexer->i]), '\'') != ft_strlen(&(lexer->str[lexer->i])))
 		size = ft_int_strchr(&(lexer->str[lexer->i]), '\'');
 	else
 		errors(2);
@@ -55,14 +55,14 @@ void	tokenize_dquote(t_token **tmp, t_lexer *lexer)
 	char	*val;
 
 	size = 0;
-	token = NULL;
 	if (g_shell.err == 1)
 	{
 		advance_lexer(lexer);
 		return ;
 	}
 	advance_lexer(lexer);
-	if (ft_int_strchr(&(lexer->str[lexer->i]), 34) >= 0 && ft_int_strchr(&(lexer->str[lexer->i]), '"') != ft_strlen(&(lexer->str[lexer->i])))
+	if (ft_int_strchr(&(lexer->str[lexer->i]), 34) >= 0 && ft_int_strchr
+		(&(lexer->str[lexer->i]), '"') != ft_strlen(&(lexer->str[lexer->i])))
 		size = ft_int_strchr(&(lexer->str[lexer->i]), 34);
 	else
 		errors(2);

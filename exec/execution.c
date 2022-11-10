@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:30:08 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/10 01:31:26 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/10 20:01:13 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	ft_supervisor(int	*fds)
 
 	i = 0;
 	waitpid(g_shell.pid, &i, 0);
-	while (wait(NULL) > 0);
+	while (wait(NULL) > 0)
+		;
 	if (WIFEXITED(i))
 		g_shell.ret = WEXITSTATUS(i);
 	dup2(fds[1], 1);
@@ -77,13 +78,12 @@ void	child_p(t_parse *cmd, int *fd, int *fds)
 			if (g_shell.pid == -1)
 				ft_putstr_fd("fork failed\n", 2);
 			child_f(cmd, fd, fds);
-
 		}
 		cmd = cmd->next;
 	}
 }
 
-void minishell(t_parse	*cmd)
+void	minishell(t_parse	*cmd)
 {
 	int	fd[2];
 	int	fds[2];

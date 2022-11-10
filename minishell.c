@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/04 19:02:09 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/10 19:57:25 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,5 @@ int	main(int ac, char *av[], char **env)
 		create_commands(tokens, &commands);
 		add_history(g_shell.line);
 		minishell(commands);
-		// free(g_shell.line);
 	}
 }

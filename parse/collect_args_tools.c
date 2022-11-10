@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_args_tools.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 01:39:50 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/10 02:21:13 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/10 20:04:51 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ void	checkin_dollar(t_token **b, char **str, int ch_d)
 		(*b) = (*b)->next;
 	else
 	{
-		if ((*b)->val[1] || (ch_d == 2 && !ft_isalnum((*b)->next->val[0]) && (*b)->next->val[0] != '_' ))
-		{
+		if ((*b)->val[1] || (ch_d == 2 && !ft_isalnum((*b)->next->val[0])
+				&& (*b)->next->val[0] != '_' ))
 			*str = ft_strjoin(*str, dollar_q_d(b), 2);
-		}
 		else
 		{
 			(*b) = (*b)->next;

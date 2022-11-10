@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/10 01:39:22 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/10 20:00:18 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int		syntax_error(t_token *token);
 void	split_expansion(char *value, t_parse *command);
 void	ctrls(int sig);
 t_lexer	*ft_init_lexer(char *str, char c);
-void minishell(t_parse *cmd);
+void	minishell(t_parse *cmd);
 char	**env_to_tab(t_env **env);
 t_lexer	*advance_lexer(t_lexer *lexer);
 t_token	*send_lexer_to_tokenize(t_lexer *lexer);
@@ -143,7 +143,7 @@ char	*ft_strcharjoin(char *s1, char c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_itoa(int n);
-void here_doc(t_redir *head,int *fd);
+void	here_doc(t_redir *head, int *fd);
 int		ft_isspace(int c);
 int		ft_isalpha(int c);
 void	check_cmd(t_parse *cmd);
@@ -171,14 +171,14 @@ void	*realloc_array(char **arg, char *str);
 void	print_l(t_parse *lst);
 void	create_commands(t_token *token, t_parse **command);
 char	*expand_dollar(char *dq_content, int exec);
-void	execute_builtins(t_parse *cmd,t_env **env);
+void	execute_builtins(t_parse *cmd, t_env **env);
 void	exec_pipeline(t_parse *commands, t_env **env);
 int		array_size(char **str);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin1(char *s1, char *s2, int c);
-void	ft_pwd();
+void	ft_pwd(void);
 void	free_2(char **tmp);
-void ft_env(t_env *env,t_parse *cmd);
+void	ft_env(t_env *env, t_parse *cmd);
 void	errors(int exitt);
 int		str_sp_chr(char *str);
 char	*check_sp_chr(t_token *b);
@@ -194,20 +194,20 @@ char	*my_getenv_key(t_env **env, char *key);
 void	update_export(t_env **env, char *key, char sep, char *val);
 char	*get_path(char *cmd, char **env);
 int		check_exp_arg(char *to_check);
-int	builtins_cases(t_parse *cmd);
+int		builtins_cases(t_parse *cmd);
 int		cd(t_parse *head, t_env *my_env);
 void	lst_add_backenv(t_env **lst, t_env *new);
-void ft_export(t_parse *cmd,t_env **t_env);
+void	ft_export(t_parse *cmd, t_env **t_env);
 void	check_numb(char *str);
 void	ft_exit(t_parse *cmd);
-void ft_echo(t_parse *cmd);
+void	ft_echo(t_parse *cmd);
 char	*if_only_dollar(t_lexer *lexer);
-void ft_unset(t_parse *cmd);
+void	ft_unset(t_parse *cmd);
 t_parse	*lst_add_back_command(t_parse *lst, t_parse *new);
 void	wrong_cmd(char *cmd);
 void	wrong_cmd_helper(char *error, int w);
 void	c_signal(void);
-void open_redir(t_parse *cmd,int *fds,int *fd);
+void	open_redir(t_parse *cmd, int *fds, int *fd);
 void	pipe_redir(t_parse *cmd, int in, int index, int *fd);
 int		simple_cmd(t_parse *cmd);
 int		is_piped(void);
@@ -215,7 +215,7 @@ void	read_heredocs(t_parse *command);
 int		only_enter(void);
 char	*ft_strndup(char *s1, size_t n);
 int		ft_is_space2(void);
-void ft_cd(t_parse *cmd,t_env **env);
-int ft_check(char *str, int a);
-void ft_here_doc(t_parse *cmd);
+void	ft_cd(t_parse *cmd, t_env **env);
+int		ft_check(char *str, int a);
+void	ft_here_doc(t_parse *cmd);
 #endif
