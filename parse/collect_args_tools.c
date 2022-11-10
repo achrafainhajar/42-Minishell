@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_args_tools.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 01:39:50 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/08 19:21:08 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/10 02:21:13 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	checkin_dollar(t_token **b, char **str, int ch_d)
 {
 	if (((*b)->next->e_type == DQUOTE || (*b)->next->e_type == SQUOTE)
-		&& (*b)->val[1] != '?' && (*b)->val[1] != '$'
-		&& ft_isalnum((*b)->next->val[0]))
+		&& (*b)->val[1] != '?' && (*b)->val[1] != '$')
 		(*b) = (*b)->next;
 	else
 	{
@@ -62,7 +61,7 @@ char	*normal_expansion(t_token **b, int f)
 char	*norm_sp(t_token *b, char *tmp)
 {
 	tmp = ((b)->val) + 1;
-	(b)->val = ft_strdup(my_getenv(g_shell.ev, "0"));
+	(b)->val = ft_strdup("minishell");
 	(b)->val = ft_strjoin((b)->val, tmp, 0);
 	return (b->val);
 }
@@ -87,7 +86,7 @@ char	*check_sp_chr(t_token *b)
 			tmp[1]++;
 		(b)->val = ft_strjoin((b)->val, tmp[1], 0);
 	}
-	else if (((b)->val)[0] == '0' && ((b)->val)[1] != '\0')
+	else if (((b)->val)[0] == '0')
 		b->val = norm_sp(b, tmp[1]);
 	else
 		(b)->val = normal_expansion(&b, 0);

@@ -6,7 +6,7 @@
 /*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/09 23:45:18 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/10 02:32:07 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	check_expantion(t_token *token)
 	{
 		while (token && token->flag == 1)
 		{
-			if (token->e_type == DOLLAR)
+			if (token->e_type == DOLLAR && token->next->e_type != SQUOTE && token->next->e_type != DQUOTE)
 				return (1);
 			token = token->next;
 		}

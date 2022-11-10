@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 00:11:14 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/08 20:10:38 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/10 02:34:16 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,17 @@ char	*jme3arg(t_token **b, int exec, int ch_d, int exp)
 		if ((*b)->e_type == DOLLAR && exec)
 		{
 			checkin_dollar(b, &str, ch_d);
-			if (exp)
+			if (exp && (*b)->e_type != DQUOTE
+				&& (*b)->e_type != SQUOTE)
 			{
 				(*b)->val = ft_strjoin("\2", (*b)->val, -1);
 				(*b)->val = ft_strjoin((*b)->val, "\3", -1);
 			}
 		}
 		if ((*b)->e_type == DQUOTE)
+		{
 			str = ft_strjoin(str, expand_dollar((*b)->val, exec), 2);
+		}
 		else if ((*b)->e_type != END
 			// && (*b)->next->e_type != DQUOTE
 			// && (*b)->next->e_type != SQUOTE
