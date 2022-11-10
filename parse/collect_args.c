@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 00:11:14 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/10 02:34:16 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/10 18:43:58 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,17 @@ char	*check_end(t_token **b, char *str, int exec)
 char	*jme3arg(t_token **b, int exec, int ch_d, int exp)
 {
 	char	*str;
+	t_token *tmp;
 
 	str = ft_strdup("");
+	if (!exec)
+	{
+		tmp = *b;
+		while (tmp && tmp->flag == 1 && tmp->e_type != DQUOTE && tmp->e_type != SQUOTE)
+			tmp = tmp->next;
+		if (tmp && (tmp->e_type == DQUOTE || tmp->e_type == SQUOTE))
+			g_shell.mik = 1;
+	}
 	while ((*b) && (*b)->flag == 1)
 	{
 		if ((*b)->e_type == DOLLAR && exec)
@@ -70,10 +79,10 @@ char	*jme3arg(t_token **b, int exec, int ch_d, int exp)
 			str = ft_strjoin(str, expand_dollar((*b)->val, exec), 2);
 		}
 		else if ((*b)->e_type != END
-			// && (*b)->next->e_type != DQUOTE
-			// && (*b)->next->e_type != SQUOTE
-			&& ((*b)->e_type != DOLLAR || !exec))
-			str = ft_strjoin(str, (*b)->val, 0);
+			&& ((*b)->e_type != DOLLAR || (!exec && (*b)->next->e_type != SQUOTE && (*b)->next->e_type != DQUOTE)))
+			{
+				str = ft_strjoin(str, (*b)->val, 0);
+			}
 		if ((*b)->flag == 1)
 			(*b) = (*b)->next;
 		else

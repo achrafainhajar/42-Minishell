@@ -31,7 +31,10 @@ int	herenor(t_redir *red, int fd)
 		str = readline(">");
 		if (!str || strcmp(str, red->file) == 0)
 			break ;
-		ft_putstr_fd(expand_dollar(str, 1),fd);
+		if (g_shell.mik)
+			ft_putstr_fd(str, fd);
+		else
+			ft_putstr_fd(expand_dollar(str, 1), fd);
 		ft_putstr_fd("\n", fd);
 	}
 	return (fd);
@@ -67,12 +70,10 @@ void	ft_here_doc(t_parse *cmd)
 	while (cmd)
 	{
 		red = cmd->redir;
-		while (red && red->error != 1)
+		while (red)
 		{
-			if (red->e_type == LESSANDLESS)
-			{
+			if (red->e_type == LESSANDLESS && red->error != 1)
 				open_herdoc(red);
-			}
 			red = red->next;
 		}
 		cmd = cmd->next;

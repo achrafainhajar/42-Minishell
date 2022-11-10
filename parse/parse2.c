@@ -35,36 +35,11 @@ static int	ft_words(char const *s)
 	int	i;
 	int	cpt = 0;
     int k;
-    
-    // i = 0;
-    // while(s[i])
-    // {
-    //     if (s[i] == '\2')
-    //     { 
-    //         i++;
-    //         while(s[i] && s[i] != '\3' )
-    //         {
-    //             if(s[i] && !ft_is_space3(s[i],1))
-    //                 i++;
-    //             else if (s[i] && ft_is_space3(s[i],1) && s[i] != '\3')
-    //             {
-    //                 if (s[i - 1] != '\2')
-    //                     cpt++;
-    //                 while(s[i] && ft_is_space3(s[i],1) && s[i]!= '\3')
-    //                     i++;
-    //                 if (ft_is_space3(s[i - 1],1) && s[i]!= '\3')
-    //                     cpt++;
-    //             }
-    //         }
-    //     }
-    //     else if (s[i])
-    //         i++;
-    // }
-    k = 0;
     i = 0;
 	cpt = 0;
 	while (s[i])
     {
+        k = 0;
         if(s[i] == '\2')
         {
             i++;
@@ -80,15 +55,9 @@ static int	ft_words(char const *s)
         while (ft_is_space3(s[i],k) && s[i])
         {
             if(s[i] == '\2')
-            {
-                i++;
                 k=1;
-            }
             if(s[i] == '\3')
-            {
-                i++;
                 k=0;
-            }
             i++;
         }
         cpt++;
@@ -169,7 +138,6 @@ char	**ft_split2(char const *s)
 		return (0);
     
 	wd = ft_words(s);
-    printf("wd == %d s == %s\n",wd, s);
 	str = f_malloc(sizeof(char *) * (wd + 1));
 	if (str == NULL)
 		return (0);
