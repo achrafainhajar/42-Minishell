@@ -1,0 +1,12 @@
+Makefile
+a
+c
+exec
+l
+minishell
+minishell.c
+minishell.dSYM
+minishell.h
+mkcd
+parse
+venv

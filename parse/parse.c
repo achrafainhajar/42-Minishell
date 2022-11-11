@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/10 20:10:42 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/11 15:30:34 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,72 @@ int	check_expantion2(t_token *token)
 	return (1);
 }
 
+void	check_init_error(t_parse *command, char *value, int type)
+{
+	struct stat	buf;
+
+	if (!stat(value, &buf) || type != LESS)
+		command->redir = init_redir(value, type, 0);
+	else if (type == LESS)
+	{
+		if (command->error == 0)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(value, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			command->error = 1;
+		}
+		command->redir = init_redir(value, type, 1);
+	}
+}
+
+void	check_add_error(t_parse *command, char *value, int type)
+{
+	struct stat	buf;
+
+	if (!stat(value, &buf) || type != LESS)
+		command->redir = add_redir(command->redir, value, type, 0);
+	else if (type == LESS)
+	{
+		if (command->error == 0)
+		{
+			ft_putstr_fd(": No such file or directory\n", 2);
+			command->error = 1;
+		}
+		command->redir = add_redir(command->redir, value, type, 1);
+	}
+}
+
+void	check_file_error(t_parse *command, char *value, int type, t_token *tmp)
+{
+	if (check_expantion(tmp) && (!ft_split2(value)[0]
+		|| !ft_split2(value)[0][0] || ft_split2(value)[1]))
+	{
+		if (command->error == 0)
+		{
+			ft_putstr_fd("minishell: ambiguis redirection\n", 2);
+			command->error = 1;
+		}
+		if (!command->redir)
+			command->redir = init_redir(value, type, 1);
+		else
+			command->redir = add_redir(command->redir, value, type, 1);
+	}
+	else
+	{
+		if (check_expantion(tmp))
+			value = ft_strdup(ft_split2(value)[0]);
+		if (!command->redir)
+			check_init_error(command, value, type);
+		else
+			check_add_error(command, value, type);
+	}
+}
+
 void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 {
 	int			exec;
 	t_token		*tmp;
-	struct stat	buf;
 
 	exec = type;
 	if ((*token)->next->e_type == END || (*token)->next->e_type == PIPE
@@ -95,56 +156,7 @@ void	parse_helper(t_token **token, t_parse *command, char *value, int type)
 		(*token) = (*token)->next;
 		tmp = *token;
 		value = jme3arg(token, exec, 1, 1);
-		if (check_expantion(tmp) && (!ft_split2(value)[0]
-			|| !ft_split2(value)[0][0] || ft_split2(value)[1]))
-		{
-			if (command->error == 0)
-			{
-				ft_putstr_fd("minishell: ambiguis redirection\n", 2);
-				command->error = 1;
-			}
-			if (!command->redir)
-				command->redir = init_redir(value, type, 1);
-			else
-				command->redir = add_redir(command->redir, value, type, 1);
-		}
-		else
-		{
-			if (check_expantion(tmp))
-			{
-				value = ft_strdup(ft_split2(value)[0]);
-			}
-			if (!command->redir)
-			{
-				if (!stat(value, &buf) || type != LESS)
-					command->redir = init_redir(value, type, 0);
-				else if (type == LESS)
-				{
-					if (command->error == 0)
-					{
-						ft_putstr_fd("minishell: ", 2);
-						ft_putstr_fd(value, 2);
-						ft_putstr_fd(": No such file or directory\n", 2);
-						command->error = 1;
-					}
-					command->redir = init_redir(value, type, 1);
-				}
-			}
-			else
-			{
-				if (!stat(value, &buf) || type != LESS)
-					command->redir = add_redir(command->redir, value, type, 0);
-				else if (type == LESS)
-				{
-					if (command->error == 0)
-					{
-						ft_putstr_fd(": No such file or directory\n", 2);
-						command->error = 1;
-					}
-					command->redir = add_redir(command->redir, value, type, 1);
-				}
-			}
-		}
+		check_file_error(command, value, type, tmp);
 	}
 }
 
@@ -160,9 +172,7 @@ void	parse_commands(t_token **token, t_parse *command)
 		tmp = *token;
 		value = jme3arg(token, 1, 2, 1);
 		if (check_expantion(tmp))
-		{
 			split_expansion(value, command);
-		}
 		else if (!command->cmd)
 			command->cmd = value;
 		else

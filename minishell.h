@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/10 20:00:18 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/11 15:09:31 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_token
 		WORD,
 		DQUOTE,
 		SQUOTE,
-		BACKSLASH,
 		PIPE,
 		GREATANDGREAT,
 		LESSANDLESS,
