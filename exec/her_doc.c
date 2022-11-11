@@ -18,7 +18,7 @@ char	*open_random(void)
 	char		*name;
 
 	i++;
-	name = ft_strjoin("/tmp/", ft_itoa(i), -1);
+	name = ft_strjoin("/tmp/", ft_itoa(i), f_malloc);
 	return (name);
 }
 

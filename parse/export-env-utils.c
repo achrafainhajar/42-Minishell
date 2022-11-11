@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env-utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/10 01:54:50 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:00:50 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_env	*lst_new(char *key, char sep, char *val)
 {
 	t_env	*new;
 
-	new = f_malloc(sizeof(t_env));
+	new = malloc(sizeof(t_env));
 	new->key = key;
 	new->val = val;
 	new->sep = sep;
@@ -67,7 +67,7 @@ void	init_env(char **env)
 	g_shell.ev = NULL;
 	while (env && env[i])
 	{
-		tmp = ft_split(env[i], '=');
+		tmp = ft_split_env(env[i], '=');
 		key = tmp[0];
 		val = tmp[1];
 		lst_add_backenv(&g_shell.ev, lst_new(key, '=',

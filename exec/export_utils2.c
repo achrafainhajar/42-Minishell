@@ -34,7 +34,7 @@ char	*ft_strndup(char *s1, size_t n)
 {
 	char	*s2;
 
-	s2 = (char *)malloc(sizeof(char) * (n + 1));
+	s2 = (char *)f_malloc(sizeof(char) * (n + 1));
 	if (!s2)
 		return (NULL);
 	else
@@ -83,7 +83,7 @@ char	*get_range(char *str,	char c)
 	i = 0;
 	while (str[i] != c && str[i])
 		i++;
-	s = malloc(sizeof(char) * i + 1);
+	s = f_malloc(sizeof(char) * i + 1);
 	i = -1;
 	if (c != '+')
 	{

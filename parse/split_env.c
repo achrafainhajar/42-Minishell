@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   split_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/22 02:00:11 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/11 18:04:25 by hlachkar         ###   ########.fr       */
+/*   Created: 2022/11/11 17:58:24 by hlachkar          #+#    #+#             */
+/*   Updated: 2022/11/11 17:58:48 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../minishell.h"
+
+static void	*ft_freedom(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+	return (0);
+}
 
 static int	ft_words(char const *s, char c)
 {
@@ -61,9 +76,9 @@ static char	**ft_splitcpy(const char *s, char c, char **str, int wd)
 		j = 0;
 		while (s[i] == c)
 			i++;
-		str[cnt] = f_malloc(sizeof(char ) * ft_charcount(s, c, i) + 1);
+		str[cnt] = malloc(sizeof(char ) * ft_charcount(s, c, i) + 1);
 		if (!str[cnt])
-			return (NULL);
+			return (ft_freedom(str));
 		while (s[i] != c && s[i])
 		{
 			str[cnt][j] = s[i];
@@ -77,7 +92,7 @@ static char	**ft_splitcpy(const char *s, char c, char **str, int wd)
 	return (str);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_env(char const *s, char c)
 {
 	int		wd;
 	char	**str;
@@ -85,7 +100,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	wd = ft_words(s, c);
-	str = f_malloc(sizeof(char *) * (wd + 1));
+	str = malloc(sizeof(char *) * (wd + 1));
 	if (str == NULL)
 		return (0);
 	return (ft_splitcpy(s, c, str, wd));

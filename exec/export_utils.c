@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:27:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/10 01:27:42 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:12:33 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void	fill_export(char *key, char *val, t_env **env, int flag)
 	new = malloc(sizeof(t_env));
 	new->sep = 0;
 	new->val = NULL;
-	new->key = ft_strdup(key);
+	new->key = ft_strdup_env(key);
 	if (flag)
 	{
 		new->sep = '=';
 		if (val)
-			new->val = ft_strdup(val);
+			new->val = ft_strdup_env(val);
 		else
-			new->val = ft_strdup("");
+			new->val = ft_strdup_env("");
 	}
 	lst_add_backenv(env, new);
 }
@@ -56,11 +56,11 @@ void	value_modif(char *key, char *val, t_env **env, int not_plus)
 	if ((*env)->sep == 0)
 		(*env)->sep = '=';
 	if (not_plus && val)
-		(*env)->val = ft_strdup(val);
+		(*env)->val = ft_strdup_env(val);
 	else if (val)
-		(*env)->val = ft_strjoin((*env)->val, val, 0);
+		(*env)->val = ft_strjoin((*env)->val, val, malloc);
 	else
-		(*env)->val = ft_strdup("");
+		(*env)->val = ft_strdup_env("");
 	(*env) = head;
 }
 
@@ -83,4 +83,25 @@ int	ft_check_export(char	*str)
 		return (0);
 	}
 	return (1);
+}
+
+char *ft_strdup_env(char *s1)
+{
+	char	*dup;
+	int		i;
+
+	i = 0;
+	while (s1 && s1[i])
+		i++;
+	dup = (char *)f_malloc(i + 1);
+	if (dup == NULL)
+		return (NULL);
+	i = 0;
+	while (s1 && s1[i] != '\0')
+	{
+		dup[i] = s1[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }

@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 00:11:14 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/11 15:06:25 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:23:18 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ char	*dollar_qu(t_token **b, int exec, char *str)
 {
 	(void)exec;
 	if ((*b)->val[1] == '?')
-		str = ft_strjoin(str, ft_itoa(g_shell.ret), 2);
+		str = ft_strjoin(str, ft_itoa(g_shell.ret), f_malloc);
 	else if ((*b)->val[1] == ' ')
-		str = ft_strjoin(str, ft_strdup("$"), 2);
+		str = ft_strjoin(str, ft_strdup("$"), f_malloc);
 	else if ((*b)->val[1] == '$')
-		str = ft_strjoin(str, ft_strdup("$$"), 2);
+		str = ft_strjoin(str, ft_strdup("$$"), f_malloc);
 	(*b) = (*b)->next;
 	return (str);
 }
@@ -37,12 +37,12 @@ char	*check_end(t_token **b, char *str, int exec)
 {
 	if ((*b) && (*b)->e_type == DQUOTE)
 	{
-		str = ft_strjoin(str, expand_dollar((*b)->val, exec), 2);
+		str = ft_strjoin(str, expand_dollar((*b)->val, exec), f_malloc);
 		(*b) = (*b)->next;
 	}
 	else if ((*b) && (*b)->e_type != END)
 	{
-		str = ft_strjoin(str, (*b)->val, 0);
+		str = ft_strjoin(str, (*b)->val, f_malloc);
 		(*b) = (*b)->next;
 	}
 	return (str);
@@ -51,11 +51,11 @@ char	*check_end(t_token **b, char *str, int exec)
 int	jm3arg_join_simple(t_token **b, char **str, int exec)
 {
 	if ((*b)->e_type == DQUOTE)
-		*str = ft_strjoin(*str, expand_dollar((*b)->val, exec), 2);
+		*str = ft_strjoin(*str, expand_dollar((*b)->val, exec), f_malloc);
 	else if ((*b)->e_type != END && ((*b)->e_type
 			!= DOLLAR || (!exec && (*b)->next->e_type
 				!= SQUOTE && (*b)->next->e_type != DQUOTE)))
-		*str = ft_strjoin(*str, (*b)->val, 0);
+		*str = ft_strjoin(*str, (*b)->val, f_malloc);
 	if ((*b)->flag == 1)
 			(*b) = (*b)->next;
 	else
@@ -90,8 +90,8 @@ char	*jme3arg(t_token **b, int exec, int ch_d, int exp)
 			if (exp && (*b)->e_type != DQUOTE
 				&& (*b)->e_type != SQUOTE)
 			{
-				(*b)->val = ft_strjoin("\2", (*b)->val, -1);
-				(*b)->val = ft_strjoin((*b)->val, "\3", -1);
+				(*b)->val = ft_strjoin("\2", (*b)->val, f_malloc);
+				(*b)->val = ft_strjoin((*b)->val, "\3", f_malloc);
 			}
 		}
 		if (jm3arg_join_simple(b, &str, exec))

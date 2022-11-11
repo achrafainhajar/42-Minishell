@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:34:27 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/10 20:08:53 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:23:34 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 	if (lexer->c == '0' || !ft_isdigit(lexer->c))
 	{
 		if (lexer->c == '$')
-			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
+			val = ft_strjoin(val, ft_strsub(lexer, 1), f_malloc);
 		else if (lexer->c == ' ')
-			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
+			val = ft_strjoin(val, ft_strsub(lexer, 1), f_malloc);
 		else if (lexer->c == '?')
-			val = ft_strjoin(val, ft_strsub(lexer, 1), 2);
+			val = ft_strjoin(val, ft_strsub(lexer, 1), f_malloc);
 		else if (ft_is_ex_token(lexer->c))
-			val = ft_strjoin(val, " ", 0);
+			val = ft_strjoin(val, " ", f_malloc);
 		token = init_token(val, DOLLAR);
 		if (lexer->c != '>' && lexer->c != '<' && lexer->c != '|'
 			&& ft_is_space(val[1]) && ft_is_space(lexer->c) && lexer->c != '\0')

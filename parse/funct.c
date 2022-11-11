@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funct.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fstitou <fstitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:25:41 by fstitou           #+#    #+#             */
-/*   Updated: 2022/10/10 02:29:34 by fstitou          ###   ########.fr       */
+/*   Updated: 2022/11/11 18:11:55 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	join_string2(char *str, char *s2, int j)
 	str[j] = '\0';
 }
 
-char	*ft_strjoin(char *s1, char *s2, int frr)
+char	*ft_strjoin(char *s1, char *s2, void *alloc(size_t size))
 {
 	char	*str;
 	int		i;
@@ -67,7 +67,7 @@ char	*ft_strjoin(char *s1, char *s2, int frr)
 		return (ft_strdup(s1));
 	if ((!s1 && s2[0] == 0) || (s1[0] == 0 && !s2))
 		return (ft_strdup(""));
-	str = (char *)f_malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 2);
+	str = (char *)alloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (str == 0)
 		return (0);
 	while (s1[i])
@@ -76,7 +76,6 @@ char	*ft_strjoin(char *s1, char *s2, int frr)
 		i++;
 	}
 	join_string2(str, s2, j);
-	free_unused(frr, s1, s2);
 	return (str);
 }
 

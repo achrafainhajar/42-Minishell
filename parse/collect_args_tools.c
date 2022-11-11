@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 01:39:50 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/10 20:04:51 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:22:57 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	checkin_dollar(t_token **b, char **str, int ch_d)
 	{
 		if ((*b)->val[1] || (ch_d == 2 && !ft_isalnum((*b)->next->val[0])
 				&& (*b)->next->val[0] != '_' ))
-			*str = ft_strjoin(*str, dollar_q_d(b), 2);
+			*str = ft_strjoin(*str, dollar_q_d(b), f_malloc);
 		else
 		{
 			(*b) = (*b)->next;
@@ -36,13 +36,13 @@ char	*dollar_q_d(t_token **b)
 
 	str = ft_strdup("");
 	if ((*b)->val[1] == ' ' || (*b)->val[1] == '\0')
-		str = ft_strjoin(str, ft_strdup("$"), 2);
+		str = ft_strjoin(str, ft_strdup("$"), f_malloc);
 	else if ((*b)->val[1] == '?')
 	{
-		str = ft_strjoin(str, ft_itoa(g_shell.ret), 2);
+		str = ft_strjoin(str, ft_itoa(g_shell.ret), f_malloc);
 	}
 	else if ((*b)->val[1] == '$')
-		str = ft_strjoin(str, ft_strdup("$$"), 2);
+		str = ft_strjoin(str, ft_strdup("$$"), f_malloc);
 	return (str);
 }
 
@@ -61,7 +61,7 @@ char	*norm_sp(t_token *b, char *tmp)
 {
 	tmp = ((b)->val) + 1;
 	(b)->val = ft_strdup("minishell");
-	(b)->val = ft_strjoin((b)->val, tmp, 0);
+	(b)->val = ft_strjoin((b)->val, tmp, f_malloc);
 	return (b->val);
 }
 
@@ -83,7 +83,7 @@ char	*check_sp_chr(t_token *b)
 			(b)->val = ft_strdup("");
 		if (tmp[1][0] == '\\')
 			tmp[1]++;
-		(b)->val = ft_strjoin((b)->val, tmp[1], 0);
+		(b)->val = ft_strjoin((b)->val, tmp[1], f_malloc);
 	}
 	else if (((b)->val)[0] == '0')
 		b->val = norm_sp(b, tmp[1]);

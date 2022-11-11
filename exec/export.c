@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:25:21 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/10 01:36:40 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:02:17 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	export_else(t_parse *cmd, t_env	**env, char	*tmp, int j)
 	}
 	else if (ft_check(tmp, 1))
 		fill_export(tmp, strchr(cmd->argv[j], '=') + 1, env, 1);
-	free(tmp);
 }
 
 void	export_if(t_parse *cmd, t_env	**env, char	*tmp, int j)
@@ -38,7 +37,6 @@ void	export_if(t_parse *cmd, t_env	**env, char	*tmp, int j)
 	else if (ft_check(ft_split(cmd->argv[j], '=')[0], 1))
 		fill_export(ft_split(cmd->argv[j], '=')[0],
 			strchr(cmd->argv[j], '=') + 1, env, 1);
-	free(tmp);
 }
 
 void	modif_export(t_parse *cmd, t_env **env)

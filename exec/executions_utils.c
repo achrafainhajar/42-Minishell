@@ -38,7 +38,7 @@ char	*ft_strjoine(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (0);
-	str = malloc(sizeof(char) * (strlen(s1) + strlen(s2)) + 2);
+	str = f_malloc(sizeof(char) * (strlen(s1) + strlen(s2)) + 2);
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -115,10 +115,8 @@ char	*getpath(char	*cmd, char	**env)
 	{
 		dir = ft_strndup(path, ft_int_strchr(path, ':'));
 		bin = ft_strjoine(dir, cmd);
-		free(dir);
 		if (access(bin, F_OK) == 0)
 			return (bin);
-		free(bin);
 		if (ft_int_strchr(path, ':') != ft_strlen(path))
 			path += ft_int_strchr(path, ':') + 1;
 		else

@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 17:26:06 by fahd              #+#    #+#             */
-/*   Updated: 2022/10/29 18:55:39 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:23:51 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*if_only_dollar(t_lexer *lexer)
 	val = ft_strsub(lexer, 1);
 	if (lexer->c == '\0')
 	{
-		val = ft_strjoin(val, " ", 0);
+		val = ft_strjoin(val, " ", f_malloc);
 		return (val);
 	}
 	return (val);

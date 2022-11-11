@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/10 19:57:25 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:56:42 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,35 @@ void	init_gs(void)
 	g_shell.mik = 0;
 }
 
+void free_address(void)
+{
+	int i;
+
+	i = 0;
+	while (g_shell.address && g_shell.address[i] && i < g_shell.i)
+	{
+		free(g_shell.address[i]);
+		g_shell.address[i] = NULL;
+		i++;
+	}
+}
+
+void	free_env(void)
+{
+	t_env *tmp;
+
+	while (g_shell.ev)
+	{
+		free(g_shell.ev->key);
+		free(g_shell.ev->val);
+		g_shell.ev->key = NULL;
+		g_shell.ev->val = NULL;
+		tmp = g_shell.ev;
+		g_shell.ev = g_shell.ev->next;
+		free(tmp);
+	}
+}
+
 int	main(int ac, char *av[], char **env)
 {
 	t_parse	*commands;
@@ -62,5 +91,7 @@ int	main(int ac, char *av[], char **env)
 		create_commands(tokens, &commands);
 		add_history(g_shell.line);
 		minishell(commands);
+		free_address();
 	}
+	free_env();
 }

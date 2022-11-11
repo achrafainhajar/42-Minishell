@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/11 15:09:31 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:15:44 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int		ft_strcmp(char *s1, char *s2);
 char	*ft_strdup(char *s1);
 int		ft_strlen(char *s);
 void	*f_malloc(size_t size);
-char	*ft_strjoin(char *s1, char *s2, int fr);
+char	*ft_strjoin(char *s1, char *s2, void *alloc(size_t size));
 char	*jme3arg(t_token **b, int exec, int ch_d, int exp);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 char	*join_3_str(char *s1, char *s2, char *s3);
@@ -217,4 +217,7 @@ int		ft_is_space2(void);
 void	ft_cd(t_parse *cmd, t_env **env);
 int		ft_check(char *str, int a);
 void	ft_here_doc(t_parse *cmd);
+char	**ft_split_env(char const *s, char c);
+char	*ft_strdup_env(char *s1);
+
 #endif
