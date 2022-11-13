@@ -35,7 +35,7 @@ void	new_paths(t_env **env)
 		if (strcmp(head->key, "PWD") == 0)
 		{
 			tmp = head->val;
-			head->val = ft_strdup(getcwd(NULL, 0));
+			head->val = getcwd(NULL, 0);
 			break ;
 		}
 		head = head->next;
@@ -45,6 +45,7 @@ void	new_paths(t_env **env)
 	{
 		if (strcmp(head->key, "OLDPWD") == 0)
 		{
+			free(head->val);
 			head->val = tmp;
 			break ;
 		}
@@ -114,6 +115,8 @@ void	cd_tilde(char	*path)
 
 void	ft_cd(t_parse *cmd, t_env **env)
 {
+	char	*tmp;
+
 	if (cmd->argv[0] && cmd->argv[1] != NULL)
 	{
 		ft_putstr_fd("minishell: cd: too many arguments", 2);
@@ -128,10 +131,12 @@ void	ft_cd(t_parse *cmd, t_env **env)
 		ft_minus(env);
 	else if (!chdir(cmd->argv[0]))
 	{
-		if (getcwd(NULL, 0))
+		tmp = getcwd(NULL, 0);
+		if (tmp)
 			new_paths(env);
 		else
 			ft_putstr_fd("cd: error retrieving current directory\n", 2);
+		free (tmp);
 	}
 	else if (cmd->argv[0][0] != '\0')
 		ft_errors(cmd->argv[0], 1);

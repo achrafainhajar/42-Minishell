@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export-env-utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/11 18:00:50 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/11 22:30:56 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	init_env(char **env)
 		val = tmp[1];
 		lst_add_backenv(&g_shell.ev, lst_new(key, '=',
 				val));
+		free(tmp);
+		tmp = NULL;
 		i++;
 	}
 }

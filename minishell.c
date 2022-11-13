@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/11 18:56:42 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/11 22:33:09 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void free_address(void)
 	int i;
 
 	i = 0;
-	while (g_shell.address && g_shell.address[i] && i < g_shell.i)
+	while (g_shell.address[i] && i < g_shell.i)
 	{
 		free(g_shell.address[i]);
 		g_shell.address[i] = NULL;
@@ -92,6 +92,7 @@ int	main(int ac, char *av[], char **env)
 		add_history(g_shell.line);
 		minishell(commands);
 		free_address();
+		free(g_shell.line);
 	}
 	free_env();
 }
