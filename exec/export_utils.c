@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:27:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/11 18:12:33 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/14 03:57:41 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	value_modif(char *key, char *val, t_env **env, int not_plus)
 	if (not_plus && val)
 		(*env)->val = ft_strdup_env(val);
 	else if (val)
-		(*env)->val = ft_strjoin((*env)->val, val, malloc);
+		(*env)->val = ft_strdup_env(ft_strjoin((*env)->val, val, malloc));
 	else
 		(*env)->val = ft_strdup_env("");
 	(*env) = head;
@@ -93,7 +93,7 @@ char *ft_strdup_env(char *s1)
 	i = 0;
 	while (s1 && s1[i])
 		i++;
-	dup = (char *)f_malloc(i + 1);
+	dup = (char *)malloc(i + 1);
 	if (dup == NULL)
 		return (NULL);
 	i = 0;

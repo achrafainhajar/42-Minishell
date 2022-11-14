@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 00:11:14 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/11 18:23:18 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/14 03:21:30 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*normal_or_qu(t_token **b, int exec, char *str)
 {
-	if (!(*b)->val[1])
+	if (!(*b)->val[1] && (*b)->next && (*b)->next->flag == 1)
 		return (normal_expansion(b, 1));
 	else
 		return (dollar_qu(b, exec, str));
@@ -25,7 +25,7 @@ char	*dollar_qu(t_token **b, int exec, char *str)
 	(void)exec;
 	if ((*b)->val[1] == '?')
 		str = ft_strjoin(str, ft_itoa(g_shell.ret), f_malloc);
-	else if ((*b)->val[1] == ' ')
+	else if ((*b)->val[1] == '\0')
 		str = ft_strjoin(str, ft_strdup("$"), f_malloc);
 	else if ((*b)->val[1] == '$')
 		str = ft_strjoin(str, ft_strdup("$$"), f_malloc);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:34:27 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/11 18:23:34 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/14 03:11:26 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ void	tokenize_dollar(t_token **tmp, t_lexer *lexer)
 	if (lexer->c == '0' || !ft_isdigit(lexer->c))
 	{
 		if (lexer->c == '$')
-			val = ft_strjoin(val, ft_strsub(lexer, 1), f_malloc);
-		else if (lexer->c == ' ')
 			val = ft_strjoin(val, ft_strsub(lexer, 1), f_malloc);
 		else if (lexer->c == '?')
 			val = ft_strjoin(val, ft_strsub(lexer, 1), f_malloc);

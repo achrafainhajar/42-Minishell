@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 05:17:20 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/11 18:23:42 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/14 03:08:05 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,12 @@ void	dollar(t_lexer *lexer, t_token **tmp, t_token **token)
 
 	type = DOLLAR;
 	val = ft_strsub(lexer, 1);
-	if (lexer->c == '\0')
-		val = ft_strjoin(val, " ", f_malloc);
 	if (lexer->c == '0' || !ft_isdigit(lexer->c))
 	{
 		if (lexer->c == '$')
 			val = ft_strjoin(val, ft_strsub(lexer, 1), f_malloc);
-		else if (!ft_is_space(lexer->c))
-			val = ft_strjoin(val, " ", f_malloc);
 		else if (lexer->c == '?')
-		{
 			val = ft_strjoin(val, ft_strsub(lexer, 1), f_malloc);
-		}
 		(*token) = init_token(val, type);
 		if (lexer->c != '\0')
 			(*token)->flag = 1;

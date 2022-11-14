@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_args_tools.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 01:39:50 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/11 18:22:57 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/14 03:21:13 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ char	*dollar_q_d(t_token **b)
 	if ((*b)->val[1] == ' ' || (*b)->val[1] == '\0')
 		str = ft_strjoin(str, ft_strdup("$"), f_malloc);
 	else if ((*b)->val[1] == '?')
-	{
 		str = ft_strjoin(str, ft_itoa(g_shell.ret), f_malloc);
-	}
 	else if ((*b)->val[1] == '$')
 		str = ft_strjoin(str, ft_strdup("$$"), f_malloc);
 	return (str);
@@ -48,9 +46,14 @@ char	*dollar_q_d(t_token **b)
 
 char	*normal_expansion(t_token **b, int f)
 {
+	t_token	*tmp;
+
+	tmp = (*b);
 	if (f)
 		(*b) = (*b)->next;
-	if (my_getenv(g_shell.ev, (*b)->val))
+	if (tmp->val[1] == '\0')
+		tmp->val = ft_strdup("$");
+	else if (my_getenv(g_shell.ev, (*b)->val))
 		(*b)->val = my_getenv(g_shell.ev, (*b)->val);
 	else
 		(*b)->val = ft_strdup("");

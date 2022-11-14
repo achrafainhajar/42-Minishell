@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 17:26:06 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/11 18:23:51 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/14 03:02:22 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,16 @@ void	*f_malloc(size_t size)
 	tmp = malloc(size);
 	if (!tmp)
 		return (NULL);
-	g_shell.address[g_shell.i] = tmp;
-	g_shell.i++;
+	if (g_shell.i < 2621440)
+	{
+		g_shell.address[g_shell.i] = tmp;
+		g_shell.i++;
+	}
+	else if (g_shell.err != 1)
+	{
+		g_shell.err = 1;
+		ft_putstr_fd("Error: list too much arguments\n", 2);
+	}
 	return (tmp);
 }
 
@@ -70,10 +78,5 @@ char	*if_only_dollar(t_lexer *lexer)
 	char	*val;
 
 	val = ft_strsub(lexer, 1);
-	if (lexer->c == '\0')
-	{
-		val = ft_strjoin(val, " ", f_malloc);
-		return (val);
-	}
 	return (val);
 }

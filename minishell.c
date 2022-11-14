@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/11 22:33:09 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/14 03:55:26 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void free_address(void)
 		g_shell.address[i] = NULL;
 		i++;
 	}
+	g_shell.i = 0;
 }
 
 void	free_env(void)
