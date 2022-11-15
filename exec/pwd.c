@@ -28,4 +28,5 @@ void	ft_pwd(void)
 		ft_putstr_fd("pwd: cannot get working directory\n", 2);
 		g_shell.ret = 1;
 	}
+	free(str);
 }

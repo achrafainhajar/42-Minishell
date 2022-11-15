@@ -1,0 +1,15 @@
+Makefile
+e
+exec
+fich
+file
+l
+leaks.sh
+main
+minishell
+minishell.c
+minishell.dSYM
+minishell.h
+parse
+s
+v

@@ -13,6 +13,7 @@ SANITIZE = -fsanitize=address
 SRC = *.c parse/*.c  exec/*.c
 SRC_BONUS = 
 
+SANITIZE = -fsanitize=address
 
 OBJ = $(SRC:.c=.o)
 OBJ_BONUS = 
@@ -21,7 +22,7 @@ OBJ_BONUS =
 all : $(NAME)
 
 $(NAME): $(SRC)
-	@cc  $(CFLAGS) -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline -o $(NAME) 
+	@cc  $(CFLAGS) -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline -o $(NAME) $(SANITIZE)
 	@echo "Mino 👍👍👍"
 
 clean :

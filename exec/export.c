@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:25:21 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/11 18:02:17 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/14 21:42:37 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,18 @@ void	export_else(t_parse *cmd, t_env	**env, char	*tmp, int j)
 
 void	export_if(t_parse *cmd, t_env	**env, char	*tmp, int j)
 {
+	char **stop;
+
+	stop = ft_split(cmd->argv[j], '=');
 	tmp = get_range(cmd->argv[j], '=');
 	if (ft_exist(tmp,*env))
 	{
-		if (ft_check(ft_split(cmd->argv[j], '=')[0], 1))
-			value_modif(ft_split(cmd->argv[j], '=')[0],
+		if (ft_check(stop[0], 1))
+			value_modif(stop[0],
 				strchr(cmd->argv[j], '=') + 1, env, 1);
 	}
-	else if (ft_check(ft_split(cmd->argv[j], '=')[0], 1))
-		fill_export(ft_split(cmd->argv[j], '=')[0],
+	else if (ft_check(stop[0], 1))
+		fill_export(stop[0],
 			strchr(cmd->argv[j], '=') + 1, env, 1);
 }
 

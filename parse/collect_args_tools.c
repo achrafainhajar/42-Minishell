@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 01:39:50 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/14 03:21:13 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/14 21:54:05 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*normal_expansion(t_token **b, int f)
 	tmp = (*b);
 	if (f)
 		(*b) = (*b)->next;
-	if (tmp->val[1] == '\0')
+	if (tmp->e_type == DOLLAR && tmp->val[1] == '\0')
 		tmp->val = ft_strdup("$");
 	else if (my_getenv(g_shell.ev, (*b)->val))
 		(*b)->val = my_getenv(g_shell.ev, (*b)->val);

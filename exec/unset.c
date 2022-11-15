@@ -68,6 +68,8 @@ void	ft_unset_utils(char *str, t_env **env)
 	{
 		tmp = (*env);
 		(*env) = (*env)->next;
+		free(tmp->key);
+		free(tmp->val);
 		free(tmp);
 	}
 	else
@@ -78,6 +80,8 @@ void	ft_unset_utils(char *str, t_env **env)
 			if (strcmp(head->key, str) == 0)
 			{
 				tmp->next = head->next;
+				free(head->key);
+				free(head->val);
 				free(head);
 				break ;
 			}

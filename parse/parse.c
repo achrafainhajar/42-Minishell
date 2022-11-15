@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/14 00:36:42 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 03:34:45 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,42 +73,6 @@ int	check_expantion2(t_token *token)
 	return (1);
 }
 
-void	check_init_error(t_parse *command, char *value, int type)
-{
-	struct stat	buf;
-
-	if (!stat(value, &buf) || type != LESS)
-		command->redir = init_redir(value, type, 0);
-	else if (type == LESS)
-	{
-		if (command->error == 0)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(value, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-			command->error = 1;
-		}
-		command->redir = init_redir(value, type, 1);
-	}
-}
-
-void	check_add_error(t_parse *command, char *value, int type)
-{
-	struct stat	buf;
-
-	if (!stat(value, &buf) || type != LESS)
-		command->redir = add_redir(command->redir, value, type, 0);
-	else if (type == LESS)
-	{
-		if (command->error == 0)
-		{
-			ft_putstr_fd(": No such file or directory\n", 2);
-			command->error = 1;
-		}
-		command->redir = add_redir(command->redir, value, type, 1);
-	}
-}
-
 void	check_file_error(t_parse *command, char *value, int type, t_token *tmp)
 {
 	if (check_expantion(tmp) && (!ft_split2(value)[0]
@@ -129,9 +93,9 @@ void	check_file_error(t_parse *command, char *value, int type, t_token *tmp)
 		if (check_expantion(tmp))
 			value = ft_strdup(ft_split2(value)[0]);
 		if (!command->redir)
-			check_init_error(command, value, type);
+			command->redir = init_redir(value, type, 0);
 		else
-			check_add_error(command, value, type);
+			command->redir = add_redir(command->redir, value, type, 0);
 	}
 }
 

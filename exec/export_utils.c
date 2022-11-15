@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:27:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/14 03:57:41 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 02:25:18 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,14 @@ void	value_modif(char *key, char *val, t_env **env, int not_plus)
 			break ;
 		(*env) = (*env)->next;
 	}
+	g_shell.address[g_shell.i] = (*env)->val;
+	g_shell.i++;
 	if ((*env)->sep == 0)
 		(*env)->sep = '=';
 	if (not_plus && val)
 		(*env)->val = ft_strdup_env(val);
 	else if (val)
-		(*env)->val = ft_strdup_env(ft_strjoin((*env)->val, val, malloc));
+		(*env)->val = ft_strdup_env(ft_strjoin((*env)->val, val, f_malloc));
 	else
 		(*env)->val = ft_strdup_env("");
 	(*env) = head;

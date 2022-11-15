@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils_16.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:35:29 by hlachkar          #+#    #+#             */
-/*   Updated: 2022/11/07 16:38:38 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 01:01:10 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	split_expansion(char *value, t_parse *command)
 	i = 0;
 	split = NULL;
 	split = ft_split2(value);
-	if (!command->cmd)
+	if (split && split[i] && !command->cmd)
 		command->cmd = split[i++];
 	while (split && split[i])
 		command->argv = (char **)realloc_array(command->argv, split[i++]);

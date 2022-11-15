@@ -30,12 +30,16 @@ int	herenor(t_redir *red, int fd)
 	{
 		str = readline(">");
 		if (!str || strcmp(str, red->file) == 0)
+		{
+			free(str);
 			break ;
+		}
 		if (g_shell.mik)
 			ft_putstr_fd(str, fd);
 		else
 			ft_putstr_fd(expand_dollar(str, 1), fd);
 		ft_putstr_fd("\n", fd);
+		free(str);
 	}
 	return (fd);
 }

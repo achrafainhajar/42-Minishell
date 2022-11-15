@@ -51,6 +51,11 @@ void	new_paths(t_env **env)
 		}
 		head = head->next;
 	}
+	if (!head)
+	{
+		fill_export("OLDPWD", tmp, env, 1);
+		free(tmp);
+	}
 }
 
 void	ft_home(void)
@@ -83,7 +88,10 @@ void	ft_minus(t_env **env)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(my_getenv(*env, "OLDPWD"), 2);
-		ft_putstr_fd(" No such file or directory", 2);
+		if (my_getenv(*env, "OLDPWD"))
+			ft_putstr_fd(" No such file or directory", 2);
+		else
+			ft_putstr_fd("OLDPWD not set", 2);
 		ft_putchar_fd('\n', 2);
 		g_shell.ret = 1;
 	}

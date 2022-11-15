@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/14 03:55:26 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 01:07:28 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	main(int ac, char *av[], char **env)
 	(void)ac;
 	(void)av;
 	g_shell.i = 0;
-	g_shell.ret = 0;
+	g_shell.ret = 0;	
 	init_env(env);
 	c_signal();
 	while (1)
