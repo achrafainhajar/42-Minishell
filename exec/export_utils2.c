@@ -61,20 +61,6 @@ void	ft_print_export(t_env *env)
 	}
 }
 
-int	str_is_alnum(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isalnum(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 char	*get_range(char *str,	char c)
 {
 	char	*s;

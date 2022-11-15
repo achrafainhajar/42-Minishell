@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/15 04:57:21 by aainhaja         ###   ########.fr       */
+/*   Created: 2022/11/15 21:34:26 by aainhaja          #+#    #+#             */
+/*   Updated: 2022/11/15 21:41:29 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ char	*getpath(char	*cmd, char	**env);
 char	*ft_exist(char *str, t_env *env);
 void	fill_export(char *key, char *val, t_env **env, int flag);
 void	value_modif(char *key, char *val, t_env **env, int not_plus);
-int		ft_check_export(char	*str);
 void	ft_print_export(t_env *env);
 char	**ft_split2(char const *s);
 int		ft_is_space(char c);
@@ -130,11 +129,9 @@ t_token	*init_token(char *val, int type);
 t_token	*lst_add_back(t_token *lst, t_token *new);
 t_parse	*init_command(void);
 t_parse	*add_command(t_parse *commad);
-t_parse	*_back_command(t_parse *lst, t_parse *new);
 t_redir	*add_redir(t_redir *redir, char *val, int type, int error);
 t_redir	*init_redir(char *val, int type, int error);
 void	dup_files(int exe, int fin, int fout);
-void	file_error(char *filename);
 void	tokenize_pipe(t_token **tmp, t_lexer *lexer);
 void	tokenize_in_redir(t_token **tmp, t_lexer *lexer);
 void	tokenize_squote(t_token **tmp, t_lexer *lexer);
@@ -146,18 +143,11 @@ void	tokenize_end(t_token **tmp);
 t_env	*lst_new(char *key, char sep, char *val);
 char	*ft_strsub(t_lexer *lexer, size_t len);
 int		ft_strnstr(const char *str, const char *to_find, size_t len);
-char	*ft_strcharjoin(char *s1, char c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_itoa(int n);
-void	here_doc(t_redir *head, int *fd);
-int		ft_isspace(int c);
 int		ft_isalpha(int c);
-void	check_cmd(t_parse *cmd);
-char	*ft_lowercase(char *str);
-int		check_minus(char *arg, char c);
 int		str_digit(char *str);
-int		str_is_alnum(char *str);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_strcmp(char *s1, char *s2);
@@ -166,23 +156,17 @@ int		ft_strlen(char *s);
 void	*f_malloc(size_t size);
 char	*ft_strjoin(char *s1, char *s2, void *alloc(size_t size));
 char	*jme3arg(t_token **b, int exec, int ch_d, int exp);
-size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 char	*join_3_str(char *s1, char *s2, char *s3);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 char	*ft_strchr(const char *str, int c);
 int		ft_int_strchr(const char *s, int c);
 int		token_index(char *str);
-int		lst_size(t_token *b);
 void	*realloc_array(char **arg, char *str);
-void	print_l(t_parse *lst);
 void	create_commands(t_token *token, t_parse **command);
 char	*expand_dollar(char *dq_content, int exec);
 void	execute_builtins(t_parse *cmd, t_env **env);
-void	exec_pipeline(t_parse *commands, t_env **env);
-int		array_size(char **str);
 char	**ft_split(char const *s, char c);
-char	*ft_strjoin1(char *s1, char *s2, int c);
 void	ft_pwd(void);
 void	free_2(char **tmp);
 void	ft_env(t_env *env, t_parse *cmd);
@@ -198,27 +182,17 @@ int		ft_is_ex_token(char c);
 char	*ft_strcpy(char *dest, char *src);
 char	*my_getenv(t_env *env, char *key);
 char	*my_getenv_key(t_env **env, char *key);
-void	update_export(t_env **env, char *key, char sep, char *val);
-char	*get_path(char *cmd, char **env);
-int		check_exp_arg(char *to_check);
 int		builtins_cases(t_parse *cmd);
-int		cd(t_parse *head, t_env *my_env);
 void	lst_add_backenv(t_env **lst, t_env *new);
 void	ft_export(t_parse *cmd, t_env **t_env);
-void	check_numb(char *str);
 void	ft_exit(t_parse *cmd);
 void	ft_echo(t_parse *cmd);
 char	*if_only_dollar(t_lexer *lexer);
 void	ft_unset(t_parse *cmd);
 t_parse	*lst_add_back_command(t_parse *lst, t_parse *new);
 void	wrong_cmd(char *cmd);
-void	wrong_cmd_helper(char *error, int w);
 void	c_signal(void);
 void	open_redir(t_parse *cmd, int *fds, int *fd);
-void	pipe_redir(t_parse *cmd, int in, int index, int *fd);
-int		simple_cmd(t_parse *cmd);
-int		is_piped(void);
-void	read_heredocs(t_parse *command);
 int		only_enter(void);
 char	*ft_strndup(char *s1, size_t n);
 int		ft_is_space2(void);

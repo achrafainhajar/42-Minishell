@@ -23,7 +23,7 @@ all : $(NAME)
 
 $(NAME): $(SRC)
 	@cc  $(CFLAGS) -g $(SRC) $(LDFLAGS) $(CPPFLAGS) -lreadline -o $(NAME) $(SANITIZE)
-	@echo "Mino 👍👍👍"
+	@echo "Mino ✅✅✅"
 
 clean :
 	@rm -f $(OBJ)

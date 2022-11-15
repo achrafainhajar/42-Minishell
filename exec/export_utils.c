@@ -6,7 +6,7 @@
 /*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:27:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/15 04:42:30 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/15 21:13:43 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,6 @@ void	value_modif(char *key, char *val, t_env **env, int not_plus)
 	else
 		(*env)->val = ft_strdup_env("");
 	(*env) = head;
-}
-
-int	ft_check_export(char	*str)
-{
-	if (str[0] <= '9' && str[0] >= '0')
-	{
-		ft_putstr_fd("minishell: export: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": first numeric char not allowed\n", 2);
-		g_shell.ret = 1;
-		return (0);
-	}
-	else if (!str_is_alnum(str) && str[0] != '_')
-	{
-		ft_putstr_fd("minishell: export: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": Special char not allowed\n", 2);
-		g_shell.ret = 1;
-		return (0);
-	}
-	return (1);
 }
 
 char	*ft_strdup_env(char *s1)

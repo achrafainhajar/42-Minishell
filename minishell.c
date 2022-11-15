@@ -6,7 +6,7 @@
 /*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/15 04:58:25 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/15 21:09:11 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	main(int ac, char *av[], char **env)
 	t_parse	*commands;
 	t_token	*tokens;
 
-	commands = NULL;
-	tokens = NULL;
 	(void)ac;
 	(void)av;
 	init_env(env);

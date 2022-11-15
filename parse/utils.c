@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 02:04:55 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/07 16:38:02 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 21:25:51 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,6 @@ int	ft_strlen(char *s)
 	while (s[i])
 		i++;
 	return (i);
-}
-
-char	*ft_strcharjoin(char *s1, char c)
-{
-	int			i;
-
-	i = 0;
-	if (!s1)
-		return (0);
-	if (!c)
-		return (s1);
-	while (s1[i])
-	{
-		i++;
-	}
-	s1[i++] = c;
-	s1[i] = '\0';
-	return (s1);
 }
 
 void	ft_putchar_fd(char c, int fd)
