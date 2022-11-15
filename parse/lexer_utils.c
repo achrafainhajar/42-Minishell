@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 22:34:27 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/14 03:11:26 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 04:49:00 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_is_space(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r')
-		return (0);
-	return (1);
-}
 
 void	tokenize_squote(t_token **tmp, t_lexer *lexer)
 {

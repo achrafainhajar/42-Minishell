@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/14 03:03:00 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 04:57:21 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,14 @@ typedef struct s_shell
 
 t_shell	g_shell;
 
+void	exit_shell(void);
+int		ft_is_space3(char c, int k);
+int		skip_aword(char const *s, int *i, int *k);
+int		check_expantion(t_token *token);
+char	*normal_or_qu(t_token **b, int exec, char *str);
+void	normal_cmd(t_parse	*cmd, char	**env);
+int		ft_isalphanum(char *str);
+void	ft_errors(char *str, int i);
 char	*get_range(char *str,	char c);
 void	execute(char *path, char **cmdargs, char *cmd, char **envp);
 char	*getpath(char	*cmd, char	**env);

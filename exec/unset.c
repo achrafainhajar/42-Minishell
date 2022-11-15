@@ -12,26 +12,6 @@
 
 #include "../minishell.h"
 
-int	ft_isalphanum(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if ((str[i] >= 'a' && str[i] <= 'z')
-			|| (str[i] >= 'A' && str[i] <= 'Z')
-			|| (str[i] >= '0' && str[i] <= '9')
-			|| str[i] == '_')
-			i++;
-		else
-			return (1);
-	}
-	if (str[0] == '\0')
-		return (1);
-	return (0);
-}
-
 int	ft_check(char *str, int flag)
 {
 	if (str[0] <= '9' && str[0] >= '0' && str[0] != '\0')

@@ -3,50 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 21:57:54 by hlachkar          #+#    #+#             */
-/*   Updated: 2022/11/10 23:03:41 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 04:52:02 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_is_space3(char c, int k)
-{
-	if (k == 1
-		&& (c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r'))
-		return (0);
-	return (1);
-}
-
-int	skip_aword(char const *s, int *i, int *k)
-{
-	if (s[*i] == '\2')
-	{
-		(*i)++;
-		*k = 1;
-	}
-	while (!ft_is_space3(s[*i], *k))
-	{
-		(*i)++;
-	}
-	if (s[*i] == '\3')
-	{
-		*k = 0;
-		(*i)++;
-		return (1);
-	}
-	while (ft_is_space3(s[*i], *k) && s[*i])
-	{
-		if (s[*i] == '\2')
-			*k = 1;
-		if (s[*i] == '\3')
-			*k = 0;
-		(*i)++;
-	}
-	return (0);
-}
 
 static int	ft_words(char const *s)
 {

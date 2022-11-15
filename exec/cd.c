@@ -12,18 +12,6 @@
 
 #include"../minishell.h"
 
-void	ft_errors(char *str, int i)
-{
-	if (i == 1)
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(" No such file or directory", 2);
-		ft_putchar_fd('\n', 2);
-		g_shell.ret = 1;
-	}
-}
-
 void	new_paths(t_env **env)
 {
 	t_env	*head;

@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:30:08 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/15 02:21:01 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 04:41:26 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	normal_cmd(t_parse	*cmd, char	**env)
-{
-	char	*path;
-
-	path = getpath(cmd->cmd, env);
-	execute(path, cmd->argv, cmd->cmd, env);
-}
 
 void	execution(t_parse	*cmd)
 {

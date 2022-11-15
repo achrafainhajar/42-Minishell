@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:25:21 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/14 21:42:37 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 04:43:07 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	export_else(t_parse *cmd, t_env	**env, char	*tmp, int j)
 
 void	export_if(t_parse *cmd, t_env	**env, char	*tmp, int j)
 {
-	char **stop;
+	char	**stop;
 
 	stop = ft_split(cmd->argv[j], '=');
 	tmp = get_range(cmd->argv[j], '=');

@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/15 01:07:28 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 04:58:25 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	exit_shell(void)
-{
-	printf("exit\n");
-	exit(g_shell.ret);
-}
 
 t_token	*create_tokens(t_token *tokens)
 {
@@ -36,9 +30,9 @@ void	init_gs(void)
 	g_shell.mik = 0;
 }
 
-void free_address(void)
+void	free_address(void)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (g_shell.address[i] && i < g_shell.i)
@@ -52,7 +46,7 @@ void free_address(void)
 
 void	free_env(void)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	while (g_shell.ev)
 	{
@@ -75,8 +69,6 @@ int	main(int ac, char *av[], char **env)
 	tokens = NULL;
 	(void)ac;
 	(void)av;
-	g_shell.i = 0;
-	g_shell.ret = 0;	
 	init_env(env);
 	c_signal();
 	while (1)

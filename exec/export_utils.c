@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:27:30 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/15 02:25:18 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 04:42:30 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_check_export(char	*str)
 	return (1);
 }
 
-char *ft_strdup_env(char *s1)
+char	*ft_strdup_env(char *s1)
 {
 	char	*dup;
 	int		i;

@@ -3,59 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by fstitou           #+#    #+#             */
-/*   Updated: 2022/11/15 03:34:45 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 04:50:45 by aainhaja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_parse	*init_command(void)
-{
-	t_parse	*command;
-
-	command = (t_parse *)f_malloc(sizeof(t_parse));
-	if (!command)
-		return (NULL);
-	command->cmd = NULL;
-	command->argv = (char **)realloc_array(NULL, ft_strdup(""));
-	command->redir = NULL;
-	command->error = 0;
-	command->next = NULL;
-	return (command);
-}
-
-t_parse	*lst_add_back_command(t_parse *lst, t_parse *new)
-{
-	t_parse	*tmp;
-
-	if (!lst)
-		return (new);
-	tmp = lst;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	return (lst);
-}
-
-int	check_expantion(t_token *token)
-{
-	if (token && token->flag != 1 && token->e_type == DOLLAR)
-		return (1);
-	else
-	{
-		while (token && token->flag == 1)
-		{
-			if (token->e_type == DOLLAR && token->next->e_type
-				!= SQUOTE && token->next->e_type != DQUOTE)
-				return (1);
-			token = token->next;
-		}
-	}
-	return (0);
-}
 
 int	check_expantion2(t_token *token)
 {
