@@ -30,3 +30,23 @@ void	ft_pwd(void)
 	}
 	free(str);
 }
+
+void	update_pwd(t_env **env, t_env *head, char *tmp)
+{
+	while (head)
+	{
+		if (strcmp(head->key, "OLDPWD") == 0)
+		{
+			free(head->val);
+			head->val = tmp;
+			break ;
+		}
+		head = head->next;
+	}
+	if (!head)
+	{
+		fill_export("OLDPWD", tmp, env, 1);
+		if (tmp)
+			free(tmp);
+	}
+}

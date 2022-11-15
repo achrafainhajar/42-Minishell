@@ -39,6 +39,17 @@ int	ft_check(char *str, int flag)
 	return (1);
 }
 
+void	ft_free_node(t_env **env)
+{
+	t_env	*tmp;
+
+	tmp = (*env);
+	(*env) = (*env)->next;
+	free(tmp->key);
+	free(tmp->val);
+	free(tmp);
+}
+
 void	ft_unset_utils(char *str, t_env **env)
 {
 	t_env	*head;
@@ -46,11 +57,7 @@ void	ft_unset_utils(char *str, t_env **env)
 
 	if (strcmp((*env)->key, str) == 0)
 	{
-		tmp = (*env);
-		(*env) = (*env)->next;
-		free(tmp->key);
-		free(tmp->val);
-		free(tmp);
+		ft_free_node(env);
 	}
 	else
 	{

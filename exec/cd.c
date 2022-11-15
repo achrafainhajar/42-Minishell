@@ -18,6 +18,7 @@ void	new_paths(t_env **env)
 	char	*tmp;
 
 	head = (*env);
+	tmp = NULL;
 	while (head)
 	{
 		if (strcmp(head->key, "PWD") == 0)
@@ -28,22 +29,7 @@ void	new_paths(t_env **env)
 		}
 		head = head->next;
 	}
-	head = (*env);
-	while (head)
-	{
-		if (strcmp(head->key, "OLDPWD") == 0)
-		{
-			free(head->val);
-			head->val = tmp;
-			break ;
-		}
-		head = head->next;
-	}
-	if (!head)
-	{
-		fill_export("OLDPWD", tmp, env, 1);
-		free(tmp);
-	}
+	update_pwd(env, *env, tmp);
 }
 
 void	ft_home(void)

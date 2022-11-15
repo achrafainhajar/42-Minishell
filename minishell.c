@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/15 18:45:32 by fahd              #+#    #+#             */
-/*   Updated: 2022/11/15 04:58:25 by aainhaja         ###   ########.fr       */
+/*   Created: 2022/05/15 18:45:32 by hlachkar          #+#    #+#             */
+/*   Updated: 2022/11/15 22:48:57 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	main(int ac, char *av[], char **env)
 	t_parse	*commands;
 	t_token	*tokens;
 
-	commands = NULL;
-	tokens = NULL;
 	(void)ac;
 	(void)av;
 	init_env(env);
