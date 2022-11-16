@@ -33,7 +33,7 @@ void	sig_child(int sig)
 		if (g_shell.here_sig == 27)
 		{
 			g_shell.here_sig = -27;
-			ft_putchar_fd('\n', 0);
+			ft_putchar_fd('\n', 1);
 			close(rl_instream->_file);
 			g_shell.ret = 1;
 			g_shell.err = 1;
@@ -74,11 +74,11 @@ void	sig_handler(int sig)
 void	ctrls(int sig)
 {
 	if (g_shell.line && sig == SIGCHLD
-		&& strcmp(g_shell.line, "./minishell") == 0)
+		&& ft_strcmp(g_shell.line, "./minishell") == 0)
 		c_signal();
-	if (g_shell.pid != 0)
+	if (g_shell.pid != 0 && sig != SIGCHLD)
 		sig_handler(sig);
-	else
+	else if (sig != SIGCHLD)
 		sig_child(sig);
 }
 

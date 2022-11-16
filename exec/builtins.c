@@ -22,22 +22,26 @@ int	builtins_cases(t_parse *cmd)
 	return (0);
 }
 
-void	execute_builtins(t_parse *cmd, t_env **env)
+void	execute_builtins(t_parse *cmd, t_env **env, int is_piped)
 {
 	cmd->argv++;
-	if (!strcmp(cmd->cmd, "echo"))
+	if (!ft_strcmp(cmd->cmd, "echo"))
 		ft_echo(cmd);
-	else if (!strcmp(cmd->cmd, "pwd"))
+	else if (!ft_strcmp(cmd->cmd, "pwd"))
 		ft_pwd();
-	else if (!strcmp(cmd->cmd, "env"))
+	else if (!ft_strcmp(cmd->cmd, "env"))
 		ft_env((*env), cmd);
-	else if (!strcmp(cmd->cmd, "export"))
+	else if (!ft_strcmp(cmd->cmd, "export"))
 		ft_export(cmd, env);
-	else if (!strcmp(cmd->cmd, "unset"))
+	else if (!ft_strcmp(cmd->cmd, "unset"))
 		ft_unset(cmd);
-	else if (!strcmp(cmd->cmd, "cd"))
+	else if (!ft_strcmp(cmd->cmd, "cd"))
 		ft_cd(cmd, env);
-	else if (!strcmp(cmd->cmd, "exit"))
-		ft_exit(cmd);
+	else if (!ft_strcmp(cmd->cmd, "exit"))
+	{
+		if (is_piped)
+			g_shell.ret = 0;
+		ft_exit(cmd, is_piped);
+	}
 	cmd->argv--;
 }

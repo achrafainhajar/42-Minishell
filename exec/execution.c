@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aainhaja <aainhaja@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 01:30:08 by aainhaja          #+#    #+#             */
-/*   Updated: 2022/11/15 04:41:26 by aainhaja         ###   ########.fr       */
+/*   Updated: 2022/11/16 03:04:02 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	execution(t_parse	*cmd)
 {
 	if (cmd->cmd && builtins_cases(cmd))
 	{
-		execute_builtins(cmd, &g_shell.ev);
+		execute_builtins(cmd, &g_shell.ev, 1);
 	}
 	else if (cmd->cmd)
 		normal_cmd(cmd, env_to_tab(&g_shell.ev));
@@ -61,7 +61,7 @@ void	child_p(t_parse *cmd, int *fd, int *fds)
 		if (cmd->cmd || cmd->redir)
 		{
 			pipe(fd);
-			if (cmd->cmd && strcmp(cmd->cmd, "./minishell") == 0)
+			if (cmd->cmd && ft_strcmp(cmd->cmd, "./minishell") == 0)
 			{
 				signal(SIGINT, SIG_IGN);
 				signal(SIGQUIT, SIG_IGN);
@@ -90,7 +90,7 @@ void	minishell(t_parse	*cmd)
 	{
 		open_redir(cmd, fds, fd);
 		if (!g_shell.err && !cmd->error)
-			execute_builtins(cmd, &g_shell.ev);
+			execute_builtins(cmd, &g_shell.ev, 0);
 		dup2(fds[1], 1);
 		dup2(fds[0], 0);
 		return ;

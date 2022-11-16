@@ -55,7 +55,7 @@ void	ft_unset_utils(char *str, t_env **env)
 	t_env	*head;
 	t_env	*tmp;
 
-	if (strcmp((*env)->key, str) == 0)
+	if (ft_strcmp((*env)->key, str) == 0)
 	{
 		ft_free_node(env);
 	}
@@ -64,7 +64,7 @@ void	ft_unset_utils(char *str, t_env **env)
 		head = (*env);
 		while (head)
 		{
-			if (strcmp(head->key, str) == 0)
+			if (ft_strcmp(head->key, str) == 0)
 			{
 				tmp->next = head->next;
 				free(head->key);

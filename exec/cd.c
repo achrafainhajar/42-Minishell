@@ -21,7 +21,7 @@ void	new_paths(t_env **env)
 	tmp = NULL;
 	while (head)
 	{
-		if (strcmp(head->key, "PWD") == 0)
+		if (ft_strcmp(head->key, "PWD") == 0)
 		{
 			tmp = head->val;
 			head->val = getcwd(NULL, 0);
@@ -78,7 +78,7 @@ void	cd_tilde(char	*path)
 	ft_home();
 	if (g_shell.ret != 1 && ft_strcmp(path, "~") != 0)
 	{
-		dir = strchr(path, '/');
+		dir = ft_strchr(path, '/');
 		if (dir)
 		{
 			dir++;
@@ -109,7 +109,7 @@ void	ft_cd(t_parse *cmd, t_env **env)
 		ft_home();
 	else if (cmd->argv[0][0] == '~')
 		cd_tilde(cmd->argv[0]);
-	else if (!strcmp(cmd->argv[0], "-"))
+	else if (!ft_strcmp(cmd->argv[0], "-"))
 		ft_minus(env);
 	else if (!chdir(cmd->argv[0]))
 	{

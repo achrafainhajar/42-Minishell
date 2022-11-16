@@ -35,7 +35,7 @@ void	update_pwd(t_env **env, t_env *head, char *tmp)
 {
 	while (head)
 	{
-		if (strcmp(head->key, "OLDPWD") == 0)
+		if (ft_strcmp(head->key, "OLDPWD") == 0)
 		{
 			free(head->val);
 			head->val = tmp;

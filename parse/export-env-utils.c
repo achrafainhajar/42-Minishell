@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:31:07 by hlachkar          #+#    #+#             */
-/*   Updated: 2022/11/15 22:50:59 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/15 23:19:02 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*my_getenv(t_env *env, char *key)
 	tmp = (env);
 	while (tmp)
 	{
-		if (strcmp(tmp->key, key) == 0)
+		if (ft_strcmp(tmp->key, key) == 0)
 			return (tmp->val);
 		tmp = tmp->next;
 	}

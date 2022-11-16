@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 00:11:14 by hlachkar          #+#    #+#             */
-/*   Updated: 2022/11/15 22:51:11 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/16 02:47:28 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@ int	jm3arg_join_simple(t_token **b, char **str, int exec)
 	return (0);
 }
 
-void	check_redis(t_token *tmp)
+int	check_redis(t_token *tmp)
 {
 	while (tmp && tmp->flag == 1 && tmp->e_type
 		!= DQUOTE && tmp->e_type != SQUOTE)
 		tmp = tmp->next;
 	if (tmp && (tmp->e_type == DQUOTE || tmp->e_type == SQUOTE))
-		g_shell.mik = 1;
+		return (1);
+	return (0);
 }
 
 char	*jme3arg(t_token **b, int exec, int ch_d, int exp)
@@ -72,8 +73,6 @@ char	*jme3arg(t_token **b, int exec, int ch_d, int exp)
 	char	*str;
 
 	str = ft_strdup("");
-	if (!exec)
-		check_redis(*b);
 	while ((*b) && (*b)->flag == 1)
 	{
 		if ((*b)->e_type == DOLLAR && exec)

@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 02:11:13 by hlachkar          #+#    #+#             */
-/*   Updated: 2022/11/15 22:48:57 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/16 02:50:28 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_parse	*add_command(t_parse *commad)
 	return (commad);
 }
 
-t_redir	*init_redir(char *val, int type, int type2)
+t_redir	*init_redir(char *val, int type, int type2, int exp)
 {
 	t_redir	*redir;
 
@@ -31,6 +31,10 @@ t_redir	*init_redir(char *val, int type, int type2)
 	redir->file = ft_strdup(val);
 	redir->next = NULL;
 	redir->e_type = type;
+	if (exp)
+		redir->mik = 1;
+	else
+		redir->mik = 0;
 	if (g_shell.err != 0)
 		redir->error = 1;
 	else
@@ -51,11 +55,8 @@ t_redir	*lst_add_back_redir(t_redir *lst, t_redir *new)
 	return (lst);
 }
 
-t_redir	*add_redir(t_redir *redir, char *val, int type, int type2)
+t_redir	*add_redir(t_redir *redir, t_redir *new)
 {
-	t_redir	*new;
-
-	new = init_redir(val, type, type2);
 	redir = lst_add_back_redir(redir, new);
 	return (redir);
 }
@@ -67,7 +68,7 @@ char	*my_getenv_key(t_env **env, char *key)
 	tmp = (*env);
 	while (tmp)
 	{
-		if (strcmp(tmp->key, key) == 0)
+		if (ft_strcmp(tmp->key, key) == 0)
 			return (tmp->key);
 		tmp = tmp->next;
 	}

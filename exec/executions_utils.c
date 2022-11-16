@@ -38,7 +38,7 @@ char	*ft_strjoine(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (0);
-	str = f_malloc(sizeof(char) * (strlen(s1) + strlen(s2)) + 2);
+	str = f_malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 2);
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -73,7 +73,7 @@ char	*path_address(char **env)
 	int		i;
 
 	i = 0;
-	while (env[i] && strncmp(env[i], "PATH=", 5))
+	while (env[i] && ft_strncmp(env[i], "PATH=", 5))
 		i++;
 	if (!env[i])
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 18:20:30 by hlachkar          #+#    #+#             */
-/*   Updated: 2022/11/15 22:59:05 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/16 03:04:58 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_redir
 	int				error;
 	int				fdout;
 	int				fdin;
+	int				mik;
 	struct s_redir	*next;
 
 }		t_redir;
@@ -93,13 +94,13 @@ typedef struct s_shell
 	pid_t	pid;
 	int		here_sig;
 	int		err;
-	int		mik;
 	char	*line;
 	t_env	*ev;
 }		t_shell;
 
 t_shell	g_shell;
 
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	exit_shell(void);
 int		ft_is_space3(char c, int k);
 int		skip_aword(char const *s, int *i, int *k);
@@ -129,8 +130,8 @@ t_token	*init_token(char *val, int type);
 t_token	*lst_add_back(t_token *lst, t_token *new);
 t_parse	*init_command(void);
 t_parse	*add_command(t_parse *commad);
-t_redir	*add_redir(t_redir *redir, char *val, int type, int error);
-t_redir	*init_redir(char *val, int type, int error);
+t_redir	*add_redir(t_redir *redir, t_redir *new);
+t_redir	*init_redir(char *val, int type, int error, int exp);
 void	dup_files(int exe, int fin, int fout);
 void	tokenize_pipe(t_token **tmp, t_lexer *lexer);
 void	tokenize_in_redir(t_token **tmp, t_lexer *lexer);
@@ -165,7 +166,7 @@ int		token_index(char *str);
 void	*realloc_array(char **arg, char *str);
 void	create_commands(t_token *token, t_parse **command);
 char	*expand_dollar(char *dq_content, int exec);
-void	execute_builtins(t_parse *cmd, t_env **env);
+void	execute_builtins(t_parse *cmd, t_env **env, int is_piped);
 char	**ft_split(char const *s, char c);
 void	ft_pwd(void);
 void	free_2(char **tmp);
@@ -185,7 +186,7 @@ char	*my_getenv_key(t_env **env, char *key);
 int		builtins_cases(t_parse *cmd);
 void	lst_add_backenv(t_env **lst, t_env *new);
 void	ft_export(t_parse *cmd, t_env **t_env);
-void	ft_exit(t_parse *cmd);
+void	ft_exit(t_parse *cmd, int is_piped);
 void	ft_echo(t_parse *cmd);
 char	*if_only_dollar(t_lexer *lexer);
 void	ft_unset(t_parse *cmd);
@@ -202,5 +203,6 @@ void	ft_here_doc(t_parse *cmd);
 char	**ft_split_env(char const *s, char c);
 char	*ft_strdup_env(char *s1);
 void	update_pwd(t_env **env, t_env *head, char *tmp);
+int		check_redis(t_token *tmp);
 
 #endif

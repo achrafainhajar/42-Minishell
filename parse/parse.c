@@ -6,7 +6,7 @@
 /*   By: hlachkar <hlachkar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 01:14:18 by hlachkar          #+#    #+#             */
-/*   Updated: 2022/11/15 22:52:10 by hlachkar         ###   ########.fr       */
+/*   Updated: 2022/11/16 03:59:11 by hlachkar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,20 @@ void	check_file_error(t_parse *command, char *value, int type, t_token *tmp)
 			command->error = 1;
 		}
 		if (!command->redir)
-			command->redir = init_redir(value, type, 1);
+			command->redir = init_redir(value, type, 1, check_redis(tmp));
 		else
-			command->redir = add_redir(command->redir, value, type, 1);
+			command->redir = add_redir(command->redir,
+					init_redir(value, type, 1, check_redis(tmp)));
 	}
 	else
 	{
 		if (check_expantion(tmp))
 			value = ft_strdup(ft_split2(value)[0]);
 		if (!command->redir)
-			command->redir = init_redir(value, type, 0);
+			command->redir = init_redir(value, type, 0, check_redis(tmp));
 		else
-			command->redir = add_redir(command->redir, value, type, 0);
+			command->redir = add_redir(command->redir,
+					init_redir(value, type, 0, check_redis(tmp)));
 	}
 }
 
